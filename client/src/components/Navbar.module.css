@@ -1,0 +1,17 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+.navbarRight {
+  display: flex;
+  gap: 10px;
+  background-color: red;
+}
+.navbarLeft{
+  display: flex;
+  gap: 10px;
+  background-color: blue;
+}
