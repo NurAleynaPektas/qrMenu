@@ -1,17 +1,114 @@
+/*Mobil First*/
 .navbar {
+  position: relative;
   display: flex;
   justify-content: space-between;
-  margin: 0 20px;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  
+}
+
+.navbarLogo {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.navbarLogo:hover {
+  color: var(--accent);
+}
+
+.burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 36px;
+  height: 32px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.burger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background-color: var(--text);
+  border-radius: 2px;
 }
 .navbarRight {
-  display: flex;
-  gap: 10px;
-  background-color: red;
+  position: absolute;
+  top: 100%;
+  right: 12px;
+  background-color: #fff;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 20px var(--shadow);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: none;      
+  flex-direction: column;
+  min-width: 140px;
+  z-index: 10;
 }
-.navbarLeft{
-  display: flex;
-  gap: 10px;
-  background-color: blue;
+
+.showMenu {
+  display: flex;       
+}
+
+.navbarRight a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  padding: 8px 0;
+}
+
+.navbarRight a:hover {
+  color: var(--accent);
+}
+
+
+/* Tablet */
+@media (min-width: 768px) {
+  .navbar {
+    padding: 12px 32px;
+  }
+
+  .burger {
+    display: none;
+  }
+
+  .navbarRight {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    min-width: auto;
+    gap: 24px;
+  }
+
+  .navbarRight a {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1;
+    padding: 0;
+    color: var(--text);
+    transition: color 0.25s ease;
+  }
+
+  .navbarRight a:hover {
+    color: var(--accent);
+  }
 }
