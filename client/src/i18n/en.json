@@ -1,0 +1,52 @@
+{
+  "brand": "Friend's First",
+  "nav": {
+    "menu": "Menu",
+    "my_cart": "My Cart",
+    "lang_tr": "TR",
+    "lang_en": "EN"
+  },
+  "home": {
+    "title": "Menu",
+    "meals": "Meals",
+    "drinks": "Drinks",
+    "desserts": "Desserts",
+    "add": "+ Add",
+    "items": {
+      "meatball": "Meatball Menu",
+      "ayran": "Ayran",
+      "souffle": "Soufflé"
+    }
+  },
+  "cart": {
+    "title": "Your Cart",
+    "total": "Total",
+    "checkout": "Checkout",
+    "qty_minus": "-",
+    "qty_plus": "+",
+    "sample": {
+      "burger": "Classic Burger",
+      "lemonade": "Lemonade"
+    }
+  },
+  "checkout": {
+    "title": "Checkout",
+    "table_number": "Table Number",
+    "note_optional": "Note (optional)",
+    "note_placeholder": "No onion, please",
+    "order_summary": "Order Summary",
+    "total": "Total",
+    "place_order": "Place Order",
+    "sample": {
+      "burger_x1": "Classic Burger x1",
+      "lemonade_x2": "Lemonade x2"
+    }
+  },
+  "admin": {
+    "login_title": "Admin Panel Login",
+    "email": "Email",
+    "password": "Password",
+    "sign_in": "Sign In",
+    "dashboard_title": "Admin Dashboard"
+  }
+}

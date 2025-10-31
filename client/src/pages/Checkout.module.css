@@ -1,0 +1,123 @@
+.checkoutPage {
+  padding: 24px 16px;
+  background: var(--bg);
+  min-height: calc(100dvh - 64px);
+}
+
+.checkoutTitle {
+  text-align: center;
+  margin: 8px 0 24px;
+  color: var(--text);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* Form */
+.checkoutForm {
+  max-width: 800px;
+  margin: 0 auto 24px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px var(--shadow);
+  padding: 16px;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.formLabel {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.formInput,
+.formTextarea {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* Summary */
+.checkoutSummary {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px var(--shadow);
+  padding: 16px;
+}
+
+.summaryTitle {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.summaryItems {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text);
+}
+
+.summaryTotal {
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px solid var(--border);
+  padding-top: 10px;
+  margin-top: 6px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.totalPrice {
+  color: var(--accent);
+}
+
+.placeOrderBtn {
+  width: 100%;
+  margin-top: 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background .2s ease, transform .08s ease;
+}
+
+.placeOrderBtn:hover { background: var(--accent-dark); }
+.placeOrderBtn:active { transform: translateY(1px); }
+
+@media (min-width: 768px) {
+  .checkoutPage { padding: 28px; }
+  .checkoutTitle { font-size: 32px; }
+}
+@media (min-width: 1020px) {
+  .checkoutPage { padding: 32px; }
+}

@@ -1,0 +1,52 @@
+{
+  "brand": "Friend's First",
+  "nav": {
+    "menu": "Menü",
+    "my_cart": "Sepetim",
+    "lang_tr": "TR",
+    "lang_en": "EN"
+  },
+  "home": {
+    "title": "Menü",
+    "meals": "Yemekler",
+    "drinks": "İçecekler",
+    "desserts": "Tatlılar",
+    "add": "+ Ekle",
+    "items": {
+      "meatball": "Köfte Menü",
+      "ayran": "Ayran",
+      "souffle": "Sufle"
+    }
+  },
+  "cart": {
+    "title": "Sepetiniz",
+    "total": "Toplam",
+    "checkout": "Siparişi Tamamla",
+    "qty_minus": "-",
+    "qty_plus": "+",
+    "sample": {
+      "burger": "Klasik Burger",
+      "lemonade": "Limonata"
+    }
+  },
+  "checkout": {
+    "title": "Ödeme",
+    "table_number": "Masa Numarası",
+    "note_optional": "Not (opsiyonel)",
+    "note_placeholder": "Soğan olmasın lütfen",
+    "order_summary": "Sipariş Özeti",
+    "total": "Toplam",
+    "place_order": "Sipariş Ver",
+    "sample": {
+      "burger_x1": "Klasik Burger x1",
+      "lemonade_x2": "Limonata x2"
+    }
+  },
+  "admin": {
+    "login_title": "Admin Girişi",
+    "email": "E-posta",
+    "password": "Şifre",
+    "sign_in": "Giriş Yap",
+    "dashboard_title": "Admin Paneli"
+  }
+}

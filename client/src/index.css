@@ -1,9 +1,22 @@
 :root {
-  --bg: #fff8f3;             
-  --text: #2e2e2e;            
-  --accent: #f6862a;         
-  --accent-dark: #e45a2b;     
-  --accent-light: #ffe0d3;    
-  --border: #cf6a2b;     
-  --shadow: rgba(0, 0, 0, 0.08); 
+  --bg: #fff8f3;
+  --text: #2e2e2e;
+  --accent: #f6862a;
+  --accent-dark: #e45a2b;
+  --accent-light: #ffe0d3;
+  --border: #cf6a2b;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --font-body: "Inter", "Open Sans", sans-serif;
+  --font-heading: "Inter", "Open Sans", sans-serif;
+}
+body {
+  font-family: var(--font-body);
+  font-size: 16px;  
+  line-height: 1.5;
+  color: var(--text);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
 }

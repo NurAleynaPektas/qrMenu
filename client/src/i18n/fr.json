@@ -1,0 +1,53 @@
+{
+  "brand": "Friend's First",
+  "nav": {
+    "menu": "Menu",
+    "my_cart": "Mon Panier",
+    "lang_tr": "TR",
+    "lang_en": "EN",
+    "lang_fr": "FR"
+  },
+  "home": {
+    "title": "Menu",
+    "meals": "Plats",
+    "drinks": "Boissons",
+    "desserts": "Desserts",
+    "add": "+ Ajouter",
+    "items": {
+      "meatball": "Menu Boulettes",
+      "ayran": "Ayran",
+      "souffle": "Soufflé"
+    }
+  },
+  "cart": {
+    "title": "Votre Panier",
+    "total": "Total",
+    "checkout": "Passer à la Caisse",
+    "qty_minus": "-",
+    "qty_plus": "+",
+    "sample": {
+      "burger": "Burger Classique",
+      "lemonade": "Citronnade"
+    }
+  },
+  "checkout": {
+    "title": "Paiement",
+    "table_number": "Numéro de Table",
+    "note_optional": "Note (optionnelle)",
+    "note_placeholder": "Sans oignon, s'il vous plaît",
+    "order_summary": "Récapitulatif de la Commande",
+    "total": "Total",
+    "place_order": "Commander",
+    "sample": {
+      "burger_x1": "Burger Classique x1",
+      "lemonade_x2": "Citronnade x2"
+    }
+  },
+  "admin": {
+    "login_title": "Connexion Admin",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "sign_in": "Se Connecter",
+    "dashboard_title": "Tableau de Bord"
+  }
+}
