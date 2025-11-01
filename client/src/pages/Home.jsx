@@ -4,14 +4,13 @@ import * as Select from "@radix-ui/react-select";
 import s from "./Home.module.css";
 
 // Görseller
-import heroImg from "../assets/hero.jpg";
-import diningImg from "../assets/dining.webp";
+import heroImg from "../assets/hero.png";
+import diningImg from "../assets/dining.png";
 import chef1 from "../assets/chef1.png";
 import chef2 from "../assets/chef2.png";
 import chef3 from "../assets/chef3.png";
-import her from "../assets/her.png";
-import hero1 from "../assets/hero1.jpg";
-import hero2 from "../assets/hero2.jpg";
+import hero1 from "../assets/hero1.png";
+import hero2 from "../assets/hero2.png";
 
 function useInterval(callback, delay, isRunning = true) {
   const savedCb = useRef(callback);
@@ -28,20 +27,15 @@ function useInterval(callback, delay, isRunning = true) {
 export default function Home() {
   const { t } = useTranslation();
 
-
-  const [active, setActive] = useState("meals"); 
-
- 
+  const [active, setActive] = useState("meals");
   const slides = [
     { src: heroImg, alt: "Restaurant ambience" },
     { src: diningImg, alt: "Dining table" },
     { src: hero1, alt: "Dining table" },
     { src: hero2, alt: "Dining table " },
-    
   ];
   const [idx, setIdx] = useState(0);
   const [paused, setPaused] = useState(false);
-
 
   useInterval(() => setIdx((i) => (i + 1) % slides.length), 4000, !paused);
 
@@ -54,10 +48,8 @@ export default function Home() {
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
       >
-        {/* Arka plan renk/ışık katmanı */}
         <div className={s.heroOverlay} />
 
-        {/* Slaytlar */}
         <div className={s.heroSlides} role="list">
           {slides.map((sl, i) => (
             <div
@@ -70,7 +62,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Metin katmanı */}
         <div className={s.heroInner}>
           <h1 className={s.heroTitle}>{t("home.hero_title")}</h1>
           <p className={s.heroSubtitle}>{t("home.hero_sub")}</p>
@@ -79,7 +70,6 @@ export default function Home() {
           </a>
         </div>
 
-        {/* Nokta kontrolleri */}
         <div className={s.heroDots} aria-label="Slide controls">
           {slides.map((_, i) => (
             <button
