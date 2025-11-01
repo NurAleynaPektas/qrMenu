@@ -1,13 +1,14 @@
 :root {
-  --bg: #fff;
+  --bg: #fdfdfc;
   --text: #2e2e2e;
   --accent: #022c81; /**/
-  --accent-dark: #0449d3;/**/
+  --accent-dark:  #0338b3;/**/
   --accent-light: #f4f2f0;
   --border: #0539a2;/**/
   --shadow: rgba(0, 0, 0, 0.08);
   --font-body: "Inter", "Open Sans", sans-serif;
-  --font-heading: "Inter", "Open Sans", sans-serif;
+  --font-heading: "Poppins", "Inter", sans-serif;
+
 }
 body {
   font-family: var(--font-body);
@@ -19,4 +20,7 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
   font-weight: 700;
+}
+button:hover {
+  box-shadow: 0 4px 14px rgba(4, 73, 211, 0.25);
 }
