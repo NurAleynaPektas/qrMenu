@@ -106,6 +106,7 @@
   background: var(--accent-light);
   border-color: var(--accent);
   transform: translateY(-2px);
+  color: black;
 }
 .homeCatBtnActive {
   background: var(--accent);

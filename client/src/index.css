@@ -1,10 +1,10 @@
 :root {
   --bg: #fff;
   --text: #2e2e2e;
-  --accent: #f6862a;
-  --accent-dark: #e45a2b;
+  --accent: #022c81; /**/
+  --accent-dark: #0449d3;/**/
   --accent-light: #f4f2f0;
-  --border: #cf6a2b;
+  --border: #0539a2;/**/
   --shadow: rgba(0, 0, 0, 0.08);
   --font-body: "Inter", "Open Sans", sans-serif;
   --font-heading: "Inter", "Open Sans", sans-serif;
