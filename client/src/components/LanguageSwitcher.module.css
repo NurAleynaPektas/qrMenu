@@ -1,0 +1,19 @@
+.trigger, .triggerSm {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 10px;
+  background: #fff; color: var(--text);
+  border: 1px solid var(--border); border-radius: 10px;
+  font-weight: 700; cursor: pointer; min-width: 78px;
+}
+.triggerSm { padding: 6px 8px; min-width: 64px; }
+.icon { opacity: .6; margin-left: 6px; }
+.content {
+  width: var(--radix-select-trigger-width);
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 12px 28px var(--shadow); overflow: hidden;
+}
+.viewport { padding: 4px; }
+.item {
+  padding: 10px 12px; font-weight: 700; cursor: pointer; border-radius: 8px;
+}
+.item:hover, .item[data-highlighted] { background: var(--accent-light); }

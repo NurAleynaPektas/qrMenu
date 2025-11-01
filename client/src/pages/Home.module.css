@@ -1,9 +1,21 @@
+/* ============ Mobile First (default) ============ */
+
 .homePage {
   padding: 24px 16px;
   background: var(--bg);
   min-height: calc(100dvh - 64px);
 }
 
+/* Ortak başlık */
+.sectionTitle {
+  text-align: center;
+  margin: 8px 0 18px;
+  color: var(--text);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* (Kullanırsan) sayfa özel başlık */
 .homeTitle {
   text-align: center;
   margin: 8px 0 20px;
@@ -12,26 +24,143 @@
   font-weight: 700;
 }
 
-/* === Radix Select (Mobil) === */
-.catSelectRadix {
-  display: block;
-  margin-bottom: 16px;
+/* ===== HERO (Slider) ===== */
+.hero {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  /* daha sınırlı yükseklik → düşük çözünürlüklü görsellerde bozulma azalır */
+  height: clamp(220px, 28vw, 360px);
+  margin: 8px 0 20px;
+  box-shadow: 0 12px 28px var(--shadow);
+  background: #09192f; /* görsel yüklenmeden önce koyu zemin */
 }
 
+/* Renk/ışık overlay */
+.heroOverlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(2,44,129,0.45), rgba(2,44,129,0.15)),
+    radial-gradient(800px 300px at 20% 10%, rgba(255,255,255,0.25), transparent 60%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Slaytlar sarmalayıcısı */
+.heroSlides {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Tek bir slayt */
+.heroSlide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 700ms ease;
+  will-change: opacity;
+}
+.heroSlide.isActive { opacity: 1; }
+
+.heroBg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  /* Düşük kaliteyi daha hoş gösteren küçük blur + az zoom */
+  filter: blur(0.2px) brightness(1.04);
+  transform: scale(1.015);
+}
+
+/* Metin katmanı */
+.heroInner {
+  position: relative; z-index: 2;
+  height: 100%;
+  display: grid; place-items: center;
+  text-align: center; padding: 16px;
+}
+.heroTitle {
+  color: #fff;
+  font-size: clamp(24px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+.heroSubtitle {
+  color: #f5f6ff;
+  max-width: 720px;
+  margin: 8px auto 14px;
+  font-weight: 600;
+}
+.heroBtn {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(4,73,211,.25);
+  transition: transform .08s ease, background .2s ease;
+}
+.heroBtn:hover { background: var(--accent-dark); }
+.heroBtn:active { transform: translateY(1px); }
+
+/* Slider noktaları */
+.heroDots {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 3;
+}
+.heroDot {
+  width: 8px; height: 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.65);
+  background: rgba(255,255,255,.35);
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease;
+}
+.heroDot:hover { transform: scale(1.15); }
+.heroDotActive { background: #fff; }
+
+/* Hareket azaltma: otomatik fade’i kapat (erişilebilirlik) */
+@media (prefers-reduced-motion: reduce) {
+  .heroSlide { transition: none; }
+}
+
+/* ===== ABOUT ===== */
+.about {
+  display: grid; gap: 16px; align-items: center; margin: 22px 0 26px;
+}
+.aboutImageWrap { border-radius: 16px; overflow: hidden; box-shadow: 0 10px 24px var(--shadow); }
+.aboutImg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.aboutP { color: #594f4a; margin: 6px 0; }
+
+/* ===== MENU / CATEGORIES ===== */
+.menuSection { margin-top: 8px; }
+
+/* Mobil: Radix Select */
+.catSelectRadix {
+  display: block;
+  margin: 0 auto 16px;
+  max-width: 340px;
+}
 .selTrigger {
   width: 100%;
-  max-width: 340px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   padding: 10px 12px;
   border: 1px solid var(--border);
   border-radius: 12px;
   background: #fff;
   color: var(--text);
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 600; font-size: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -39,12 +168,8 @@
   background: var(--accent-light);
   border-color: var(--accent);
 }
-.selIcon {
-  opacity: 0.6;
-  font-size: 16px;
-}
+.selIcon { opacity: 0.6; font-size: 16px; }
 
-/* İçerik genişliği: trigger kadar */
 .selContent {
   width: var(--radix-select-trigger-width);
   background: #fff;
@@ -54,42 +179,24 @@
   overflow: hidden;
   animation: fadeIn 0.2s ease;
 }
-
-.selViewport {
-  padding: 4px; /* sıkı boşluk */
-}
-
-/* Öğeler blok ve tam genişlik */
+.selViewport { padding: 4px; }
 .selItem {
-  display: block;
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--text);
+  display: block; width: 100%;
+  padding: 12px 14px; border-radius: 8px;
+  cursor: pointer; font-weight: 600; font-size: 14px; color: var(--text);
   transition: background 0.2s ease, color 0.2s ease;
 }
 .selItem:hover,
-.selItem[data-highlighted] {
-  background: var(--accent-light);
-  outline: none;
-}
-.selItem[data-state="checked"] {
-  background: var(--accent-light);
-  color: var(--text);
-}
+.selItem[data-highlighted] { background: var(--accent-light); outline: none; }
+.selItem[data-state="checked"] { background: var(--accent-light); color: var(--text); }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* === Tablet/Desktop: Buton bar === */
-.homeCategories {
-  display: none; /* mobilde gizli */
-}
+/* Tablet/Desktop’ta görünen buton bar – mobilde gizli */
+.homeCategories { display: none; }
 
 .homeCatBtn {
   padding: 10px 16px;
@@ -114,15 +221,13 @@
   border-color: var(--accent);
 }
 
-/* === Ürün grid === */
+/* ===== PRODUCT GRID ===== */
 .homeGrid {
-  display: grid;
-  gap: 18px;
+  display: grid; gap: 18px;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   max-width: 1100px;
   margin: 0 auto;
 }
-
 .homeCard {
   background: #fff;
   border: 1px solid var(--border);
@@ -136,46 +241,80 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 24px var(--shadow);
 }
-
 .homeCardImg {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  background: #f2f2f2;
+  width: 100%; height: 150px; object-fit: cover; display: block;
+  border-radius: 12px; margin-bottom: 10px; background: #f2f2f2;
 }
-
 .homeCardTitle {
-  margin: 6px 0 4px;
-  font-size: 18px;
-  color: var(--text);
-  font-weight: 700;
+  margin: 6px 0 4px; font-size: 18px; color: var(--text); font-weight: 700;
 }
-
 .homeCardPrice {
-  margin: 0 0 10px;
-  font-size: 16px;
-  color: #7a6a64;
-  font-weight: 600;
+  margin: 0 0 10px; font-size: 16px; color: #7a6a64; font-weight: 600;
 }
-
 .homeAddBtn {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
+  width: 100%; padding: 10px 12px;
+  background: var(--accent); color: #fff; border: none; border-radius: 10px;
+  font-weight: 700; cursor: pointer;
   transition: background 0.2s ease, transform 0.08s ease;
 }
 .homeAddBtn:hover { background: var(--accent-dark); }
 .homeAddBtn:active { transform: translateY(1px); }
 
-/* === Tablet/Desktop === */
-@media (min-width: 768px) {
+/* ===== CHEFS ===== */
+.chefs { margin: 28px 0; }
+.chefsGrid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  max-width: 1100px; margin: 0 auto;
+}
+.chefCard {
+  background: #fff; border: 1px solid var(--border); border-radius: 16px; text-align: center;
+  padding: 14px; box-shadow: 0 4px 14px var(--shadow);
+  transition: transform .14s ease, box-shadow .2s ease;
+}
+.chefCard:hover { transform: translateY(-3px); box-shadow: 0 8px 24px var(--shadow); }
+.chefImg { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; background: #f2f2f2; }
+.chefName { font-weight: 800; color: var(--text); margin: 6px 0 4px; }
+.chefRole { color: #7a6a64; font-weight: 600; }
+
+/* ===== FEATURES ===== */
+.features { margin: 30px 0; }
+.featuresGrid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  max-width: 1100px; margin: 0 auto;
+}
+.featureCard {
+  background: #fff; border: 1px solid var(--border); border-radius: 16px;
+  padding: 18px; text-align: left; box-shadow: 0 4px 14px var(--shadow);
+}
+.featureIcon { font-size: 28px; }
+.featureTitle { margin: 6px 0; font-weight: 800; color: var(--text); }
+.featureText { color: #6b6560; }
+
+/* ===== CTA ===== */
+.cta {
+  margin: 36px 0 10px;
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(2,44,129,.9), rgba(4,73,211,.8));
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(4,73,211,.25);
+}
+.ctaTitle { font-weight: 900; font-size: 26px; margin-bottom: 8px; }
+.ctaText { opacity: .95; margin-bottom: 12px; }
+.ctaBtn {
+  display: inline-block; background: #fff; color: var(--accent);
+  padding: 10px 18px; border-radius: 999px; font-weight: 900; text-decoration: none;
+  transition: transform .08s ease, background .2s ease, color .2s ease;
+}
+.ctaBtn:hover { background: #f5f7ff; color: var(--accent-dark); }
+.ctaBtn:active { transform: translateY(1px); }
+
+/* ============ Tablet (≥ 780px) ============ */
+@media (min-width: 780px) {
+  /* Mobil Radix Select’i gizle, buton bar’ı göster */
   .catSelectRadix { display: none; }
   .homeCategories {
     display: flex;
@@ -184,11 +323,24 @@
     flex-wrap: wrap;
     margin-bottom: 28px;
   }
+
   .homeTitle { font-size: 32px; }
+  .sectionTitle { font-size: 32px; }
+
   .homeCardImg { height: 170px; }
+
+  .about {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 28px;
+  }
 }
+
+/* ============ Desktop (≥ 1020px) ============ */
 @media (min-width: 1020px) {
   .homePage { padding: 32px; }
+
   .homeGrid { gap: 22px; }
   .homeCardImg { height: 190px; }
+
+  .ctaTitle { font-size: 30px; }
 }
