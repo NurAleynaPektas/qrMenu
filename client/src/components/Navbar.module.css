@@ -1,4 +1,4 @@
-/*Mobil First*/
+/* Mobil First */
 .navbar {
   position: relative;
   display: flex;
@@ -15,10 +15,7 @@
   font-size: 20px;
   line-height: 1;
 }
-
-.navbarLogo:hover {
-  color: var(--accent);
-}
+.navbarLogo:hover { color: var(--accent); }
 
 .burger {
   display: flex;
@@ -32,7 +29,6 @@
   padding: 0;
   cursor: pointer;
 }
-
 .burger span {
   display: block;
   width: 24px;
@@ -40,6 +36,7 @@
   background-color: var(--text);
   border-radius: 2px;
 }
+
 .navbarRight {
   position: absolute;
   top: 100%;
@@ -51,13 +48,10 @@
   padding: 12px 16px;
   display: none;
   flex-direction: column;
-  min-width: 140px;
+  min-width: 180px;
   z-index: 10;
 }
-
-.showMenu {
-  display: flex;
-}
+.showMenu { display: flex; }
 
 .navbarRight a {
   text-decoration: none;
@@ -66,66 +60,87 @@
   font-size: 16px;
   line-height: 1.4;
   padding: 8px 0;
+  text-transform: none;
 }
+.navbarRight a:hover { color: var(--accent); }
 
-.navbarRight a:hover {
-  color: var(--accent);
+/* Language dropdown */
+.langMenuWrap {
+  position: relative;
+  margin-top: 8px; /* mobilde menü içinde nefes */
 }
-
-
-/*Lang Switch*/
-.langSwitch {
-  display: flex;
-  gap: 8px;
+.langToggle {
+  display: inline-flex;
   align-items: center;
-}
-
-.langBtn {
+  gap: 8px;
   border: 1px solid var(--border);
-  background: transparent;
+  background: #fff;
   color: var(--text);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
-  padding: 4px 10px;
-  border-radius: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
 }
-
-.langBtn:hover {
-  background-color: var(--accent);
-  color: white;
-}
-
-.langActive {
-  background-color: var(--accent);
-  color: white;
+.langToggle:hover {
+  background: var(--accent-light);
   border-color: var(--accent);
 }
+.globe { font-size: 16px; line-height: 1; }
+.langCode { font-size: 12px; opacity: .8; }
 
-/* Tablet */
+.langMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  width: 180px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 24px var(--shadow);
+  padding: 6px;
+  display: none;
+  list-style: none;
+}
+.showLangMenu { display: block; }
+
+.langItem {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+  
+}
+.langItem:hover {
+  background: var(--accent-light);
+  color: var(--text);
+}
+
+/* Tablet & üstü */
 @media (min-width: 768px) {
-  .navbar {
-    padding: 12px 32px;
-  }
-
-  .burger {
-    display: none;
-  }
+  .navbar { padding: 12px 32px; }
+  .burger { display: none; }
 
   .navbarRight {
     position: static;
     display: flex;
     flex-direction: row;
     align-items: center;
-
     background: transparent;
     border: 0;
     box-shadow: none;
     border-radius: 0;
     padding: 0;
     min-width: auto;
-    gap: 24px;
+    gap: 20px;
   }
 
   .navbarRight a {
@@ -133,15 +148,8 @@
     font-weight: 600;
     line-height: 1;
     padding: 0;
-    color: var(--text);
     transition: color 0.25s ease;
   }
 
-  .navbarRight a:hover {
-    color: var(--accent);
-  }
-
-  .langSwitch {
-    margin-top: 0;
-  }
+  .langMenuWrap { margin-top: 0; }
 }

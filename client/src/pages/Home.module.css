@@ -22,18 +22,22 @@
 
 .homeCatBtn {
   padding: 10px 16px;
-  background: var(--accent-light);
+  background: var(--bg);
+  font-size: 14px ;
+  line-height: 1.5;
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform .12s ease, background .2s ease, border-color .2s ease;
+  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .homeCatBtn:hover {
-  background: #ffd6c7;
-  border-color: #e9c1b7;
+  background: var(--accent-light);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  color: var(--text);
 }
 
 .homeCatBtnActive {
@@ -57,7 +61,7 @@
   box-shadow: 0 4px 14px var(--shadow);
   padding: 14px;
   text-align: center;
-  transition: transform .14s ease, box-shadow .2s ease;
+  transition: transform 0.14s ease, box-shadow 0.2s ease;
 }
 
 .homeCard:hover {
@@ -97,7 +101,7 @@
   border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
-  transition: background .2s ease, transform .08s ease;
+  transition: background 0.2s ease, transform 0.08s ease;
 }
 
 .homeAddBtn:hover {
