@@ -1,6 +1,7 @@
 {
   "brand": "Friend's First",
   "nav": {
+    "home": "Accueil",
     "menu": "Menu",
     "my_cart": "Mon Panier",
     "lang_tr": "TR",

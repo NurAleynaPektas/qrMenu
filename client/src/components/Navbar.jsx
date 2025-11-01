@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false); // hamburger
-  const [langOpen, setLangOpen] = useState(false); // language dropdown
+  const [open, setOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const langRef = useRef(null);
 
@@ -16,7 +16,6 @@ const Navbar = () => {
     setOpen(false);
   };
 
-  // Dışarı tıklayınca dil menüsünü kapat
   useEffect(() => {
     const onClickOutside = (e) => {
       if (langRef.current && !langRef.current.contains(e.target)) {
@@ -27,7 +26,6 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, []);
 
-  // Butonda aktif dili kısa göster (TR/EN/FR)
   const current = (i18n.language || "en").toUpperCase().slice(0, 2);
 
   return (
@@ -37,9 +35,17 @@ const Navbar = () => {
       </Link>
 
       <nav className={`${s.navbarRight} ${open ? s.showMenu : ""}`}>
+        {/* Home */}
         <Link to="/" onClick={() => setOpen(false)}>
+          {t("nav.home")}
+        </Link>
+
+        {/* Menu */}
+        <Link to="/menu" onClick={() => setOpen(false)}>
           {t("nav.menu")}
         </Link>
+
+        {/* Cart */}
         <Link to="/cart" onClick={() => setOpen(false)}>
           {t("nav.my_cart")}
         </Link>
@@ -66,17 +72,17 @@ const Navbar = () => {
           >
             <li role="menuitem">
               <button className={s.langItem} onClick={() => changeLang("tr")}>
-                Türkçe (TR)
+                {t("nav.lang_tr")}
               </button>
             </li>
             <li role="menuitem">
               <button className={s.langItem} onClick={() => changeLang("en")}>
-                English (EN)
+                {t("nav.lang_en")}
               </button>
             </li>
             <li role="menuitem">
               <button className={s.langItem} onClick={() => changeLang("fr")}>
-                Français (FR)
+                {t("nav.lang_fr")}
               </button>
             </li>
           </ul>

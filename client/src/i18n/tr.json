@@ -1,6 +1,7 @@
 {
   "brand": "Friend's First",
   "nav": {
+    "home": "Ana Sayfa",
     "menu": "Menü",
     "my_cart": "Sepetim",
     "lang_tr": "TR",

@@ -28,46 +28,21 @@
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-      180deg,
-      rgba(2, 44, 129, 0.45),
-      rgba(2, 44, 129, 0.15)
-    ),
-    radial-gradient(
-      800px 300px at 20% 10%,
-      rgba(255, 255, 255, 0.25),
-      transparent 60%
-    );
+  background:
+    linear-gradient(180deg, rgba(2,44,129,.45), rgba(2,44,129,.15)),
+    radial-gradient(800px 300px at 20% 10%, rgba(255,255,255,.25), transparent 60%);
   mix-blend-mode: multiply;
   pointer-events: none;
   z-index: 1;
 }
 
-.heroSlides {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.heroSlide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.7s ease;
-}
-.isActive {
-  opacity: 1;
-}
+.heroSlides { position: absolute; inset: 0; z-index: 0; }
+.heroSlide  { position: absolute; inset: 0; opacity: 0; transition: opacity .7s ease; }
+.isActive   { opacity: 1; }
 
-.heroBg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: brightness(1.04);
-  transform: scale(1.015);
-}
+.heroBg { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(1.04); transform: scale(1.015); }
 
-/* Fix: CTA + dots çakışması */
+/* CTA + dots çakışmasını engelle */
 .heroInner {
   position: relative;
   z-index: 2;
@@ -78,18 +53,19 @@
   gap: 8px;
   padding: 16px 16px calc(56px + env(safe-area-inset-bottom));
 }
- .heroTitle {
-    font-size: clamp(16px, 6vw, 24px);
-    line-height: 1.2;
-    color: #fff;
-  }
-
-  .heroSubtitle {
-    font-size: 11px;
-    line-height: 1.4;
-    max-width: 90%;
-    color: #fff;
-  }
+.heroTitle {
+  color: #fff;
+  font-size: clamp(24px, 4.2vw, 44px);
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+.heroSubtitle {
+  color: #f5f6ff;
+  max-width: 720px;
+  margin: 4px auto 8px;
+  font-weight: 600;
+}
 .heroBtn {
   display: inline-block;
   padding: 12px 20px;
@@ -98,16 +74,12 @@
   color: #fff;
   font-weight: 800;
   text-decoration: none;
-  box-shadow: 0 8px 20px rgba(4, 73, 211, 0.25);
+  box-shadow: 0 8px 20px rgba(4,73,211,.25);
   border: 1px solid #fff;
-  transition: transform 0.08s ease, background 0.2s ease;
+  transition: transform .08s ease, background .2s ease;
 }
-.heroBtn:hover {
-  transform: scale(1.05);
-}
-.heroBtn:active {
-  transform: translateY(1px);
-}
+.heroBtn:hover { transform: scale(1.05); }
+.heroBtn:active { transform: translateY(1px); }
 
 .heroDots {
   position: absolute;
@@ -119,376 +91,86 @@
   z-index: 3;
 }
 .heroDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  background: rgba(255, 255, 255, 0.35);
+  width: 8px; height: 8px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.65);
+  background: rgba(255,255,255,.35);
   cursor: pointer;
-  transition: transform 0.15s ease, background 0.2s ease;
+  transition: transform .15s ease, background .2s ease;
 }
-.heroDot:hover {
-  transform: scale(1.15);
-}
-.heroDotActive {
-  background: #fff;
-}
+.heroDot:hover { transform: scale(1.15); }
+.heroDotActive { background: #fff; }
 
 /* Motion reduce */
 @media (prefers-reduced-motion: reduce) {
-  .heroSlide {
-    transition: none;
-  }
+  .heroSlide { transition: none; }
+}
+
+/* Mobil tipografi küçültme */
+@media (max-width: 480px) {
+  .hero { height: 280px; }
+  .heroTitle { font-size: clamp(16px, 6vw, 24px); line-height: 1.2; }
+  .heroSubtitle { font-size: 13px; line-height: 1.4; max-width: 90%; }
 }
 
 /* === ABOUT === */
-.about {
-  display: grid;
-  gap: 16px;
-  align-items: center;
-  margin: 22px 0 26px;
-}
-.aboutImageWrap {
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 24px var(--shadow);
-}
-.aboutImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.aboutP {
-  color: #594f4a;
-  margin: 6px 0;
-}
-
-/* === MENU === */
-.menuSection {
-  margin-top: 8px;
-}
-
-/* Mobile: Radix Select */
-.catSelectRadix {
-  display: block;
-  margin: 0 auto 16px;
-  max-width: 340px;
-}
-.selTrigger {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: #fff;
-  color: var(--text);
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.selTrigger:hover {
-  background: var(--accent-light);
-  border-color: var(--accent);
-}
-.selIcon {
-  opacity: 0.6;
-  font-size: 16px;
-}
-.selContent {
-  width: var(--radix-select-trigger-width);
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 12px 28px var(--shadow);
-  overflow: hidden;
-  animation: fadeIn 0.2s ease;
-}
-.selViewport {
-  padding: 4px;
-}
-.selItem {
-  display: block;
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--text);
-  transition: background 0.2s ease, color 0.2s ease;
-}
-.selItem:hover,
-.selItem[data-highlighted] {
-  background: var(--accent-light);
-  outline: none;
-}
-.selItem[data-state="checked"] {
-  background: var(--accent-light);
-  color: var(--text);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Tablet/Desktop – mobilde gizli olan buton bar */
-.homeCategories {
-  display: none;
-}
-.homeCatBtn {
-  padding: 10px 16px;
-  background: var(--bg);
-  font-size: 14px;
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
-}
-.homeCatBtn:hover {
-  background: var(--accent-light);
-  border-color: var(--accent);
-  transform: translateY(-2px);
-  color: #000;
-}
-.homeCatBtnActive {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-/* === PRODUCT GRID === */
-.homeGrid {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  max-width: 1100px;
-  margin: 0 auto;
-}
-.homeCard {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: 0 4px 14px var(--shadow);
-  padding: 14px;
-  text-align: center;
-  transition: transform 0.14s ease, box-shadow 0.2s ease;
-}
-.homeCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px var(--shadow);
-}
-.homeCardImg {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  display: block;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  background: #f2f2f2;
-}
-.homeCardTitle {
-  margin: 6px 0 4px;
-  font-size: 18px;
-  color: var(--text);
-  font-weight: 700;
-}
-.homeCardPrice {
-  margin: 0 0 10px;
-  font-size: 16px;
-  color: #7a6a64;
-  font-weight: 600;
-}
-.homeAddBtn {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.08s ease;
-}
-.homeAddBtn:hover {
-  background: var(--accent-dark);
-}
-.homeAddBtn:active {
-  transform: translateY(1px);
-}
+.about { display: grid; gap: 16px; align-items: center; margin: 22px 0 26px; }
+.aboutImageWrap { border-radius: 16px; overflow: hidden; box-shadow: 0 10px 24px var(--shadow); }
+.aboutImg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.aboutP { color: #594f4a; margin: 6px 0; }
 
 /* === CHEFS === */
-.chefs {
-  margin: 28px 0;
-}
+.chefs { margin: 28px 0; }
 .chefsGrid {
-  display: grid;
-  gap: 16px;
+  display: grid; gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 1100px; margin: 0 auto;
 }
 .chefCard {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  text-align: center;
-  padding: 14px;
-  box-shadow: 0 4px 14px var(--shadow);
-  transition: transform 0.14s ease, box-shadow 0.2s ease;
+  background: #fff; border: 1px solid var(--border); border-radius: 16px; text-align: center;
+  padding: 14px; box-shadow: 0 4px 14px var(--shadow);
+  transition: transform .14s ease, box-shadow .2s ease;
 }
-.chefCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px var(--shadow);
-}
-.chefImg {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  background: #f2f2f2;
-}
-.chefName {
-  font-weight: 800;
-  color: var(--text);
-  margin: 6px 0 4px;
-}
-.chefRole {
-  color: #7a6a64;
-  font-weight: 600;
-}
+.chefCard:hover { transform: translateY(-3px); box-shadow: 0 8px 24px var(--shadow); }
+.chefImg { width: 100%; height: 220px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; background: #f2f2f2; }
+.chefName { font-weight: 800; color: var(--text); margin: 6px 0 4px; }
+.chefRole { color: #7a6a64; font-weight: 600; }
 
 /* === FEATURES === */
-.features {
-  margin: 30px 0;
-}
+.features { margin: 30px 0; }
 .featuresGrid {
-  display: grid;
-  gap: 16px;
+  display: grid; gap: 16px;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  max-width: 1100px;
-  margin: 0 auto;
+  max-width: 1100px; margin: 0 auto;
 }
-.featureCard {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 18px;
-  text-align: left;
-  box-shadow: 0 4px 14px var(--shadow);
-}
-.featureIcon {
-  font-size: 28px;
-}
-.featureTitle {
-  margin: 6px 0;
-  font-weight: 800;
-  color: var(--text);
-}
-.featureText {
-  color: #6b6560;
-}
+.featureCard { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-align: left; box-shadow: 0 4px 14px var(--shadow); }
+.featureIcon { font-size: 28px; }
+.featureTitle { margin: 6px 0; font-weight: 800; color: var(--text); }
+.featureText { color: #6b6560; }
 
 /* === CTA === */
 .cta {
-  margin: 36px 0 10px;
-  text-align: center;
-  padding: 24px 16px;
-  border-radius: 16px;
-  background: linear-gradient(
-    135deg,
-    rgba(2, 44, 129, 0.9),
-    rgba(4, 73, 211, 0.8)
-  );
-  color: #fff;
-  box-shadow: 0 12px 28px rgba(4, 73, 211, 0.25);
+  margin: 36px 0 10px; text-align: center; padding: 24px 16px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(2,44,129,.9), rgba(4,73,211,.8));
+  color: #fff; box-shadow: 0 12px 28px rgba(4,73,211,.25);
 }
-.ctaTitle {
-  font-weight: 900;
-  font-size: 26px;
-  margin-bottom: 8px;
-}
-.ctaText {
-  opacity: 0.95;
-  margin-bottom: 12px;
-}
+.ctaTitle { font-weight: 900; font-size: 26px; margin-bottom: 8px; }
+.ctaText { opacity: .95; margin-bottom: 12px; }
 .ctaBtn {
-  display: inline-block;
-  background: #fff;
-  color: var(--accent);
-  padding: 10px 18px;
-  border-radius: 999px;
-  font-weight: 900;
-  text-decoration: none;
-  transition: transform 0.08s ease, background 0.2s ease, color 0.2s ease;
+  display: inline-block; background: #fff; color: var(--accent); padding: 10px 18px;
+  border-radius: 999px; font-weight: 900; text-decoration: none;
+  transition: transform .08s ease, background .2s ease, color .2s ease;
 }
-.ctaBtn:hover {
-  background: #f5f7ff;
-  color: var(--accent-dark);
-}
-.ctaBtn:active {
-  transform: translateY(1px);
-}
-
-/* === Extra small screens: hero'yu biraz uzat === */
-@media (max-width: 420px) {
-  .hero {
-    height: 280px;
-  }
-  .heroTitle {
-    font-size: clamp(22px, 5.2vw, 36px);
-  }
-}
+.ctaBtn:hover { background: #f5f7ff; color: var(--accent-dark); }
+.ctaBtn:active { transform: translateY(1px); }
 
 /* === Tablet (≥ 780px) === */
 @media (min-width: 780px) {
-  .catSelectRadix {
-    display: none;
-  }
-  .homeCategories {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 28px;
-  }
-  .sectionTitle {
-    font-size: 32px;
-  }
-  .about {
-    grid-template-columns: 1.2fr 1fr;
-    gap: 28px;
-  }
-  .homeCardImg {
-    height: 170px;
-  }
+  .sectionTitle { font-size: 32px; }
+  .about { grid-template-columns: 1.2fr 1fr; gap: 28px; }
 }
 
 /* === Desktop (≥ 1020px) === */
 @media (min-width: 1020px) {
-  .homePage {
-    padding: 32px;
-  }
-  .homeGrid {
-    gap: 22px;
-  }
-  .homeCardImg {
-    height: 190px;
-  }
-  .ctaTitle {
-    font-size: 30px;
-  }
+  .homePage { padding: 32px; }
+  .ctaTitle { font-size: 30px; }
 }
