@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import s from "./Home.module.css";
+
+// Bileşenler
+import HeroDeck from "../components/HeroDeck";
 
 // Görseller
 import heroImg from "../assets/hero.png";
@@ -11,18 +13,6 @@ import chef3 from "../assets/chef3.png";
 import hero1 from "../assets/hero1.png";
 import hero2 from "../assets/hero2.png";
 
-function useInterval(callback, delay, isRunning = true) {
-  const savedCb = useRef(callback);
-  useEffect(() => {
-    savedCb.current = callback;
-  }, [callback]);
-  useEffect(() => {
-    if (!isRunning || delay == null) return;
-    const id = setInterval(() => savedCb.current(), delay);
-    return () => clearInterval(id);
-  }, [delay, isRunning]);
-}
-
 export default function Home() {
   const { t } = useTranslation();
 
@@ -30,55 +20,20 @@ export default function Home() {
     { src: heroImg, alt: "Restaurant ambience" },
     { src: diningImg, alt: "Dining table" },
     { src: hero1, alt: "Dining table" },
-    { src: hero2, alt: "Dining table " },
+    { src: hero2, alt: "Dining table" },
   ];
-  const [idx, setIdx] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useInterval(() => setIdx((i) => (i + 1) % slides.length), 4000, !paused);
 
   return (
     <main className={s.homePage}>
-      {/* === HERO SLIDER === */}
-      <section
-        className={s.hero}
-        aria-label="Hero"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-      >
-        <div className={s.heroOverlay} />
-
-        <div className={s.heroSlides} role="list">
-          {slides.map((sl, i) => (
-            <div
-              key={sl.src + i}
-              role="listitem"
-              className={`${s.heroSlide} ${i === idx ? s.isActive : ""}`}
-            >
-              <img className={s.heroBg} src={sl.src} alt={sl.alt} />
-            </div>
-          ))}
-        </div>
-
-        <div className={s.heroInner}>
-          <h1 className={s.heroTitle}>{t("home.hero_title")}</h1>
-          <p className={s.heroSubtitle}>{t("home.hero_sub")}</p>
-          <a className={s.heroBtn} href="/menu">
-            {t("home.hero_cta")}
-          </a>
-        </div>
-
-        <div className={s.heroDots} aria-label="Slide controls">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              className={`${s.heroDot} ${i === idx ? s.heroDotActive : ""}`}
-              aria-label={`Go to slide ${i + 1}`}
-              aria-current={i === idx ? "true" : "false"}
-              onClick={() => setIdx(i)}
-            />
-          ))}
-        </div>
+      {/* === HERO (Deck/Peeking) === */}
+      <section className={s.heroWrap} aria-label="Hero">
+        <HeroDeck
+          slides={slides}
+          title={t("home.hero_title")}
+          subtitle={t("home.hero_sub")}
+          ctaText={t("home.hero_cta")}
+          ctaHref="/menu"
+        />
       </section>
 
       {/* ===== ABOUT ===== */}
@@ -137,7 +92,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== CTA (Sipariş Verme) ===== */}
+      {/* ===== CTA ===== */}
       <section className={s.cta} aria-label="Reservation call">
         <h2 className={s.ctaTitle}>{t("home.cta_title")}</h2>
         <p className={s.ctaText}>{t("home.cta_text")}</p>

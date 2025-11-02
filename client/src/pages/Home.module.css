@@ -14,17 +14,21 @@
   font-weight: 800;
 }
 
-/* === HERO === */
+/* =========================
+   HERO (Mobil-first)
+   ========================= */
 .hero {
   position: relative;
   overflow: hidden;
   border-radius: 16px;
-  height: clamp(240px, 28vw, 360px);
+  /* Mobilde güvenli: sabit ama makul yükseklik */
+  height: 300px;
   margin: 8px 0 20px;
   box-shadow: 0 12px 28px var(--shadow);
   background: #09192f;
 }
 
+/* Overlay üstte kalsın ama içerikle çakışmasın */
 .heroOverlay {
   position: absolute;
   inset: 0;
@@ -40,9 +44,17 @@
 .heroSlide  { position: absolute; inset: 0; opacity: 0; transition: opacity .7s ease; }
 .isActive   { opacity: 1; }
 
-.heroBg { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(1.04); transform: scale(1.015); }
+.heroBg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: brightness(1.04);
+  transform: scale(1.015);
+}
 
-/* CTA + dots çakışmasını engelle */
+/* İçerik ve alt boşluk (dots için) */
 .heroInner {
   position: relative;
   z-index: 2;
@@ -51,11 +63,13 @@
   place-items: center;
   text-align: center;
   gap: 8px;
-  padding: 16px 16px calc(56px + env(safe-area-inset-bottom));
+  /* DİKKAT: altta dots için ekstra padding */
+  padding: 16px 16px 72px; /* mobil: 72px */
 }
+
 .heroTitle {
   color: #fff;
-  font-size: clamp(24px, 4.2vw, 44px);
+  font-size: clamp(22px, 6.2vw, 36px);
   font-weight: 800;
   letter-spacing: .5px;
   text-shadow: 0 2px 10px rgba(0,0,0,.25);
@@ -65,6 +79,8 @@
   max-width: 720px;
   margin: 4px auto 8px;
   font-weight: 600;
+  line-height: 1.35;
+  padding: 0 8px;
 }
 .heroBtn {
   display: inline-block;
@@ -81,10 +97,11 @@
 .heroBtn:hover { transform: scale(1.05); }
 .heroBtn:active { transform: translateY(1px); }
 
+/* Slider dots */
 .heroDots {
   position: absolute;
   left: 50%;
-  bottom: 8px;
+  bottom: 10px; /* mobil biraz aşağıda kalsın */
   transform: translateX(-50%);
   display: flex;
   gap: 6px;
@@ -105,20 +122,20 @@
   .heroSlide { transition: none; }
 }
 
-/* Mobil tipografi küçültme */
+/* Küçük cihaz ek düzen (opsiyonel) */
 @media (max-width: 480px) {
   .hero { height: 280px; }
-  .heroTitle { font-size: clamp(16px, 6vw, 24px); line-height: 1.2; }
-  .heroSubtitle { font-size: 13px; line-height: 1.4; max-width: 90%; }
+  .heroTitle { font-size: clamp(18px, 7vw, 24px); line-height: 1.2; }
+  .heroSubtitle { font-size: 13px; line-height: 1.4; max-width: 92%; }
 }
 
-/* === ABOUT === */
+/* ============ ABOUT ============ */
 .about { display: grid; gap: 16px; align-items: center; margin: 22px 0 26px; }
 .aboutImageWrap { border-radius: 16px; overflow: hidden; box-shadow: 0 10px 24px var(--shadow); }
 .aboutImg { width: 100%; height: 100%; object-fit: cover; display: block; }
 .aboutP { color: #594f4a; margin: 6px 0; }
 
-/* === CHEFS === */
+/* ============ CHEFS ============ */
 .chefs { margin: 28px 0; }
 .chefsGrid {
   display: grid; gap: 16px;
@@ -135,7 +152,7 @@
 .chefName { font-weight: 800; color: var(--text); margin: 6px 0 4px; }
 .chefRole { color: #7a6a64; font-weight: 600; }
 
-/* === FEATURES === */
+/* =========== FEATURES =========== */
 .features { margin: 30px 0; }
 .featuresGrid {
   display: grid; gap: 16px;
@@ -147,7 +164,7 @@
 .featureTitle { margin: 6px 0; font-weight: 800; color: var(--text); }
 .featureText { color: #6b6560; }
 
-/* === CTA === */
+/* ============== CTA ============== */
 .cta {
   margin: 36px 0 10px; text-align: center; padding: 24px 16px; border-radius: 16px;
   background: linear-gradient(135deg, rgba(2,44,129,.9), rgba(4,73,211,.8));
@@ -163,14 +180,36 @@
 .ctaBtn:hover { background: #f5f7ff; color: var(--accent-dark); }
 .ctaBtn:active { transform: translateY(1px); }
 
-/* === Tablet (≥ 780px) === */
+/* ================================
+   Tablet (≥ 780px) — ÇAKIŞMA FİXİ
+   ================================ */
 @media (min-width: 780px) {
   .sectionTitle { font-size: 32px; }
+
+  /* Tablet’te hero daha geniş ve alt boşluk daha fazla */
+  .hero {
+    height: 420px;               /* daha yüksek alan */
+  }
+  .heroInner {
+    padding: 24px 24px 96px;     /* BUTON–DOTS arası güvenli mesafe */
+  }
+  .heroTitle { font-size: clamp(28px, 4.2vw, 42px); }
+  .heroSubtitle { font-size: 15px; max-width: 800px; }
+
   .about { grid-template-columns: 1.2fr 1fr; gap: 28px; }
 }
 
-/* === Desktop (≥ 1020px) === */
+/* ================================
+   Desktop (≥ 1020px)
+   ================================ */
 @media (min-width: 1020px) {
   .homePage { padding: 32px; }
+
+  .hero {
+    height: clamp(460px, 46vw, 560px); /* geniş ekranlarda orantılı */
+  }
+  .heroInner {
+    padding: 28px 28px 100px; /* desktop’ta da güvenli */
+  }
   .ctaTitle { font-size: 30px; }
 }
