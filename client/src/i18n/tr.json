@@ -68,5 +68,12 @@
     "password": "Şifre",
     "sign_in": "Giriş Yap",
     "dashboard_title": "Admin Paneli"
-  }
+  },
+  "notFound": {
+  "metaTitle": "Sayfa bulunamadı — 404",
+  "title": "Sayfa bulunamadı",
+  "subtitle": "Aradığınız sayfayı getiremedik. Ana sayfaya dönerek devam edebilirsiniz.",
+  "cta": "Ana sayfa"
+}
+
 }

@@ -68,5 +68,12 @@
     "password": "Password",
     "sign_in": "Sign In",
     "dashboard_title": "Admin Dashboard"
-  }
+  },
+  "notFound": {
+  "metaTitle": "Page not found — 404",
+  "title": "Page not found",
+  "subtitle": "We couldn’t load the page you’re looking for. You can continue from the homepage.",
+  "cta": "Go home"
+}
+
 }

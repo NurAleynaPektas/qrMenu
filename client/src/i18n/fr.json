@@ -68,5 +68,12 @@
     "password": "Mot de passe",
     "sign_in": "Se Connecter",
     "dashboard_title": "Tableau de Bord"
-  }
+  },
+  "notFound": {
+  "metaTitle": "Page introuvable — 404",
+  "title": "Page introuvable",
+  "subtitle": "Nous n’avons pas pu charger la page recherchée. Vous pouvez continuer depuis la page d’accueil.",
+  "cta": "Accueil"
+}
+
 }

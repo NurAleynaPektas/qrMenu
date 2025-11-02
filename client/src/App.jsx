@@ -1,29 +1,24 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-// ==== Lazy-loaded pages (code-splitting) ====
-const Home = lazy(() => import(/* webpackChunkName: "home" */ "./pages/Home"));
-const Menu = lazy(() => import(/* webpackChunkName: "menu" */ "./pages/Menu"));
-const Cart = lazy(() => import(/* webpackChunkName: "cart" */ "./pages/Cart"));
-const Checkout = lazy(() =>
-  import(/* webpackChunkName: "checkout" */ "./pages/Checkout")
-);
-const AdminLogin = lazy(() =>
-  import(/* webpackChunkName: "admin-login" */ "./pages/AdminLogin")
-);
-const AdminDashboard = lazy(() =>
-  import(/* webpackChunkName: "admin-dashboard" */ "./pages/AdminDashboard")
-);
+// ==== Lazy-loaded pages ====
+const Home = lazy(() => import("./pages/Home"));
+const Menu = lazy(() => import("./pages/Menu"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
-// (İsteğe bağlı) Route değişince sayfanın tepesine sar
+// Route değişince en üste sar (effect içinde)
 function ScrollToTop() {
   const { pathname } = useLocation();
-  // pathname her değiştiğinde en üste sar
-  // (Suspense içindeki içerik mount olurken çalışır)
-  // eslint-disable-next-line no-unused-vars
-  return window.scrollTo(0, 0), null;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
 }
 
 function FallbackLoader() {
@@ -55,9 +50,7 @@ export default function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          {/* 404 için istersen:
-          <Route path="*" element={<Home />} />
-          */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <Footer />
