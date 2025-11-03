@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import s from "./Home.module.css";
 
-
 import HeroDeck from "../components/HeroDeck";
 import her from "../assets/her.png";
 import heroImg from "../assets/hero.png";
@@ -100,7 +99,7 @@ export default function Home() {
           <div className={s.ctaTextWrap}>
             <h2 className={s.ctaTitle}>{t("home.cta_title")}</h2>
             <p className={s.ctaText}>{t("home.cta_text")}</p>
-            <a className={s.ctaBtn} href="/cart">
+            <a className={s.ctaBtn} href="/menu">
               {t("home.cta_btn")}
             </a>
           </div>
