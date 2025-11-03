@@ -1,4 +1,3 @@
-// src/components/HeroDeck.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import s from "./HeroDeck.module.css";
 
@@ -31,7 +30,6 @@ export default function HeroDeck({
 
   useInterval(next, autoplayMs, !paused);
 
-  // Klavye ile gezinme
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "ArrowRight") next();

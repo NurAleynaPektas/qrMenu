@@ -3,7 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-// ==== Lazy-loaded pages ====
+// Lazy-loaded pages
 const Home = lazy(() => import("./pages/Home"));
 const Menu = lazy(() => import("./pages/Menu"));
 const Cart = lazy(() => import("./pages/Cart"));
@@ -12,7 +12,7 @@ const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Route değişince en üste sar (effect içinde)
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {

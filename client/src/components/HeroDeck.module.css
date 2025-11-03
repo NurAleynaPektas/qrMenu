@@ -68,7 +68,7 @@
   opacity: 0;
 }
 
-/* Copy (metin + buton) */
+/* Copy */
 .copy {
   position: absolute;
   left: 50%;
@@ -80,8 +80,8 @@
   justify-items: center;
   gap: 4px;
   padding: 6px 8px;
-  width: 80%; /* karttan dar */
-  max-width: 320px; /* sabit üst sınır */
+  width: 80%; 
+  max-width: 320px;
   background: rgba(0, 0, 0, 0.28);
   border-radius: 10px;
   backdrop-filter: blur(2px);

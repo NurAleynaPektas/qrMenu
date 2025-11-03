@@ -35,7 +35,7 @@ export default function Menu() {
   return (
     <main className={s.menuPage}>
       <h1 className={s.title}>
-        {t("home.title") /* "Menu" başlığı zaten var */}
+        {t("home.title") }
       </h1>
       <p className={s.subtitle}>{t("home.about_p2")}</p>
 

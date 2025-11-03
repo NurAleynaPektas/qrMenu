@@ -1,4 +1,3 @@
-/* Mobil First */
 .navbar {
   position: relative;
   display: flex;
@@ -68,7 +67,7 @@
 /* Language dropdown */
 .langMenuWrap {
   position: relative;
-  margin-top: 8px; /* mobilde menü içinde nefes */
+  margin-top: 8px; 
 }
 .langToggle {
   display: inline-flex;

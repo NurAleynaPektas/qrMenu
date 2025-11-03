@@ -1,7 +1,7 @@
 import * as Select from "@radix-ui/react-select";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
-import s from "./LanguageSwitcher.module.css"; // ufak stiller (aşağıda)
+import s from "./LanguageSwitcher.module.css"; 
 
 const LANGS = [
   { code: "tr", label: "TR" },

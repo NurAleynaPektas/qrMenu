@@ -5,10 +5,7 @@ import s from "./NotFound.module.css";
 import { Link } from "react-router-dom";
 
 export default function NotFound() {
-  // i18n.js'te namespace 'translation' olduğu için boş bırakıyoruz
   const { t, i18n } = useTranslation();
-
-  // Hover efektini yalnızca fare destekleyen cihazlarda etkinleştir
   const enableHover = useMemo(() => {
     if (typeof window === "undefined") return false;
     return (
@@ -16,7 +13,6 @@ export default function NotFound() {
     );
   }, []);
 
-  // Sayfa başlığını çeviriyle güncelle
   useEffect(() => {
     document.title = t("notFound.metaTitle");
   }, [i18n.language, t]);

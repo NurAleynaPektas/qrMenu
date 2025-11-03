@@ -14,7 +14,7 @@
   font-weight: 800;
 }
 
-/* HERO (Mobil-first) */
+/* HERO  */
 .hero {
   position: relative;
   overflow: hidden;
@@ -237,7 +237,7 @@
   color: #6b6560;
 }
 
-/* CTA (mobil-first) */
+/* CTA  */
 .cta {
   display: flex;
   flex-direction: column;
@@ -315,7 +315,6 @@
     gap: 28px;
   }
 
-  /* CTA Tablet */
   .cta {
     display: flex;
     flex-direction: row;
@@ -363,7 +362,6 @@
     padding: 28px 28px 100px;
   }
 
-  /* CTA Desktop */
   .cta {
     max-width: 1030px;
     padding: 22px 32px;

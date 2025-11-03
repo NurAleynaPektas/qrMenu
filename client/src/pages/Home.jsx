@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 import s from "./Home.module.css";
 
-// Bileşenler
-import HeroDeck from "../components/HeroDeck";
 
-// Görseller
+import HeroDeck from "../components/HeroDeck";
 import her from "../assets/her.png";
 import heroImg from "../assets/hero.png";
 import diningImg from "../assets/dining.png";
