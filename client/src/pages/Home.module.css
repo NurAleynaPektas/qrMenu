@@ -1,11 +1,11 @@
-/* === Page === */
+/*  Page */
 .homePage {
   padding: 24px 16px;
   background: var(--bg);
   min-height: calc(100dvh - 64px);
 }
 
-/* === Section titles === */
+/*  Section titles  */
 .sectionTitle {
   text-align: center;
   margin: 8px 0 18px;
@@ -14,21 +14,17 @@
   font-weight: 800;
 }
 
-/* =========================
-   HERO (Mobil-first)
-   ========================= */
+/* HERO (Mobil-first) */
 .hero {
   position: relative;
   overflow: hidden;
   border-radius: 16px;
-  /* Mobilde güvenli: sabit ama makul yükseklik */
   height: 300px;
   margin: 8px 0 20px;
   box-shadow: 0 12px 28px var(--shadow);
   background: #09192f;
 }
 
-/* Overlay üstte kalsın ama içerikle çakışmasın */
 .heroOverlay {
   position: absolute;
   inset: 0;
@@ -72,7 +68,6 @@
   transform: scale(1.015);
 }
 
-/* İçerik ve alt boşluk (dots için) */
 .heroInner {
   position: relative;
   z-index: 2;
@@ -81,13 +76,12 @@
   place-items: center;
   text-align: center;
   gap: 8px;
-  /* DİKKAT: altta dots için ekstra padding */
-  padding: 16px 16px 72px; /* mobil: 72px */
+  padding: 16px 16px 72px;
 }
 
 .heroTitle {
   color: #fff;
-  font-size: clamp(22px, 6.2vw, 36px);
+  font-size: clamp(20px, 6.2vw, 34px);
   font-weight: 800;
   letter-spacing: 0.5px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
@@ -102,14 +96,14 @@
 }
 .heroBtn {
   display: inline-block;
-  padding: 12px 20px;
+  padding: 10px 18px;
   border-radius: 999px;
   background: transparent;
   color: #fff;
   font-weight: 800;
   text-decoration: none;
   box-shadow: 0 8px 20px rgba(4, 73, 211, 0.25);
-  border: 1px solid #fff;
+  border: 1px solid var(--border);
   transition: transform 0.08s ease, background 0.2s ease;
 }
 .heroBtn:hover {
@@ -119,11 +113,10 @@
   transform: translateY(1px);
 }
 
-/* Slider dots */
 .heroDots {
   position: absolute;
   left: 50%;
-  bottom: 10px; /* mobil biraz aşağıda kalsın */
+  bottom: 10px;
   transform: translateX(-50%);
   display: flex;
   gap: 6px;
@@ -145,30 +138,7 @@
   background: #fff;
 }
 
-/* Motion reduce */
-@media (prefers-reduced-motion: reduce) {
-  .heroSlide {
-    transition: none;
-  }
-}
-
-/* Küçük cihaz ek düzen (opsiyonel) */
-@media (max-width: 480px) {
-  .hero {
-    height: 280px;
-  }
-  .heroTitle {
-    font-size: clamp(18px, 7vw, 24px);
-    line-height: 1.2;
-  }
-  .heroSubtitle {
-    font-size: 13px;
-    line-height: 1.4;
-    max-width: 92%;
-  }
-}
-
-/*ABOUT */
+/* ABOUT */
 .about {
   display: grid;
   gap: 16px;
@@ -178,7 +148,6 @@
 .aboutText {
   text-align: center;
 }
-
 .aboutImageWrap {
   border-radius: 16px;
   overflow: hidden;
@@ -195,7 +164,7 @@
   margin: 6px 0;
 }
 
-/*  CHEFS */
+/* CHEFS */
 .chefs {
   margin: 28px 0;
 }
@@ -268,50 +237,57 @@
   color: #6b6560;
 }
 
-/* CTA*/
+/* CTA (mobil-first) */
 .cta {
-  margin: 36px 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 24px 16px;
-  border-radius: 16px;
-  background: linear-gradient(
-    135deg,
-    rgba(2, 44, 129, 0.9),
-    rgba(4, 73, 211, 0.8)
-  );
-  color: #fff;
-  box-shadow: 0 12px 28px rgba(4, 73, 211, 0.25);
+  border-radius: 14px;
+  border:1px solid var(--border);
+  color: var(--accent);
+  box-shadow: 0 10px 22px rgba(4, 73, 211, 0.22);
 }
 .ctaTitle {
-  font-weight: 900;
-  font-size: 26px;
-  margin-bottom: 8px;
+  font-weight: 800;
+  font-size: 12px;
+ 
 }
 .ctaText {
   opacity: 0.95;
-  margin-bottom: 12px;
+
+  font-size: 10px;
 }
 .ctaBtn {
   display: inline-block;
   background: #fff;
   color: var(--accent);
-  padding: 10px 18px;
+  border : 1px solid var(--border) ;
+  padding: 8px 16px;
   border-radius: 999px;
-  font-weight: 900;
+  font-weight: 700;
+  font-size: 10px;
   text-decoration: none;
-  transition: transform 0.08s ease, background 0.2s ease, color 0.2s ease;
+  margin-bottom: 5px;
+  transition: transform 1s ease, background 0.2s ease, color 0.2s ease;
 }
 .ctaBtn:hover {
-  background: #f5f7ff;
-  color: var(--accent-dark);
+ background: var(--accent);
+  color: var(--bg);
 }
 .ctaBtn:active {
   transform: translateY(1px);
 }
+.ctaTextWrap{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-/* 
-   Tablet  780px */
-@media (min-width: 780px) {
+}
+
+/* TABLET 768px */
+@media (min-width: 768px) {
   .sectionTitle {
     font-size: 32px;
   }
@@ -323,7 +299,7 @@
     padding: 24px 24px 96px;
   }
   .heroTitle {
-    font-size: clamp(28px, 4.2vw, 42px);
+    font-size: clamp(26px, 4.2vw, 40px);
   }
   .heroSubtitle {
     font-size: 15px;
@@ -334,10 +310,39 @@
     grid-template-columns: 1.2fr 1fr;
     gap: 28px;
   }
+
+  /* CTA Tablet */
+  .cta {
+    display: flex;
+    flex-direction: row;
+    max-width: 960px;
+    margin: 34px auto 20px;
+    padding: 20px 24px;
+    border-radius: 16px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+  }
+  .ctaTitle {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+  .ctaText {
+    font-size: 14.5px;
+    margin-bottom: 0;
+    max-width: 420px;
+  }
+  .ctaBtn {
+    padding: 9px 20px;
+    font-size: 14.5px;
+    white-space: nowrap;
+    margin-top: 25px;
+  }
 }
 
-/* 
-   Desktop  1020px*/
+/* DESKTOP 1020px */
 @media (min-width: 1020px) {
   .homePage {
     padding: 32px;
@@ -349,7 +354,25 @@
   .heroInner {
     padding: 28px 28px 100px;
   }
+
+  /* CTA Desktop */
+  .cta {
+    max-width: 1100px;
+    padding: 22px 32px;
+    border-radius: 18px;
+  }
+ 
+  .ctaTextWrap{
+    margin-right: 70px;
+  }
   .ctaTitle {
-    font-size: 30px;
+    font-size: 24px;
+  }
+  .ctaText {
+    font-size: 15px;
+  }
+  .ctaBtn {
+    font-size: 15px;
+    padding: 10px 22px;
   }
 }

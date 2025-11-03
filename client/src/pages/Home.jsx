@@ -5,6 +5,7 @@ import s from "./Home.module.css";
 import HeroDeck from "../components/HeroDeck";
 
 // Görseller
+import her from "../assets/her.png";
 import heroImg from "../assets/hero.png";
 import diningImg from "../assets/dining.png";
 import chef1 from "../assets/chef1.png";
@@ -25,7 +26,7 @@ export default function Home() {
 
   return (
     <main className={s.homePage}>
-      {/* === HERO (Deck/Peeking) === */}
+      {/* HERO */}
       <section className={s.heroWrap} aria-label="Hero">
         <HeroDeck
           slides={slides}
@@ -36,7 +37,7 @@ export default function Home() {
         />
       </section>
 
-      {/* ===== ABOUT ===== */}
+      {/* ABOUT */}
       <section className={s.about} aria-label="About us">
         <div className={s.aboutImageWrap}>
           <img className={s.aboutImg} src={diningImg} alt="Dining table" />
@@ -48,7 +49,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== CHEFS ===== */}
+      {/*CHEFS */}
       <section className={s.chefs} aria-label="Chefs">
         <h2 className={s.sectionTitle}>{t("home.chefs_title")}</h2>
         <div className={s.chefsGrid}>
@@ -70,7 +71,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== WHY CHOOSE US ===== */}
+      {/* WHY CHOOSE US  */}
       <section className={s.features} aria-label="Why choose us">
         <h2 className={s.sectionTitle}>{t("home.why_title")}</h2>
         <div className={s.featuresGrid}>
@@ -92,13 +93,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== CTA ===== */}
-      <section className={s.cta} aria-label="Reservation call">
-        <h2 className={s.ctaTitle}>{t("home.cta_title")}</h2>
-        <p className={s.ctaText}>{t("home.cta_text")}</p>
-        <a className={s.ctaBtn} href="/cart">
-          {t("home.cta_btn")}
-        </a>
+      {/*  CTA */}
+      <section aria-label="Reservation call">
+        <div className={s.cta}>
+          <div className={s.ctaImageWrap}>
+            <img src={her} className={s.chefImg} alt="dining" />
+          </div>
+          <div className={s.ctaTextWrap}>
+            <h2 className={s.ctaTitle}>{t("home.cta_title")}</h2>
+            <p className={s.ctaText}>{t("home.cta_text")}</p>
+            <a className={s.ctaBtn} href="/cart">
+              {t("home.cta_btn")}
+            </a>
+          </div>
+        </div>
       </section>
     </main>
   );
