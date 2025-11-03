@@ -41,7 +41,7 @@ export default function HeroDeck({
     return () => window.removeEventListener("keydown", onKey);
   }, [idx]);
 
-  // Basit touch-swipe
+
   const startX = useRef(null);
   const onTouchStart = (e) => (startX.current = e.touches[0].clientX);
   const onTouchEnd = (e) => {
@@ -51,7 +51,6 @@ export default function HeroDeck({
     startX.current = null;
   };
 
-  // Pozisyon sınıfları (wrap-around)
   const posClass = (i) => {
     const n = slides.length || 1;
     const diff = (i - idx + n) % n;
