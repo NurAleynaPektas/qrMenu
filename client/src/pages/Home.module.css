@@ -247,7 +247,7 @@
   border-radius: 14px;
   border:1px solid var(--border);
   color: var(--accent);
-  box-shadow: 0 10px 22px rgba(4, 73, 211, 0.22);
+ 
 }
 .ctaTitle {
   font-weight: 800;
@@ -284,6 +284,13 @@
   flex-direction: column;
   align-items: center;
 
+}
+
+.ctaImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* TABLET 768px */
@@ -340,6 +347,12 @@
     white-space: nowrap;
     margin-top: 25px;
   }
+  .ctaImageWrap{
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+ 
+}
 }
 
 /* DESKTOP 1020px */
@@ -357,7 +370,7 @@
 
   /* CTA Desktop */
   .cta {
-    max-width: 1100px;
+    max-width: 1030px;
     padding: 22px 32px;
     border-radius: 18px;
   }

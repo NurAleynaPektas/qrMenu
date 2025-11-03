@@ -97,7 +97,7 @@ export default function Home() {
       <section aria-label="Reservation call">
         <div className={s.cta}>
           <div className={s.ctaImageWrap}>
-            <img src={her} className={s.chefImg} alt="dining" />
+            <img src={her} className={s.chefImg} alt="logo" />
           </div>
           <div className={s.ctaTextWrap}>
             <h2 className={s.ctaTitle}>{t("home.cta_title")}</h2>
