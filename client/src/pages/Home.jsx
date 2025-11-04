@@ -10,7 +10,9 @@ import chef2 from "../assets/chef2.png";
 import chef3 from "../assets/chef3.png";
 import hero1 from "../assets/hero1.png";
 import hero2 from "../assets/hero2.png";
-
+import seasonal from "../assets/seasonal.jpg";
+import fast from "../assets/fast.jpg";
+import secure from "../assets/secure.webp";
 export default function Home() {
   const { t } = useTranslation();
 
@@ -75,7 +77,7 @@ export default function Home() {
           {/* Kart 1 - Fast & Fresh */}
           <div
             className={s.featureCard}
-            style={{ "--feature-bg": `url(${hero2})` }}
+            style={{ "--feature-bg": `url(${fast})` }}
           >
             <div className={s.featureInner}>
               <div className={s.featureFront}>
@@ -91,7 +93,7 @@ export default function Home() {
           {/* Kart 2 - Seasonal & Local */}
           <div
             className={s.featureCard}
-            style={{ "--feature-bg": `url(${heroImg})` }}
+            style={{ "--feature-bg": `url(${seasonal})` }}
           >
             <div className={s.featureInner}>
               <div className={s.featureFront}>
@@ -106,7 +108,7 @@ export default function Home() {
           {/* Kart 3 - Secure Payment */}
           <div
             className={s.featureCard}
-            style={{ "--feature-bg": `url(${diningImg})` }}
+            style={{ "--feature-bg": `url(${secure})` }}
           >
             <div className={s.featureInner}>
               <div className={s.featureFront}>
