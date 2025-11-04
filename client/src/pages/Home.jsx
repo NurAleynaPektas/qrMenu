@@ -72,20 +72,50 @@ export default function Home() {
       <section className={s.features} aria-label="Why choose us">
         <h2 className={s.sectionTitle}>{t("home.why_title")}</h2>
         <div className={s.featuresGrid}>
-          <div className={s.featureCard}>
-            <div className={s.featureIcon}>⚡</div>
-            <h3 className={s.featureTitle}>{t("home.why_fast")}</h3>
-            <p className={s.featureText}>{t("home.why_fast_p")}</p>
+          {/* Kart 1 - Fast & Fresh */}
+          <div
+            className={s.featureCard}
+            style={{ "--feature-bg": `url(${hero2})` }}
+          >
+            <div className={s.featureInner}>
+              <div className={s.featureFront}>
+                <div className={s.featureIcon}>⚡</div>
+                <h3 className={s.featureTitle}>{t("home.why_fast")}</h3>
+                <p className={s.featureText}>{t("home.why_fast_p")}</p>
+              </div>
+              {/* Arka taraf: sadece görsel */}
+              <div className={s.featureBack} aria-hidden="true" />
+            </div>
           </div>
-          <div className={s.featureCard}>
-            <div className={s.featureIcon}>🥗</div>
-            <h3 className={s.featureTitle}>{t("home.why_fresh")}</h3>
-            <p className={s.featureText}>{t("home.why_fresh_p")}</p>
+
+          {/* Kart 2 - Seasonal & Local */}
+          <div
+            className={s.featureCard}
+            style={{ "--feature-bg": `url(${heroImg})` }}
+          >
+            <div className={s.featureInner}>
+              <div className={s.featureFront}>
+                <div className={s.featureIcon}>🥗</div>
+                <h3 className={s.featureTitle}>{t("home.why_fresh")}</h3>
+                <p className={s.featureText}>{t("home.why_fresh_p")}</p>
+              </div>
+              <div className={s.featureBack} aria-hidden="true" />
+            </div>
           </div>
-          <div className={s.featureCard}>
-            <div className={s.featureIcon}>💳</div>
-            <h3 className={s.featureTitle}>{t("home.why_secure")}</h3>
-            <p className={s.featureText}>{t("home.why_secure_p")}</p>
+
+          {/* Kart 3 - Secure Payment */}
+          <div
+            className={s.featureCard}
+            style={{ "--feature-bg": `url(${diningImg})` }}
+          >
+            <div className={s.featureInner}>
+              <div className={s.featureFront}>
+                <div className={s.featureIcon}>💳</div>
+                <h3 className={s.featureTitle}>{t("home.why_secure")}</h3>
+                <p className={s.featureText}>{t("home.why_secure_p")}</p>
+              </div>
+              <div className={s.featureBack} aria-hidden="true" />
+            </div>
           </div>
         </div>
       </section>
