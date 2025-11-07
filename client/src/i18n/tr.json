@@ -42,6 +42,7 @@
     "title": "Sepetiniz",
     "total": "Toplam",
     "checkout": "Siparişi Tamamla",
+    "empty": "Sepetiniz boş.",
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {

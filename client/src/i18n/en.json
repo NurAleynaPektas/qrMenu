@@ -42,6 +42,7 @@
     "title": "Your Cart",
     "total": "Total",
     "checkout": "Checkout",
+    "empty": "Your cart is empty.",
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {

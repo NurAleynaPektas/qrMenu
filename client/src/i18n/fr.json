@@ -42,6 +42,7 @@
     "title": "Votre Panier",
     "total": "Total",
     "checkout": "Passer à la Caisse",
+    "empty": "Votre panier est vide.",
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {

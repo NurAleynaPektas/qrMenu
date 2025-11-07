@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import s from "./Cart.module.css";
 import { increaseQty, decreaseQty, removeFromCart } from "../redux/cartSlice";
 
@@ -18,7 +19,15 @@ export default function Cart() {
       <h1 className={s.cartTitle}>{t("cart.title")}</h1>
 
       <div className={s.cartItems}>
-        {cartItems.length === 0 && <p>{t("cart.empty")}</p>}
+        {cartItems.length === 0 && (
+          <div className={s.emptyWrap}>
+            <p className={s.emptyText}>{t("cart.empty")}</p>
+            <Link to="/menu" className={s.backToMenuBtn}>
+              {t("home.hero_cta")}
+            </Link>
+          </div>
+        )}
+
         {cartItems.map((item) => (
           <article className={s.cartItem} key={item.id}>
             <img className={s.cartItemImg} src={item.img} alt={item.title} />
