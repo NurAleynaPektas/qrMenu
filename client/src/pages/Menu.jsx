@@ -11,7 +11,7 @@ export default function Menu() {
   const items = [
     {
       id: 1,
-      nameKey: "home.items.meatball", // 🔑 sadece key
+      nameKey: "home.items.meatball", 
       price: 180,
       img: "https://picsum.photos/400/250?food1",
     },
@@ -27,7 +27,6 @@ export default function Menu() {
       price: 60,
       img: "https://picsum.photos/400/250?food3",
     },
-    // istersen bunu da JSON'a eklersin: "lemonade": "Lemonade"
     {
       id: 4,
       nameKey: "home.items.lemonade",
@@ -46,7 +45,6 @@ export default function Menu() {
           <article className={s.card} key={it.id}>
             <img src={it.img} alt={t(it.nameKey)} loading="lazy" />
             <div className={s.info}>
-              {/* 🔥 İSİM ARTIK i18n’DEN GELİYOR */}
               <h3 className={s.cardTitle}>{t(it.nameKey)}</h3>
               <p className={s.cardPrice}>₺{it.price}</p>
               <button

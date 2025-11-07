@@ -74,7 +74,6 @@ export default function Home() {
       <section className={s.features} aria-label="Why choose us">
         <h2 className={s.sectionTitle}>{t("home.why_title")}</h2>
         <div className={s.featuresGrid}>
-          {/* Kart 1 - Fast & Fresh */}
           <div
             className={s.featureCard}
             style={{ "--feature-bg": `url(${fast})` }}
@@ -85,12 +84,10 @@ export default function Home() {
                 <h3 className={s.featureTitle}>{t("home.why_fast")}</h3>
                 <p className={s.featureText}>{t("home.why_fast_p")}</p>
               </div>
-              {/* Arka taraf: sadece görsel */}
+      
               <div className={s.featureBack} aria-hidden="true" />
             </div>
           </div>
-
-          {/* Kart 2 - Seasonal & Local */}
           <div
             className={s.featureCard}
             style={{ "--feature-bg": `url(${seasonal})` }}
@@ -104,8 +101,6 @@ export default function Home() {
               <div className={s.featureBack} aria-hidden="true" />
             </div>
           </div>
-
-          {/* Kart 3 - Secure Payment */}
           <div
             className={s.featureCard}
             style={{ "--feature-bg": `url(${secure})` }}

@@ -36,7 +36,6 @@ export default function Cart() {
               alt={t(item.nameKey)}
             />
             <div className={s.cartItemInfo}>
-              {/* 🔥 YİNE i18n KULLANIYORUZ */}
               <h3 className={s.cartItemName}>{t(item.nameKey)}</h3>
               <p className={s.cartItemPrice}>₺{item.price}</p>
             </div>

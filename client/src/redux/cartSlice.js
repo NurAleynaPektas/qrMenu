@@ -1,7 +1,5 @@
-// src/redux/cartSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
-// --- localStorage'dan oku ---
 let savedItems = [];
 if (typeof window !== "undefined") {
   const stored = window.localStorage.getItem("ff-cart");
@@ -16,7 +14,7 @@ if (typeof window !== "undefined") {
 }
 
 const initialState = {
-  items: savedItems, // ✅ varsa localStorage'dan başlat
+  items: savedItems,
 };
 
 const cartSlice = createSlice({

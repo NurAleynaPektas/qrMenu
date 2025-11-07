@@ -79,7 +79,6 @@ export default function HeroDeck({
       onTouchEnd={onTouchEnd}
     >
       <div className={s.inner}>
-        {/* Kart destesi */}
         <div className={s.deck} role="list">
           {slides.map((sl, i) => (
             <figure
@@ -92,8 +91,6 @@ export default function HeroDeck({
             </figure>
           ))}
         </div>
-
-        {/* Metin & CTA */}
         <div className={s.copy}>
           {title && <h1 className={s.title}>{title}</h1>}
           {subtitle && <p className={s.subtitle}>{subtitle}</p>}
@@ -103,8 +100,6 @@ export default function HeroDeck({
             </a>
           )}
         </div>
-
-        {/* Oklar */}
         <button
           type="button"
           className={`${s.nav} ${s.left}`}
@@ -121,8 +116,6 @@ export default function HeroDeck({
         >
           ›
         </button>
-
-        {/* Dots */}
         <div className={s.dots} aria-label="Slide controls">
           {slides.map((_, i) => (
             <button
