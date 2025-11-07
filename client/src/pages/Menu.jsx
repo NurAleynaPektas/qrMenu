@@ -34,18 +34,18 @@ export default function Menu() {
 
   return (
     <main className={s.menuPage}>
-      <h1 className={s.title}>
-        {t("home.title") }
-      </h1>
+      <h1 className={s.title}>{t("home.title")}</h1>
       <p className={s.subtitle}>{t("home.about_p2")}</p>
 
       <section className={s.grid}>
         {items.map((it) => (
           <article className={s.card} key={it.id}>
             <img src={it.img} alt={it.title} loading="lazy" />
-            <h3 className={s.cardTitle}>{it.title}</h3>
-            <p className={s.cardPrice}>₺{it.price}</p>
-            <button className={s.cardBtn}>{t("home.add")}</button>
+            <div className={s.info}>
+              <h3 className={s.cardTitle}>{it.title}</h3>
+              <p className={s.cardPrice}>₺{it.price}</p>
+              <button className={s.cardBtn}>{t("home.add")}</button>
+            </div>
           </article>
         ))}
       </section>
