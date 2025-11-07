@@ -35,7 +35,8 @@
     "items": {
       "meatball": "Köfte Menü",
       "ayran": "Ayran",
-      "souffle": "Sufle"
+      "souffle": "Sufle",
+      "lemonade": "Limonata"
     }
   },
   "cart": {
@@ -46,8 +47,7 @@
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {
-      "burger": "Klasik Burger",
-      "lemonade": "Limonata"
+      "burger": "Klasik Burger"
     }
   },
   "checkout": {

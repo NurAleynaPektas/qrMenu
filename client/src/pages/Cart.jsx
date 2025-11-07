@@ -35,17 +35,38 @@ export default function Cart() {
               src={item.img}
               alt={t(item.nameKey)}
             />
+
             <div className={s.cartItemInfo}>
               <h3 className={s.cartItemName}>{t(item.nameKey)}</h3>
               <p className={s.cartItemPrice}>₺{item.price}</p>
             </div>
+
             <div className={s.cartItemControls}>
-              <button onClick={() => dispatch(decreaseQty(item.id))}>-</button>
-              <span>{item.quantity}</span>
-              <button onClick={() => dispatch(increaseQty(item.id))}>+</button>
-              <button onClick={() => dispatch(removeFromCart(item.id))}>
+              <button
+                className={s.removeBtn}
+                onClick={() => dispatch(removeFromCart(item.id))}
+                aria-label="Remove item"
+              >
                 ✕
               </button>
+
+              <div className={s.qtyGroup}>
+                <button
+                  className={s.qtyBtn}
+                  onClick={() => dispatch(decreaseQty(item.id))}
+                  aria-label="Decrease quantity"
+                >
+                  −
+                </button>
+                <span className={s.qtyValue}>{item.quantity}</span>
+                <button
+                  className={s.qtyBtn}
+                  onClick={() => dispatch(increaseQty(item.id))}
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
             </div>
           </article>
         ))}

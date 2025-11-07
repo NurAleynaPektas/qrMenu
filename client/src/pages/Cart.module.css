@@ -4,6 +4,8 @@
   box-sizing: border-box;
 }
 
+/* MOBILE FIRST */
+
 .cartPage {
   padding: 24px 16px;
   background: var(--bg);
@@ -15,7 +17,7 @@
   text-align: center;
   margin: 8px 0 24px;
   color: var(--text);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
 }
 
@@ -41,7 +43,6 @@
   overflow: hidden;
 }
 
-/* Görsel */
 .cartItemImg {
   flex: 0 0 auto;
   width: 72px;
@@ -56,11 +57,11 @@
 }
 
 .cartItemName {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text);
   font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
+   white-space: normal; 
+  overflow: visible;
   text-overflow: ellipsis;
 }
 
@@ -73,30 +74,62 @@
 
 .cartItemControls {
   flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
-.cartItemControls button {
-  background: #f7f7f7;
-  color: var(--accent);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
-  font-weight: 800;
+.removeBtn {
+  display: flex;
+  margin-bottom: 20px;
+  background: transparent;
+  border: none;
+  color: rgb(251, 4, 4);
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  padding: 2px;
 }
-.cartItemControls button:hover {
+
+.qtyGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f7f7f7;
+}
+
+.qtyBtn {
+  background: #fff;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  width: 34px;
+  height: 34px;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.08s ease;
+}
+
+.qtyBtn:active {
+  transform: translateY(1px);
+}
+
+.qtyBtn:hover {
   color: var(--accent-dark);
 }
-.cartItemControls span {
+
+.qtyValue {
   font-weight: 800;
-  min-width: 16px;
+  min-width: 20px;
   text-align: center;
+  font-size: 15px;
 }
 
 .cartSummary {
@@ -117,12 +150,13 @@
   font-weight: 700;
   color: var(--text);
 }
+
 .cartTotal span {
   color: var(--accent);
 }
 
 .checkoutBtn {
- background: #fff;
+  background: #fff;
   color: var(--accent);
   border: 1px solid var(--border);
   padding: 12px 18px;
@@ -130,15 +164,18 @@
   font-weight: 800;
   font-size: 16px;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.08s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.08s ease;
 }
+
 .checkoutBtn:hover {
-   background: var(--accent);
+  background: var(--accent);
   color: var(--bg);
 }
+
 .checkoutBtn:active {
   transform: translateY(1px);
 }
+
 .emptyWrap {
   text-align: center;
   padding: 40px 0;
@@ -166,38 +203,73 @@
   color: var(--bg);
 }
 
-@media (max-width: 380px) {
-  .cartItemImg {
-    width: 64px;
-    height: 64px;
-  }
-  .cartItem {
-    padding: 8px;
-    gap: 10px;
-  }
-  .cartItemControls button {
-    width: 30px;
-    height: 30px;
-  }
-  .cartTitle {
-    font-size: 24px;
-  }
-  .checkoutBtn {
-    width: 100%;
-  }
-}
+
+
+/*TABLET 768px*/
 
 @media (min-width: 768px) {
   .cartPage {
-    padding: 28px;
+    padding: 28px 32px;
   }
+
   .cartTitle {
-    font-size: 32px;
+    font-size: 30px;
+    margin-bottom: 28px;
+  }
+
+  .cartItem {
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .cartItemImg {
+    width: 80px;
+    height: 80px;
+  }
+
+  .cartItemName {
+    font-size: 16px;
+  }
+
+  .cartItemPrice {
+    font-size: 15px;
+  }
+
+  .cartItemControls {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .checkoutBtn {
+    padding: 12px 22px;
   }
 }
 
+/* DESKTOP 1020px */
+
 @media (min-width: 1020px) {
   .cartPage {
-    padding: 32px;
+    padding: 32px 40px;
+  }
+
+  .cartItems {
+    max-width: 720px;
+  }
+
+  .cartSummary {
+    max-width: 720px;
+  }
+
+  .cartTitle {
+    font-size: 32px;
+  }
+
+  .cartItem {
+    padding: 14px 16px;
+  }
+
+  .cartItemControls {
+    flex-direction: column;
+    align-items: flex-end;
   }
 }
