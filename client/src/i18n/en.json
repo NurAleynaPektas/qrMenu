@@ -35,7 +35,8 @@
     "items": {
       "meatball": "Meatball Menu",
       "ayran": "Ayran",
-      "souffle": "Soufflé"
+      "souffle": "Soufflé",
+      "lemonade": "Lemonade"
     }
   },
   "cart": {
@@ -46,8 +47,7 @@
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {
-      "burger": "Classic Burger",
-      "lemonade": "Lemonade"
+      "burger": "Classic Burger"
     }
   },
   "checkout": {
