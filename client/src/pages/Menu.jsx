@@ -1,9 +1,12 @@
 import React from "react";
 import s from "./Menu.module.css";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 
 export default function Menu() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const items = [
     {
@@ -44,7 +47,12 @@ export default function Menu() {
             <div className={s.info}>
               <h3 className={s.cardTitle}>{it.title}</h3>
               <p className={s.cardPrice}>₺{it.price}</p>
-              <button className={s.cardBtn}>{t("home.add")}</button>
+              <button
+                className={s.cardBtn}
+                onClick={() => dispatch(addToCart(it))}
+              >
+                {t("home.add")}
+              </button>
             </div>
           </article>
         ))}
