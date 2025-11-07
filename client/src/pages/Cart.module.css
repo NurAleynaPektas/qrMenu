@@ -60,7 +60,7 @@
   font-size: 14px;
   color: var(--text);
   font-weight: 700;
-   white-space: normal; 
+  white-space: normal;
   overflow: visible;
   text-overflow: ellipsis;
 }
@@ -90,6 +90,9 @@
   line-height: 1;
   cursor: pointer;
   padding: 2px;
+}
+.removeBtn:hover {
+  color:  rgb(205, 2, 2);
 }
 
 .qtyGroup {
@@ -202,8 +205,6 @@
   background: var(--accent);
   color: var(--bg);
 }
-
-
 
 /*TABLET 768px*/
 
