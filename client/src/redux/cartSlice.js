@@ -1,7 +1,22 @@
+// src/redux/cartSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
+// --- localStorage'dan oku ---
+let savedItems = [];
+if (typeof window !== "undefined") {
+  const stored = window.localStorage.getItem("ff-cart");
+  if (stored) {
+    try {
+      savedItems = JSON.parse(stored);
+    } catch (err) {
+      console.error("Cart localStorage parse error:", err);
+      savedItems = [];
+    }
+  }
+}
+
 const initialState = {
-  items: [],
+  items: savedItems, // ✅ varsa localStorage'dan başlat
 };
 
 const cartSlice = createSlice({
@@ -30,10 +45,18 @@ const cartSlice = createSlice({
       const item = state.items.find((it) => it.id === action.payload);
       if (item && item.quantity > 1) item.quantity -= 1;
     },
+    clearCart: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { addToCart, removeFromCart, increaseQty, decreaseQty } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  increaseQty,
+  decreaseQty,
+  clearCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
