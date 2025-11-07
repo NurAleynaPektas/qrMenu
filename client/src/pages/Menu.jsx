@@ -11,25 +11,26 @@ export default function Menu() {
   const items = [
     {
       id: 1,
-      title: "Grilled Steak",
+      nameKey: "home.items.meatball", // 🔑 sadece key
       price: 180,
       img: "https://picsum.photos/400/250?food1",
     },
     {
       id: 2,
-      title: "Fresh Salad",
+      nameKey: "home.items.ayran",
       price: 90,
       img: "https://picsum.photos/400/250?food2",
     },
     {
       id: 3,
-      title: "Souffle",
+      nameKey: "home.items.souffle",
       price: 60,
       img: "https://picsum.photos/400/250?food3",
     },
+    // istersen bunu da JSON'a eklersin: "lemonade": "Lemonade"
     {
       id: 4,
-      title: "Lemonade",
+      nameKey: "home.items.lemonade",
       price: 35,
       img: "https://picsum.photos/400/250?drink",
     },
@@ -43,9 +44,10 @@ export default function Menu() {
       <section className={s.grid}>
         {items.map((it) => (
           <article className={s.card} key={it.id}>
-            <img src={it.img} alt={it.title} loading="lazy" />
+            <img src={it.img} alt={t(it.nameKey)} loading="lazy" />
             <div className={s.info}>
-              <h3 className={s.cardTitle}>{it.title}</h3>
+              {/* 🔥 İSİM ARTIK i18n’DEN GELİYOR */}
+              <h3 className={s.cardTitle}>{t(it.nameKey)}</h3>
               <p className={s.cardPrice}>₺{it.price}</p>
               <button
                 className={s.cardBtn}

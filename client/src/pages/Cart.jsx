@@ -30,9 +30,14 @@ export default function Cart() {
 
         {cartItems.map((item) => (
           <article className={s.cartItem} key={item.id}>
-            <img className={s.cartItemImg} src={item.img} alt={item.title} />
+            <img
+              className={s.cartItemImg}
+              src={item.img}
+              alt={t(item.nameKey)}
+            />
             <div className={s.cartItemInfo}>
-              <h3 className={s.cartItemName}>{item.title}</h3>
+              {/* 🔥 YİNE i18n KULLANIYORUZ */}
+              <h3 className={s.cartItemName}>{t(item.nameKey)}</h3>
               <p className={s.cartItemPrice}>₺{item.price}</p>
             </div>
             <div className={s.cartItemControls}>
