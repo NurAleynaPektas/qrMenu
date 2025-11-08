@@ -32,6 +32,8 @@
     "drinks": "Boissons",
     "desserts": "Desserts",
     "add": "+ Ajouter",
+    "added_title": "Succès",
+  "added_msg": "ajouté au panier.",
     "items": {
       "meatball": "Menu Boulettes",
       "ayran": "Ayran",
@@ -42,7 +44,7 @@
   "cart": {
     "title": "Votre Panier",
     "total": "Total",
-    "checkout": "Passer à la Caisse",
+    "checkout": "Paiement",
     "empty": "Votre panier est vide.",
     "qty_minus": "-",
     "qty_plus": "+",

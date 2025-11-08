@@ -32,6 +32,8 @@
     "drinks": "Drinks",
     "desserts": "Desserts",
     "add": "+ Add",
+  "added_title": "Success",
+  "added_msg": "added to cart.",
     "items": {
       "meatball": "Meatball Menu",
       "ayran": "Ayran",

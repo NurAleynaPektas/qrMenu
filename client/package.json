@@ -11,10 +11,13 @@
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.6",
+    "@reduxjs/toolkit": "^2.10.1",
     "i18next": "^25.6.0",
+    "izitoast": "^1.4.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-i18next": "^16.2.3",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.4"
   },
   "devDependencies": {

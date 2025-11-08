@@ -29,9 +29,11 @@
     "cta_btn": "Siparişe Başla",
     "title": "Menü",
     "meals": "Yemekler",
-    "drinks": "İçecekler",
+    "drinks": "Içecekler",
     "desserts": "Tatlılar",
     "add": "+ Ekle",
+    "added_title": "Başarılı",
+    "added_msg": "Sepete eklendi.",
     "items": {
       "meatball": "Köfte Menü",
       "ayran": "Ayran",
