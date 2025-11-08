@@ -190,6 +190,25 @@
   color: var(--text);
 }
 
+.logoutIconBtn {
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.logoutIconBtn:hover {
+  background: var(--accent-light);
+  transform: rotate(-8deg);
+}
+
+
 /* Tablet & üstü */
 @media (min-width: 768px) {
   .navbar {
