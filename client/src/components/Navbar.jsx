@@ -1,13 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import s from "./Navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const langRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.auth.user);
 
   const changeLang = (lng) => {
     i18n.changeLanguage(lng);
@@ -28,6 +34,12 @@ const Navbar = () => {
 
   const current = (i18n.language || "en").toUpperCase().slice(0, 2);
 
+  const handleLogout = () => {
+    dispatch(logout());
+    setOpen(false);
+    navigate("/");
+  };
+
   return (
     <header className={s.navbar}>
       <Link className={s.navbarLogo} to="/" onClick={() => setOpen(false)}>
@@ -35,22 +47,47 @@ const Navbar = () => {
       </Link>
 
       <nav className={`${s.navbarRight} ${open ? s.showMenu : ""}`}>
-        {/* Home */}
+        {/* Home her zaman var */}
         <Link to="/" onClick={() => setOpen(false)}>
           {t("nav.home")}
         </Link>
 
-        {/* Menu */}
-        <Link to="/menu" onClick={() => setOpen(false)}>
-          {t("nav.menu")}
-        </Link>
+        {/* Sadece login OLDUKTAN SONRA görünenler */}
+        {user && (
+          <>
+            <Link to="/menu" onClick={() => setOpen(false)}>
+              {t("nav.menu")}
+            </Link>
+            <Link to="/cart" onClick={() => setOpen(false)}>
+              {t("nav.my_cart")}
+            </Link>
+          </>
+        )}
 
-        {/* Cart */}
-        <Link to="/cart" onClick={() => setOpen(false)}>
-          {t("nav.my_cart")}
-        </Link>
+        {/* Auth alanı */}
+        <div className={s.authArea}>
+          {user ? (
+            <>
+              <span className={s.userName}>{user.name || user.email}</span>
+              <button className={s.logoutBtn} onClick={handleLogout}>
+                {t("auth.logout") || "Logout"}
+              </button>
+            </>
+          ) : (
+            <>
+              {/* Sadece TEK buton: Login */}
+              <Link
+                to="/login"
+                className={s.authLinkAccent}
+                onClick={() => setOpen(false)}
+              >
+                {t("auth.login") || "Login"}
+              </Link>
+            </>
+          )}
+        </div>
 
-        {/* Language dropdown */}
+        {/* Dil seçimi */}
         <div className={s.langMenuWrap} ref={langRef}>
           <button
             className={s.langToggle}

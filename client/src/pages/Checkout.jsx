@@ -1,8 +1,21 @@
 import { useTranslation } from "react-i18next";
 import s from "./Checkout.module.css";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Checkout() {
   const { t } = useTranslation();
+  const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login", { replace: true, state: { from: "/checkout" } });
+    }
+  }, [user, navigate]);
+
+  if (!user) return null; 
 
   return (
     <main className={s.checkoutPage}>

@@ -32,8 +32,8 @@
     "drinks": "Drinks",
     "desserts": "Desserts",
     "add": "+ Add",
-  "added_title": "Success",
-  "added_msg": "added to cart.",
+    "added_title": "Success",
+    "added_msg": "added to cart.",
     "items": {
       "meatball": "Meatball Menu",
       "ayran": "Ayran",
@@ -72,11 +72,27 @@
     "sign_in": "Sign In",
     "dashboard_title": "Admin Dashboard"
   },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "fill_all": "Please fill all fields.",
+    "password_short": "Password must be at least 4 characters.",
+    "no_account": "No registered user found. Please create an account first.",
+    "no_account_q": "Don't have an account?",
+    "have_account": "Already have an account?",
+    "error": "Something went wrong. Please try again.",
+    "invalid": "Invalid email or password.",
+    "login_sub": "Sign in to continue to the menu and cart.",
+    "register_sub": "Create an account to save your orders and preferences."
+  },
   "notFound": {
-  "metaTitle": "Page not found — 404",
-  "title": "Page not found",
-  "subtitle": "We couldn’t load the page you’re looking for. You can continue from the homepage.",
-  "cta": "Go home"
-}
-
+    "metaTitle": "Page not found — 404",
+    "title": "Page not found",
+    "subtitle": "We couldn’t load the page you’re looking for. You can continue from the homepage.",
+    "cta": "Go home"
+  }
 }

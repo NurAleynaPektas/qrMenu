@@ -33,12 +33,12 @@
     "desserts": "Desserts",
     "add": "+ Ajouter",
     "added_title": "Succès",
-  "added_msg": "ajouté au panier.",
+    "added_msg": "ajouté au panier.",
     "items": {
       "meatball": "Menu Boulettes",
       "ayran": "Ayran",
       "souffle": "Soufflé",
-        "lemonade": "Limonade"
+      "lemonade": "Limonade"
     }
   },
   "cart": {
@@ -73,11 +73,27 @@
     "sign_in": "Se Connecter",
     "dashboard_title": "Tableau de Bord"
   },
+  "auth": {
+    "login": "Se connecter",
+    "register": "Créer un compte",
+    "logout": "Se déconnecter",
+    "name": "Nom",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "fill_all": "Veuillez remplir tous les champs.",
+    "password_short": "Le mot de passe doit contenir au moins 4 caractères.",
+    "no_account": "Aucun utilisateur enregistré. Veuillez d'abord créer un compte.",
+    "no_account_q": "Vous n'avez pas de compte ?",
+    "have_account": "Vous avez déjà un compte ?",
+    "error": "Une erreur s'est produite. Veuillez réessayer.",
+    "invalid": "E-mail ou mot de passe incorrect.",
+    "login_sub": "Connectez-vous pour continuer vers le menu et le panier.",
+    "register_sub": "Créez un compte pour enregistrer vos commandes et préférences."
+  },
   "notFound": {
-  "metaTitle": "Page introuvable — 404",
-  "title": "Page introuvable",
-  "subtitle": "Nous n’avons pas pu charger la page recherchée. Vous pouvez continuer depuis la page d’accueil.",
-  "cta": "Accueil"
-}
-
+    "metaTitle": "Page introuvable — 404",
+    "title": "Page introuvable",
+    "subtitle": "Nous n’avons pas pu charger la page recherchée. Vous pouvez continuer depuis la page d’accueil.",
+    "cta": "Accueil"
+  }
 }

@@ -1,11 +1,15 @@
 .navbar {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
+  background: #fff;
 }
+
 
 .navbarLogo {
   text-decoration: none;
@@ -14,7 +18,9 @@
   font-size: 20px;
   line-height: 1;
 }
-.navbarLogo:hover { color: var(--accent); }
+.navbarLogo:hover {
+  color: var(--accent);
+}
 
 .burger {
   display: flex;
@@ -39,7 +45,7 @@
 .navbarRight {
   position: absolute;
   top: 100%;
-  right: 12px;
+  right: 16px;
   background-color: #fff;
   border: 1px solid var(--border);
   box-shadow: 0 8px 20px var(--shadow);
@@ -47,28 +53,81 @@
   padding: 12px 16px;
   display: none;
   flex-direction: column;
-  align-items: center;
-  min-width: 100px;
-  z-index: 10;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 180px;
+  z-index: 200;
 }
-.showMenu { display: flex; }
+.showMenu {
+  display: flex;
+}
+
 
 .navbarRight a {
+  display: block;
+  width: 100%;
   text-decoration: none;
   color: var(--text);
   font-weight: 500;
   font-size: 16px;
   line-height: 1.4;
-  padding: 8px 0;
-  text-transform: none;
+  padding: 6px 0;
+  text-align: center;
 }
-.navbarRight a:hover { color: var(--accent); }
+.navbarRight a:hover {
+  border-radius: 999px;
+   box-shadow: 0 4px 14px rgba(4, 73, 211, 0.22);
+}
 
-/* Language dropdown */
+
+.authArea {
+  display: flex;
+  flex-direction: column; 
+  align-items: stretch;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  text-align: center;
+}
+
+.logoutBtn,
+.authLink,
+.authLinkAccent {
+  border: none;
+  background: transparent;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;            
+  text-align: center;
+}
+
+.authLink {
+  color: var(--accent);
+}
+
+
+.logoutBtn:hover,
+.authLink:hover,
+.authLinkAccent:hover {
+  box-shadow: 0 4px 14px rgba(4, 73, 211, 0.22);
+}
+
 .langMenuWrap {
   position: relative;
-  margin-top: 8px; 
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
 }
+
 .langToggle {
   display: inline-flex;
   align-items: center;
@@ -81,14 +140,20 @@
   padding: 6px 10px;
   border-radius: 10px;
   cursor: pointer;
-  transition: background .2s ease, border-color .2s ease, color .2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 .langToggle:hover {
   background: var(--accent-light);
   border-color: var(--accent);
 }
-.globe { font-size: 16px; line-height: 1; }
-.langCode { font-size: 12px; opacity: .8; }
+.globe {
+  font-size: 16px;
+  line-height: 1;
+}
+.langCode {
+  font-size: 12px;
+  opacity: 0.8;
+}
 
 .langMenu {
   position: absolute;
@@ -103,7 +168,9 @@
   display: none;
   list-style: none;
 }
-.showLangMenu { display: block; }
+.showLangMenu {
+  display: block;
+}
 
 .langItem {
   width: 100%;
@@ -116,8 +183,7 @@
   padding: 10px 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background .2s ease, color .2s ease;
-  
+  transition: background 0.2s ease, color 0.2s ease;
 }
 .langItem:hover {
   background: var(--accent-light);
@@ -126,8 +192,13 @@
 
 /* Tablet & üstü */
 @media (min-width: 768px) {
-  .navbar { padding: 12px 32px; }
-  .burger { display: none; }
+  .navbar {
+    padding: 12px 32px;
+  }
+
+  .burger {
+    display: none;
+  }
 
   .navbarRight {
     position: static;
@@ -140,16 +211,32 @@
     border-radius: 0;
     padding: 0;
     min-width: auto;
-    gap: 20px;
+    gap: 24px;
   }
 
   .navbarRight a {
-    font-size: 18px;
+    width: auto;
+    padding: 0;
+    font-size: 16px;
     font-weight: 600;
     line-height: 1;
-    padding: 0;
-    transition: color 0.25s ease;
+    text-align: left;
   }
 
-  .langMenuWrap { margin-top: 0; }
+  .authArea {
+    flex-direction: row;  
+    align-items: center;
+    gap: 8px;
+    margin-top: 0;
+  }
+
+  .logoutBtn,
+  .authLink,
+  .authLinkAccent {
+    width: auto;
+  }
+
+  .langMenuWrap {
+    margin-top: 0;
+  }
 }
