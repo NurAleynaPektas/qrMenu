@@ -87,7 +87,9 @@
     "error": "Bir hata oluştu. Lütfen tekrar deneyin.",
     "invalid": "E-posta veya şifre hatalı.",
     "login_sub": "Menü ve sepetinize devam etmek için giriş yapın.",
-    "register_sub": "Siparişlerinizi ve tercihlerinizi kaydetmek için hesap oluşturun."
+    "register_sub": "Siparişlerinizi ve tercihlerinizi kaydetmek için hesap oluşturun.",
+    "login_to_add": "Sepete ürün eklemek için lütfen giriş yapın."
+
   },
   "notFound": {
     "metaTitle": "Sayfa bulunamadı — 404",

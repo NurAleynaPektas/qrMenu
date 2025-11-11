@@ -88,7 +88,9 @@
     "error": "Une erreur s'est produite. Veuillez réessayer.",
     "invalid": "E-mail ou mot de passe incorrect.",
     "login_sub": "Connectez-vous pour continuer vers le menu et le panier.",
-    "register_sub": "Créez un compte pour enregistrer vos commandes et préférences."
+    "register_sub": "Créez un compte pour enregistrer vos commandes et préférences.",
+      "login_to_add": "Veuillez vous connecter pour ajouter des articles à votre panier."
+
   },
   "notFound": {
     "metaTitle": "Page introuvable — 404",

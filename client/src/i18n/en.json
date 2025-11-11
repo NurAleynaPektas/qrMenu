@@ -87,7 +87,9 @@
     "error": "Something went wrong. Please try again.",
     "invalid": "Invalid email or password.",
     "login_sub": "Sign in to continue to the menu and cart.",
-    "register_sub": "Create an account to save your orders and preferences."
+    "register_sub": "Create an account to save your orders and preferences.",
+    "login_to_add": "Please login to add items to your cart."
+
   },
   "notFound": {
     "metaTitle": "Page not found — 404",

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/authSlice";
+import { setCredentials } from "../redux/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 import s from "./Auth.module.css";
 
@@ -31,11 +31,21 @@ export default function Register() {
       return;
     }
 
-    // Fake kayıt (sadece localStorage)
+    // Fake kayıt (backend yerine localStorage)
     const creds = { name, email, password };
     window.localStorage.setItem("ff-credentials", JSON.stringify(creds));
 
-    dispatch(setUser({ name, email }));
+    // 🔐 Şimdilik fake JWT token
+    const fakeToken = "fake-jwt-token-for-" + email;
+
+    dispatch(
+      setCredentials({
+        user: { name, email },
+        token: fakeToken,
+        isAdmin: false,
+      })
+    );
+
     navigate("/", { replace: true });
   };
 

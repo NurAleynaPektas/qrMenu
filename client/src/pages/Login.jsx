@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/authSlice";
+import { setCredentials } from "../redux/authSlice";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import s from "./Auth.module.css";
 
@@ -48,7 +48,17 @@ export default function Login() {
       return;
     }
 
-    dispatch(setUser({ name: saved.name, email: saved.email }));
+    // 🔐 Şimdilik fake JWT token
+    const fakeToken = "fake-jwt-token-for-" + saved.email;
+
+    dispatch(
+      setCredentials({
+        user: { name: saved.name, email: saved.email },
+        token: fakeToken,
+        isAdmin: false,
+      })
+    );
+
     navigate(from, { replace: true });
   };
 

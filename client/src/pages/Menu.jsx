@@ -1,13 +1,18 @@
 import React from "react";
 import s from "./Menu.module.css";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 import iziToast from "izitoast";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Menu() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const user = useSelector((state) => state.auth.user);
 
   const items = [
     {
@@ -37,6 +42,22 @@ export default function Menu() {
   ];
 
   const handleAddToCart = (item) => {
+    if (!user) {
+      iziToast.show({
+        title: t("auth.login") || "Login",
+        message:
+          t("auth.login_to_add") || "Please login to add items to your cart.",
+        backgroundColor: "#b91c1c",
+        titleColor: "#ffffff",
+        messageColor: "#fef2f2",
+        position: "topCenter",
+        timeout: 3500,
+        progressBar: true,
+      });
+
+      navigate("/login", { state: { from: location.pathname } });
+      return;
+    }
     dispatch(addToCart(item));
 
     iziToast.show({
