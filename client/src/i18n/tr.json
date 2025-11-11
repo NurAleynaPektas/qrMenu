@@ -83,7 +83,11 @@
   "time": "Saat",
   "status_pending": "Beklemede",
   "status_preparing": "Hazırlanıyor",
-  "status_completed": "Tamamlandı"
+  "status_completed": "Tamamlandı",
+  "filter_all": "Tümü",
+"search_placeholder": "Sipariş, masa veya ürüne göre ara...",
+"no_orders": "Mevcut filtreye göre sipariş bulunamadı."
+
 }
 
 

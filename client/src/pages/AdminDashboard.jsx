@@ -43,10 +43,12 @@ export default function AdminDashboard() {
   const { t } = useTranslation();
   const admin = useSelector((state) => state.auth.user);
 
-  // 🔥 Artık siparişleri state'te tutuyoruz
+  // 🔥 State'ler
   const [orders, setOrders] = useState(initialOrders);
+  const [statusFilter, setStatusFilter] = useState("all"); // all | pending | preparing | completed
+  const [search, setSearch] = useState("");
 
-  // İstatistikler her seferinde tekrar hesaplanmasın diye useMemo kullanalım
+  // İstatistikler (her zaman tüm orders üzerinden)
   const { totalOrders, pendingCount, completedCount, totalRevenue } =
     useMemo(() => {
       const totalOrders = orders.length;
@@ -59,7 +61,25 @@ export default function AdminDashboard() {
       return { totalOrders, pendingCount, completedCount, totalRevenue };
     }, [orders]);
 
-  // Tablo içindeki select'ten status değiştirildiğinde çalışacak
+  // Filtrelenmiş + arama uygulanmış liste
+  const filteredOrders = useMemo(() => {
+    return orders.filter((o) => {
+      // Status filtresi
+      if (statusFilter !== "all" && o.status !== statusFilter) {
+        return false;
+      }
+
+      // Arama
+      if (!search.trim()) return true;
+
+      const q = search.toLowerCase();
+      const haystack = `${o.id} ${o.items} ${o.table}`.toLowerCase();
+
+      return haystack.includes(q);
+    });
+  }, [orders, statusFilter, search]);
+
+  // Status güncelleme
   const updateStatus = (id, newStatus) => {
     setOrders((prev) =>
       prev.map((o) =>
@@ -142,6 +162,58 @@ export default function AdminDashboard() {
         </div>
       </section>
 
+      <section className={s.filtersBar}>
+        <div className={s.filterChips}>
+          <button
+            type="button"
+            className={`${s.filterChip} ${
+              statusFilter === "all" ? s.filterChipActive : ""
+            }`}
+            onClick={() => setStatusFilter("all")}
+          >
+            {t("admin.filter_all") || "All"}
+          </button>
+          <button
+            type="button"
+            className={`${s.filterChip} ${
+              statusFilter === "pending" ? s.filterChipActive : ""
+            }`}
+            onClick={() => setStatusFilter("pending")}
+          >
+            {t("admin.status_pending") || "Pending"}
+          </button>
+          <button
+            type="button"
+            className={`${s.filterChip} ${
+              statusFilter === "preparing" ? s.filterChipActive : ""
+            }`}
+            onClick={() => setStatusFilter("preparing")}
+          >
+            {t("admin.status_preparing") || "Preparing"}
+          </button>
+          <button
+            type="button"
+            className={`${s.filterChip} ${
+              statusFilter === "completed" ? s.filterChipActive : ""
+            }`}
+            onClick={() => setStatusFilter("completed")}
+          >
+            {t("admin.status_completed") || "Completed"}
+          </button>
+        </div>
+
+        <input
+          className={s.searchInput}
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={
+            t("admin.search_placeholder") ||
+            "Search by order, table or items..."
+          }
+        />
+      </section>
+
       {/* Tablo - sipariş listesi */}
       <section className={s.tableSection}>
         <h2 className={s.sectionTitle}>
@@ -160,39 +232,50 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody>
-              {orders.map((o) => (
-                <tr key={o.id}>
-                  <td>{o.id}</td>
-                  <td>{o.table}</td>
-                  <td>{o.items}</td>
-                  <td>₺{o.total}</td>
-                  <td>
-                    <div className={s.statusCell}>
-                      <span
-                        className={`${s.statusChip} ${s["status_" + o.status]}`}
-                      >
-                        {statusLabel(o.status)}
-                      </span>
-                      <select
-                        className={s.statusSelect}
-                        value={o.status}
-                        onChange={(e) => updateStatus(o.id, e.target.value)}
-                      >
-                        <option value="pending">
-                          {t("admin.status_pending") || "Beklemede"}
-                        </option>
-                        <option value="preparing">
-                          {t("admin.status_preparing") || "Hazırlanıyor"}
-                        </option>
-                        <option value="completed">
-                          {t("admin.status_completed") || "Tamamlandı"}
-                        </option>
-                      </select>
-                    </div>
+              {filteredOrders.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className={s.emptyRow}>
+                    {t("admin.no_orders") ||
+                      "No orders found for the current filter."}
                   </td>
-                  <td>{o.time}</td>
                 </tr>
-              ))}
+              ) : (
+                filteredOrders.map((o) => (
+                  <tr key={o.id}>
+                    <td>{o.id}</td>
+                    <td>{o.table}</td>
+                    <td>{o.items}</td>
+                    <td>₺{o.total}</td>
+                    <td>
+                      <div className={s.statusCell}>
+                        <span
+                          className={`${s.statusChip} ${
+                            s["status_" + o.status]
+                          }`}
+                        >
+                          {statusLabel(o.status)}
+                        </span>
+                        <select
+                          className={s.statusSelect}
+                          value={o.status}
+                          onChange={(e) => updateStatus(o.id, e.target.value)}
+                        >
+                          <option value="pending">
+                            {t("admin.status_pending") || "Beklemede"}
+                          </option>
+                          <option value="preparing">
+                            {t("admin.status_preparing") || "Hazırlanıyor"}
+                          </option>
+                          <option value="completed">
+                            {t("admin.status_completed") || "Tamamlandı"}
+                          </option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>{o.time}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

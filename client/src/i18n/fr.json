@@ -84,7 +84,11 @@
   "time": "Heure",
   "status_pending": "Attente",
   "status_preparing": "Préparation",
-  "status_completed": "Terminée"
+  "status_completed": "Terminée",
+  "filter_all": "Tous",
+"search_placeholder": "Rechercher par commande, table ou article...",
+"no_orders": "Aucune commande trouvée pour ce filtre."
+
 }
 
 ,

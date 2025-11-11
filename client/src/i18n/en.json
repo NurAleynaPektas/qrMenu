@@ -83,7 +83,11 @@
   "time": "Time",
   "status_pending": "Pending",
   "status_preparing": "Preparing",
-  "status_completed": "Completed"
+  "status_completed": "Completed",
+  "filter_all": "All",
+"search_placeholder": "Search by order, table or items...",
+"no_orders": "No orders found for the current filter."
+
 }
 ,
   "auth": {
