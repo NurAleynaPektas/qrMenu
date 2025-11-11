@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice";
-import { LogOut } from "lucide-react"; // ✅ ikon eklendi
+import { LogOut } from "lucide-react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -14,7 +14,8 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector((state) => state.auth.user);
+  // ✅ hem user hem isAdmin alalım
+  const { user, isAdmin } = useSelector((state) => state.auth);
 
   const changeLang = (lng) => {
     i18n.changeLanguage(lng);
@@ -48,10 +49,12 @@ const Navbar = () => {
       </Link>
 
       <nav className={`${s.navbarRight} ${open ? s.showMenu : ""}`}>
+        {/* Home her zaman var */}
         <Link to="/" onClick={() => setOpen(false)}>
           {t("nav.home")}
         </Link>
 
+        {/* Sadece login OLDUKTAN SONRA görünenler */}
         {user && (
           <>
             <Link to="/menu" onClick={() => setOpen(false)}>
@@ -63,12 +66,30 @@ const Navbar = () => {
           </>
         )}
 
+        {/* 🔐 Admin linki */}
+        {isAdmin ? (
+          <Link
+            to="/admin/dashboard"
+            onClick={() => setOpen(false)}
+            className={s.adminLink}
+          >
+            Admin
+          </Link>
+        ) : (
+          <Link
+            to="/admin/login"
+            onClick={() => setOpen(false)}
+            className={s.adminLink}
+          >
+            Admin
+          </Link>
+        )}
+
+        {/* Auth alanı */}
         <div className={s.authArea}>
           {user ? (
             <>
               <span className={s.userName}>{user.name || user.email}</span>
-
-              {/* ✅ sadece ikon olarak logout */}
               <button
                 className={s.logoutIconBtn}
                 onClick={handleLogout}
@@ -89,6 +110,7 @@ const Navbar = () => {
           )}
         </div>
 
+        {/* Dil seçimi */}
         <div className={s.langMenuWrap} ref={langRef}>
           <button
             className={s.langToggle}

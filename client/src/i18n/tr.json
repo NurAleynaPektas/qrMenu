@@ -65,13 +65,29 @@
       "lemonade_x2": "Limonata x2"
     }
   },
-  "admin": {
-    "login_title": "Admin Girişi",
-    "email": "E-posta",
-    "password": "Şifre",
-    "sign_in": "Giriş Yap",
-    "dashboard_title": "Admin Paneli"
-  },
+"admin": {
+  "login_title": "Admin Girişi",
+  "email": "E-posta",
+  "password": "Şifre",
+  "sign_in": "Giriş Yap",
+  "dashboard_title": "Admin Paneli",
+  "dashboard_sub": "Tüm siparişleri, masaları ve ciroyu tek ekranda takip edin.",
+  "logged_in_as": "Giriş yapan",
+  "total_orders": "Toplam Sipariş",
+  "pending_orders": "Beklemede",
+  "completed_orders": "Tamamlanan",
+  "revenue_today": "Ciro (Bugün)",
+  "latest_orders": "Son Siparişler",
+  "order_id": "Sipariş",
+  "status": "Durum",
+  "time": "Saat",
+  "status_pending": "Beklemede",
+  "status_preparing": "Hazırlanıyor",
+  "status_completed": "Tamamlandı"
+}
+
+
+,
   "auth": {
     "login": "Giriş Yap",
     "register": "Kayıt Ol",

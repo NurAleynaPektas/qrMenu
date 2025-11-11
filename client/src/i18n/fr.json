@@ -66,13 +66,28 @@
       "lemonade_x2": "Citronnade x2"
     }
   },
-  "admin": {
-    "login_title": "Connexion Admin",
-    "email": "E-mail",
-    "password": "Mot de passe",
-    "sign_in": "Se Connecter",
-    "dashboard_title": "Tableau de Bord"
-  },
+ "admin": {
+  "login_title": "Connexion Admin",
+  "email": "E-mail",
+  "password": "Mot de passe",
+  "sign_in": "Se connecter",
+  "dashboard_title": "Tableau de Bord",
+  "dashboard_sub": "Suivez les commandes, les tables et le chiffre d'affaires au même endroit.",
+  "logged_in_as": "Connecté en tant que",
+  "total_orders": "Commandes totales",
+  "pending_orders": "En attente",
+  "completed_orders": "Terminées",
+  "revenue_today": "Chiffre d'affaires (aujourd'hui)",
+  "latest_orders": "Dernières commandes",
+  "order_id": "Commande",
+  "status": "Statut",
+  "time": "Heure",
+  "status_pending": "Attente",
+  "status_preparing": "Préparation",
+  "status_completed": "Terminée"
+}
+
+,
   "auth": {
     "login": "Se connecter",
     "register": "Créer un compte",

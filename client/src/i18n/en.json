@@ -65,13 +65,27 @@
       "lemonade_x2": "Lemonade x2"
     }
   },
-  "admin": {
-    "login_title": "Admin Panel Login",
-    "email": "Email",
-    "password": "Password",
-    "sign_in": "Sign In",
-    "dashboard_title": "Admin Dashboard"
-  },
+"admin": {
+  "login_title": "Admin Panel Login",
+  "email": "Email",
+  "password": "Password",
+  "sign_in": "Sign In",
+  "dashboard_title": "Admin Dashboard",
+  "dashboard_sub": "Track orders, tables and revenue in one place.",
+  "logged_in_as": "Logged in as",
+  "total_orders": "Total Orders",
+  "pending_orders": "Pending",
+  "completed_orders": "Completed",
+  "revenue_today": "Revenue (Today)",
+  "latest_orders": "Latest Orders",
+  "order_id": "Order",
+  "status": "Status",
+  "time": "Time",
+  "status_pending": "Pending",
+  "status_preparing": "Preparing",
+  "status_completed": "Completed"
+}
+,
   "auth": {
     "login": "Login",
     "register": "Register",

@@ -10,7 +10,6 @@
   background: #fff;
 }
 
-
 .navbarLogo {
   text-decoration: none;
   color: var(--text);
@@ -62,7 +61,6 @@
   display: flex;
 }
 
-
 .navbarRight a {
   display: block;
   width: 100%;
@@ -76,13 +74,12 @@
 }
 .navbarRight a:hover {
   border-radius: 999px;
-   box-shadow: 0 4px 14px rgba(4, 73, 211, 0.22);
+  box-shadow: 0 4px 14px rgba(4, 73, 211, 0.22);
 }
-
 
 .authArea {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   align-items: stretch;
   gap: 6px;
   margin-top: 4px;
@@ -106,14 +103,13 @@
   cursor: pointer;
   text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-  width: 100%;            
+  width: 100%;
   text-align: center;
 }
 
 .authLink {
   color: var(--accent);
 }
-
 
 .logoutBtn:hover,
 .authLink:hover,
@@ -208,6 +204,15 @@
   transform: rotate(-8deg);
 }
 
+.adminLink {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.adminLink:hover {
+  opacity: 1;
+  color: var(--accent);
+}
 
 /* Tablet & üstü */
 @media (min-width: 768px) {
@@ -218,7 +223,9 @@
   .burger {
     display: none;
   }
-
+  .adminLink {
+    font-size: 13px;
+  }
   .navbarRight {
     position: static;
     display: flex;
@@ -243,7 +250,7 @@
   }
 
   .authArea {
-    flex-direction: row;  
+    flex-direction: row;
     align-items: center;
     gap: 8px;
     margin-top: 0;

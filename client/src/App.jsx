@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 
 // Lazy-loaded pages
 const Home = lazy(() => import("./pages/Home"));
@@ -11,8 +12,8 @@ const Cart = lazy(() => import("./pages/Cart"));
 const Checkout = lazy(() => import("./pages/Checkout"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const Login = lazy(() => import("./pages/Login")); // ✅ yeni
-const Register = lazy(() => import("./pages/Register")); // ✅ yeni
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function ScrollToTop() {
@@ -46,9 +47,12 @@ export default function App() {
       <ScrollToTop />
       <Suspense fallback={<FallbackLoader />}>
         <Routes>
+          {/* Public */}
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/cart" element={<Cart />} />
+
+          {/* Protected: sadece login olan kullanıcı */}
           <Route
             path="/checkout"
             element={
@@ -57,10 +61,23 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Admin */}
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
+          />
+
+          {/* Auth */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
+          {/* 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
