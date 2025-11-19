@@ -13,17 +13,20 @@ export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // AdminRoute'tan geldiyse buraya düşecek
+  // AdminRoute'tan geldiysek oraya geri döneriz
   const from = location.state?.from || "/admin/dashboard";
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
+    // 🧠 Küçük normalizasyon: boşlukları kırp + email'i küçük harfe çevir
     const normalizedEmail = email.trim().toLowerCase();
     const normalizedPassword = password.trim();
 
-    // 🔐 Şimdilik hard-coded admin
+    // Debug istersen:
+    // console.log("ADMIN TRY:", { normalizedEmail, normalizedPassword });
+
     if (
       normalizedEmail === "admin@friendsfirst.com" &&
       normalizedPassword === "admin123"
@@ -38,7 +41,7 @@ export default function AdminLogin() {
         })
       );
 
-      // AdminRoute'un yönlendirdiği hedefe geri dön
+      // Başarılı giriş → AdminRoute'un istediği yere dön
       navigate(from, { replace: true });
     } else {
       setError("Invalid admin credentials.");

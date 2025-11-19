@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 let savedAuth = null;
 
-
 if (typeof window !== "undefined") {
   const raw =
     window.localStorage.getItem("ff-auth") ||
-    window.localStorage.getItem("ff-user");
+    window.localStorage.getItem("ff-user"); // eski yapı desteği
+
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
@@ -53,9 +53,10 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAdmin = false;
+
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("ff-auth");
-        window.localStorage.removeItem("ff-user"); // eski key'i de sil
+        window.localStorage.removeItem("ff-user");
       }
     },
   },

@@ -13,8 +13,6 @@ const Navbar = () => {
   const langRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // ✅ hem user hem isAdmin alalım
   const { user, isAdmin } = useSelector((state) => state.auth);
 
   const changeLang = (lng) => {
@@ -37,7 +35,6 @@ const Navbar = () => {
   const current = (i18n.language || "en").toUpperCase().slice(0, 2);
 
   const handleLogout = () => {
-    // 🔐 localStorage temizle
     if (typeof window !== "undefined") {
       window.localStorage.removeItem("ff-auth");
       window.localStorage.removeItem("ff-user");
@@ -55,12 +52,12 @@ const Navbar = () => {
       </Link>
 
       <nav className={`${s.navbarRight} ${open ? s.showMenu : ""}`}>
-        {/* Home her zaman var */}
+    
         <Link to="/" onClick={() => setOpen(false)}>
           {t("nav.home")}
         </Link>
 
-        {/* Sadece login OLDUKTAN SONRA görünenler */}
+        
         {user && (
           <>
             <Link to="/menu" onClick={() => setOpen(false)}>
@@ -72,10 +69,7 @@ const Navbar = () => {
           </>
         )}
 
-        {/* 🔐 Admin linki 
-            - Sadece admin kullanıcı görsün
-            - /admin/login URL'ini bilen kişi manuel yazarak girebilir
-        */}
+       
         {isAdmin && (
           <Link
             to="/admin/dashboard"

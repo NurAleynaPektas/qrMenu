@@ -257,6 +257,232 @@
   border-color: var(--accent);
 }
 
+.menuSection {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.menuSubtitle {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Form kartı */
+
+.menuForm {
+  margin-top: 4px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 18px var(--shadow);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menuFormRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menuFormRowBottom {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menuField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menuLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #555;
+}
+
+.menuInput {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+.menuInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.02);
+}
+
+.menuCheckboxLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #444;
+}
+
+.menuCheckboxLabel input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+}
+
+/* Form butonları */
+
+.menuActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.menuPrimaryBtn,
+.menuSecondaryBtn {
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.menuPrimaryBtn {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.menuPrimaryBtn:hover {
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+.menuSecondaryBtn {
+  background: #fff;
+  color: #444;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.menuSecondaryBtn:hover {
+  background: var(--accent-light);
+}
+
+/* Menü tablosu */
+
+.menuTableWrap {
+  margin-top: 10px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 18px var(--shadow);
+  overflow: hidden;
+  overflow-x: auto;
+}
+
+.menuTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.menuTable thead {
+  background: var(--accent-light);
+}
+
+.menuTable th,
+.menuTable td {
+  padding: 10px 12px;
+  font-size: 13px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.menuTable th {
+  font-weight: 600;
+  color: #444;
+  white-space: nowrap;
+}
+
+.menuTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Menü status badge */
+
+.menuStatusOn,
+.menuStatusOff {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.menuStatusOn {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.menuStatusOff {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Satır aksiyon butonları */
+
+.menuRowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.menuRowEdit,
+.menuRowDelete {
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: #fff;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.menuRowEdit {
+  border-color: rgba(37, 99, 235, 0.2);
+  color: #1d4ed8;
+}
+
+.menuRowEdit:hover {
+  background: #dbeafe;
+}
+
+.menuRowDelete {
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #b91c1c;
+}
+
+.menuRowDelete:hover {
+  background: #fee2e2;
+}
+
 @media (min-width: 768px) {
   .page {
     padding: 32px 32px 48px;
@@ -277,5 +503,24 @@
 
   .searchInput {
     max-width: 260px;
+  }
+
+  .menuForm {
+    padding: 16px 18px;
+  }
+
+  .menuFormRow {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .menuField {
+    flex: 1;
+  }
+
+  .menuFormRowBottom {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }

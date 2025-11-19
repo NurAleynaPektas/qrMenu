@@ -86,10 +86,27 @@
   "status_preparing": "Préparation",
   "status_completed": "Terminée",
   "filter_all": "Tous",
-"search_placeholder": "Rechercher par commande, table ou article...",
-"no_orders": "Aucune commande trouvée pour ce filtre."
+  "search_placeholder": "Rechercher par commande, table ou article...",
+  "no_orders": "Aucune commande trouvée pour ce filtre.",
 
+  "menu_management_title": "Gestion du menu",
+  "menu_management_sub": "Ajoutez, modifiez ou désactivez les articles de votre menu digital.",
+  "menu_name": "Nom",
+  "menu_price": "Prix (₺)",
+  "menu_category": "Catégorie",
+  "menu_available": "Afficher dans le menu (disponible)",
+  "menu_cancel_edit": "Annuler la modification",
+  "menu_save_changes": "Enregistrer les modifications",
+  "menu_add_item": "Ajouter un article",
+  "menu_status": "Statut",
+  "menu_actions": "Actions",
+  "menu_empty": "Aucun article pour le moment. Ajoutez votre premier plat ci-dessus.",
+  "menu_available_short": "Actif",
+  "menu_unavailable_short": "Caché",
+  "menu_edit": "Modifier",
+  "menu_delete": "Supprimer"
 }
+
 
 ,
   "auth": {

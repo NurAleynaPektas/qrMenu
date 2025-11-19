@@ -85,10 +85,27 @@
   "status_preparing": "Preparing",
   "status_completed": "Completed",
   "filter_all": "All",
-"search_placeholder": "Search by order, table or items...",
-"no_orders": "No orders found for the current filter."
+  "search_placeholder": "Search by order, table or items...",
+  "no_orders": "No orders found for the current filter.",
 
+  "menu_management_title": "Menu Management",
+  "menu_management_sub": "Add, edit or disable items on your digital menu.",
+  "menu_name": "Name",
+  "menu_price": "Price (₺)",
+  "menu_category": "Category",
+  "menu_available": "Show in menu (available)",
+  "menu_cancel_edit": "Cancel edit",
+  "menu_save_changes": "Save changes",
+  "menu_add_item": "Add item",
+  "menu_status": "Status",
+  "menu_actions": "Actions",
+  "menu_empty": "No menu items yet. Add your first dish above.",
+  "menu_available_short": "Active",
+  "menu_unavailable_short": "Hidden",
+  "menu_edit": "Edit",
+  "menu_delete": "Delete"
 }
+
 ,
   "auth": {
     "login": "Login",

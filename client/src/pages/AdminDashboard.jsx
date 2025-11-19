@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useState, useMemo } from "react";
 import s from "./AdminDashboard.module.css";
 
+// 🔹 Mock siparişler
 const initialOrders = [
   {
     id: "ORD-101",
@@ -38,16 +39,58 @@ const initialOrders = [
   },
 ];
 
+// 🔹 Mock menü ürünleri
+const initialMenuItems = [
+  {
+    id: "M-1",
+    name: "Köfte Menü",
+    price: 270,
+    category: "Ana Yemek",
+    available: true,
+  },
+  {
+    id: "M-2",
+    name: "Klasik Burger",
+    price: 220,
+    category: "Ana Yemek",
+    available: true,
+  },
+  {
+    id: "M-3",
+    name: "Sufle",
+    price: 105,
+    category: "Tatlı",
+    available: true,
+  },
+  {
+    id: "M-4",
+    name: "Limonata",
+    price: 35,
+    category: "İçecek",
+    available: false,
+  },
+];
+
 export default function AdminDashboard() {
   const { t } = useTranslation();
   const admin = useSelector((state) => state.auth.user);
 
-  // 🔥 State'ler
+  // 🔥 Orders state
   const [orders, setOrders] = useState(initialOrders);
   const [statusFilter, setStatusFilter] = useState("all"); // all | pending | preparing | completed
   const [search, setSearch] = useState("");
 
-  // İstatistikler (her zaman tüm orders üzerinden)
+  // 🔥 Menu state
+  const [menuItems, setMenuItems] = useState(initialMenuItems);
+  const [editingId, setEditingId] = useState(null);
+  const [menuForm, setMenuForm] = useState({
+    name: "",
+    price: "",
+    category: "",
+    available: true,
+  });
+
+  // İstatistikler (orders)
   const { totalOrders, pendingCount, completedCount, totalRevenue } =
     useMemo(() => {
       const totalOrders = orders.length;
@@ -60,15 +103,13 @@ export default function AdminDashboard() {
       return { totalOrders, pendingCount, completedCount, totalRevenue };
     }, [orders]);
 
-  // Filtrelenmiş + arama uygulanmış liste
+  // Filtrelenmiş + arama uygulanmış orders listesi
   const filteredOrders = useMemo(() => {
     return orders.filter((o) => {
-      // Status filtresi
       if (statusFilter !== "all" && o.status !== statusFilter) {
         return false;
       }
 
-      // Arama
       if (!search.trim()) return true;
 
       const q = search.toLowerCase();
@@ -78,7 +119,7 @@ export default function AdminDashboard() {
     });
   }, [orders, statusFilter, search]);
 
-  // Status güncelleme
+  // Orders status güncelleme
   const updateStatus = (id, newStatus) => {
     setOrders((prev) =>
       prev.map((o) =>
@@ -105,6 +146,87 @@ export default function AdminDashboard() {
     }
   };
 
+  // 🔸 Menü formu değişiklikleri
+  const handleMenuChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setMenuForm((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  // 🔸 Menü formunu resetle
+  const resetMenuForm = () => {
+    setEditingId(null);
+    setMenuForm({
+      name: "",
+      price: "",
+      category: "",
+      available: true,
+    });
+  };
+
+  // 🔸 Menü ekle / güncelle
+  const handleMenuSubmit = (e) => {
+    e.preventDefault();
+
+    const trimmedName = menuForm.name.trim();
+    if (!trimmedName) return;
+
+    const priceNumber = Number(menuForm.price);
+    if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
+
+    if (editingId) {
+      // Güncelle
+      setMenuItems((prev) =>
+        prev.map((item) =>
+          item.id === editingId
+            ? {
+                ...item,
+                name: trimmedName,
+                price: priceNumber,
+                category: menuForm.category.trim() || "Genel",
+                available: menuForm.available,
+              }
+            : item
+        )
+      );
+    } else {
+      // Yeni ekle
+      const newId =
+        "M-" + (menuItems.length + 1 + Math.floor(Math.random() * 90));
+      const newItem = {
+        id: newId,
+        name: trimmedName,
+        price: priceNumber,
+        category: menuForm.category.trim() || "Genel",
+        available: menuForm.available,
+      };
+      setMenuItems((prev) => [...prev, newItem]);
+    }
+
+    resetMenuForm();
+  };
+
+  // 🔸 Edit'e tıklayınca formu doldur
+  const handleEditClick = (item) => {
+    setEditingId(item.id);
+    setMenuForm({
+      name: item.name,
+      price: item.price,
+      category: item.category,
+      available: item.available,
+    });
+  };
+
+  // 🔸 Delete
+  const handleDeleteClick = (id) => {
+    setMenuItems((prev) => prev.filter((item) => item.id !== id));
+    if (editingId === id) {
+      resetMenuForm();
+    }
+  };
+
   return (
     <main className={s.page}>
       {/* Üst kısım - başlık + admin bilgisi */}
@@ -115,7 +237,7 @@ export default function AdminDashboard() {
           </h1>
           <p className={s.subtitle}>
             {t("admin.dashboard_sub") ||
-              "Track orders, tables and revenue in one place."}
+              "Track orders, tables and menu in one place."}
           </p>
         </div>
         {admin && (
@@ -161,6 +283,7 @@ export default function AdminDashboard() {
         </div>
       </section>
 
+      {/* Filtre barı - Orders */}
       <section className={s.filtersBar}>
         <div className={s.filterChips}>
           <button
@@ -272,6 +395,161 @@ export default function AdminDashboard() {
                       </div>
                     </td>
                     <td>{o.time}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* 🔥 Menü Yönetimi */}
+      <section className={s.menuSection}>
+        <div className={s.menuHeader}>
+          <div>
+            <h2 className={s.sectionTitle}>
+              {t("admin.menu_management_title") || "Menu Management"}
+            </h2>
+            <p className={s.menuSubtitle}>
+              {t("admin.menu_management_sub") ||
+                "Add, edit or disable items on your digital menu."}
+            </p>
+          </div>
+        </div>
+
+        {/* Form - yeni ürün / düzenleme */}
+        <form className={s.menuForm} onSubmit={handleMenuSubmit}>
+          <div className={s.menuFormRow}>
+            <div className={s.menuField}>
+              <label className={s.menuLabel}>
+                {t("admin.menu_name") || "Name"}
+              </label>
+              <input
+                name="name"
+                className={s.menuInput}
+                value={menuForm.name}
+                onChange={handleMenuChange}
+                placeholder="Köfte Menü"
+              />
+            </div>
+            <div className={s.menuField}>
+              <label className={s.menuLabel}>
+                {t("admin.menu_price") || "Price (₺)"}
+              </label>
+              <input
+                name="price"
+                type="number"
+                min="1"
+                step="1"
+                className={s.menuInput}
+                value={menuForm.price}
+                onChange={handleMenuChange}
+                placeholder="250"
+              />
+            </div>
+            <div className={s.menuField}>
+              <label className={s.menuLabel}>
+                {t("admin.menu_category") || "Category"}
+              </label>
+              <input
+                name="category"
+                className={s.menuInput}
+                value={menuForm.category}
+                onChange={handleMenuChange}
+                placeholder="Ana Yemek / Tatlı / İçecek"
+              />
+            </div>
+          </div>
+
+          <div className={s.menuFormRowBottom}>
+            <label className={s.menuCheckboxLabel}>
+              <input
+                type="checkbox"
+                name="available"
+                checked={menuForm.available}
+                onChange={handleMenuChange}
+              />
+              <span>
+                {t("admin.menu_available") || "Show in menu (available)"}
+              </span>
+            </label>
+
+            <div className={s.menuActions}>
+              {editingId && (
+                <button
+                  type="button"
+                  className={s.menuSecondaryBtn}
+                  onClick={resetMenuForm}
+                >
+                  {t("admin.menu_cancel_edit") || "Cancel edit"}
+                </button>
+              )}
+              <button type="submit" className={s.menuPrimaryBtn}>
+                {editingId
+                  ? t("admin.menu_save_changes") || "Save changes"
+                  : t("admin.menu_add_item") || "Add item"}
+              </button>
+            </div>
+          </div>
+        </form>
+
+        {/* Menü tablosu */}
+        <div className={s.menuTableWrap}>
+          <table className={s.menuTable}>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>{t("admin.menu_name") || "Name"}</th>
+                <th>{t("admin.menu_price") || "Price"}</th>
+                <th>{t("admin.menu_category") || "Category"}</th>
+                <th>{t("admin.menu_status") || "Status"}</th>
+                <th>{t("admin.menu_actions") || "Actions"}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {menuItems.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className={s.emptyRow}>
+                    {t("admin.menu_empty") ||
+                      "No menu items yet. Add your first dish above."}
+                  </td>
+                </tr>
+              ) : (
+                menuItems.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>₺{item.price}</td>
+                    <td>{item.category}</td>
+                    <td>
+                      <span
+                        className={
+                          item.available ? s.menuStatusOn : s.menuStatusOff
+                        }
+                      >
+                        {item.available
+                          ? t("admin.menu_available_short") || "Active"
+                          : t("admin.menu_unavailable_short") || "Hidden"}
+                      </span>
+                    </td>
+                    <td>
+                      <div className={s.menuRowActions}>
+                        <button
+                          type="button"
+                          className={s.menuRowEdit}
+                          onClick={() => handleEditClick(item)}
+                        >
+                          {t("admin.menu_edit") || "Edit"}
+                        </button>
+                        <button
+                          type="button"
+                          className={s.menuRowDelete}
+                          onClick={() => handleDeleteClick(item.id)}
+                        >
+                          {t("admin.menu_delete") || "Delete"}
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 ))
               )}
