@@ -1,33 +1,45 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../redux/authSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import s from "./Auth.module.css";
 
 export default function AdminLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  // AdminRoute'tan geldiyse buraya düşecek
+  const from = location.state?.from || "/admin/dashboard";
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
-   
-    if (email === "admin@friendsfirst.com" && password === "admin123") {
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedPassword = password.trim();
+
+    // 🔐 Şimdilik hard-coded admin
+    if (
+      normalizedEmail === "admin@friendsfirst.com" &&
+      normalizedPassword === "admin123"
+    ) {
       const fakeToken = "jwt-admin-" + Date.now();
 
       dispatch(
         setCredentials({
-          user: { name: "Admin", email },
+          user: { name: "Admin", email: normalizedEmail },
           token: fakeToken,
           isAdmin: true,
         })
       );
 
-      navigate("/admin/dashboard");
+      // AdminRoute'un yönlendirdiği hedefe geri dön
+      navigate(from, { replace: true });
     } else {
       setError("Invalid admin credentials.");
     }

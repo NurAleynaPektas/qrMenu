@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useState, useMemo } from "react";
 import s from "./AdminDashboard.module.css";
 
-// Başlangıç sipariş listemiz (mock)
 const initialOrders = [
   {
     id: "ORD-101",

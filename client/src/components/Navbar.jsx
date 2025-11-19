@@ -37,6 +37,12 @@ const Navbar = () => {
   const current = (i18n.language || "en").toUpperCase().slice(0, 2);
 
   const handleLogout = () => {
+    // 🔐 localStorage temizle
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem("ff-auth");
+      window.localStorage.removeItem("ff-user");
+    }
+
     dispatch(logout());
     setOpen(false);
     navigate("/");
@@ -66,22 +72,17 @@ const Navbar = () => {
           </>
         )}
 
-        {/* 🔐 Admin linki */}
-        {isAdmin ? (
+        {/* 🔐 Admin linki 
+            - Sadece admin kullanıcı görsün
+            - /admin/login URL'ini bilen kişi manuel yazarak girebilir
+        */}
+        {isAdmin && (
           <Link
             to="/admin/dashboard"
             onClick={() => setOpen(false)}
             className={s.adminLink}
           >
-            Admin
-          </Link>
-        ) : (
-          <Link
-            to="/admin/login"
-            onClick={() => setOpen(false)}
-            className={s.adminLink}
-          >
-            Admin
+            Admin Panel
           </Link>
         )}
 
