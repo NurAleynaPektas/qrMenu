@@ -29,7 +29,11 @@ export default function Cart() {
         )}
 
         {cartItems.map((item) => {
-          const label = item.nameKey ? t(item.nameKey) : item.title || "";
+          const label =
+            (item.nameKey ? t(item.nameKey) : null) ||
+            item.title ||
+            item.name ||
+            "";
 
           return (
             <article className={s.cartItem} key={item.id}>

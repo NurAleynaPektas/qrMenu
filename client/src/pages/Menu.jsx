@@ -7,13 +7,14 @@ import iziToast from "izitoast";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Menu() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const user = useSelector((state) => state.auth.user);
   const menuItems = useSelector((state) => state.menu.items);
+
   const visibleItems = menuItems.filter((item) => item.available);
 
   const handleAddToCart = (item) => {
@@ -42,6 +43,7 @@ export default function Menu() {
         title: label,
         price: item.price,
         img: item.img,
+        nameKey: item.nameKey || null,
       })
     );
 
