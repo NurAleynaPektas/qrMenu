@@ -1,11 +1,13 @@
 import { useTranslation } from "react-i18next";
 import s from "./Checkout.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import iziToast from "izitoast";
 import { addOrder } from "../redux/ordersSlice";
 import { clearCart } from "../redux/cartSlice";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 export default function Checkout() {
   const { t } = useTranslation();
@@ -14,8 +16,6 @@ export default function Checkout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [tableNumber, setTableNumber] = useState("");
-  const [note, setNote] = useState("");
 
   useEffect(() => {
     if (!user) {
@@ -30,8 +30,30 @@ export default function Checkout() {
     0
   );
 
-  const handleOrder = () => {
+  // Yup şeması
+  const CheckoutSchema = Yup.object().shape({
+    tableNumber: Yup.number()
+      .typeError(
+        t("checkout.table_number_error") || "Please enter a valid table number."
+      )
+      .integer(
+        t("checkout.table_number_integer") || "Table number must be an integer."
+      )
+      .min(
+        1,
+        t("checkout.table_number_min") || "Table number must be at least 1."
+      )
+      .required(
+        t("checkout.table_number_required") || "Table number is required."
+      ),
+    note: Yup.string()
+      .max(200, t("checkout.note_max") || "Note can be at most 200 characters.")
+      .nullable(),
+  });
+
+  const handleSubmit = (values, { resetForm }) => {
     if (cartItems.length === 0) return;
+
     const itemsText = cartItems
       .map((item) => {
         const label =
@@ -45,8 +67,8 @@ export default function Checkout() {
 
     dispatch(
       addOrder({
-        tableNumber: tableNumber || "-",
-        note,
+        tableNumber: values.tableNumber || "-",
+        note: values.note || "",
         items: itemsText,
         total,
       })
@@ -64,8 +86,7 @@ export default function Checkout() {
       timeout: 2500,
     });
 
-    setTableNumber("");
-    setNote("");
+    resetForm();
 
     setTimeout(() => {
       navigate("/");
@@ -76,76 +97,99 @@ export default function Checkout() {
     <main className={s.checkoutPage}>
       <h1 className={s.checkoutTitle}>{t("checkout.title")}</h1>
 
-      <section className={s.checkoutForm}>
-        <div className={s.formRow}>
-          <label htmlFor="table" className={s.formLabel}>
-            {t("checkout.table_number")}
-          </label>
-          <input
-            id="table"
-            className={s.formInput}
-            placeholder="e.g. 5"
-            value={tableNumber}
-            onChange={(e) => setTableNumber(e.target.value)}
-          />
-        </div>
+      <Formik
+        initialValues={{ tableNumber: "", note: "" }}
+        validationSchema={CheckoutSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            {/* FORM KISMI */}
+            <section className={s.checkoutForm}>
+              <div className={s.formRow}>
+                <label htmlFor="tableNumber" className={s.formLabel}>
+                  {t("checkout.table_number")}
+                </label>
+                <Field
+                  id="tableNumber"
+                  name="tableNumber"
+                  type="number"
+                  className={s.formInput}
+                  placeholder="e.g. 5"
+                />
+                <ErrorMessage
+                  name="tableNumber"
+                  component="p"
+                  className={s.error}
+                />
+              </div>
 
-        <div className={s.formRow}>
-          <label htmlFor="note" className={s.formLabel}>
-            {t("checkout.note_optional")}
-          </label>
-          <textarea
-            id="note"
-            className={s.formTextarea}
-            rows={3}
-            placeholder={t("checkout.note_placeholder")}
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-          />
-        </div>
-      </section>
+              <div className={s.formRow}>
+                <label htmlFor="note" className={s.formLabel}>
+                  {t("checkout.note_optional")}
+                </label>
+                <Field
+                  id="note"
+                  name="note"
+                  as="textarea"
+                  rows={3}
+                  className={s.formTextarea}
+                  placeholder={t("checkout.note_placeholder")}
+                />
+                <ErrorMessage name="note" component="p" className={s.error} />
+              </div>
+            </section>
 
-      <section className={s.checkoutSummary}>
-        <h2 className={s.summaryTitle}>{t("checkout.order_summary")}</h2>
-        {cartItems.length === 0 ? (
-          <div className={s.emptySummary}>
-            <p>{t("cart.empty")}</p>
-            <Link to="/menu" className={s.backToMenuBtn}>
-              {t("home.hero_cta")}
-            </Link>
-          </div>
-        ) : (
-          <>
-            <div className={s.summaryItems}>
-              {cartItems.map((item) => {
-                const label =
-                  (item.nameKey ? t(item.nameKey) : null) ||
-                  item.title ||
-                  item.name ||
-                  "";
+            {/* ÖZET KISMI */}
+            <section className={s.checkoutSummary}>
+              <h2 className={s.summaryTitle}>{t("checkout.order_summary")}</h2>
 
-                return (
-                  <div className={s.summaryItem} key={item.id}>
-                    <span>
-                      {label} x{item.quantity}
-                    </span>
-                    <span>₺{item.price * item.quantity}</span>
+              {cartItems.length === 0 ? (
+                <div className={s.emptySummary}>
+                  <p>{t("cart.empty")}</p>
+                  <Link to="/menu" className={s.backToMenuBtn}>
+                    {t("home.hero_cta")}
+                  </Link>
+                </div>
+              ) : (
+                <>
+                  <div className={s.summaryItems}>
+                    {cartItems.map((item) => {
+                      const label =
+                        (item.nameKey ? t(item.nameKey) : null) ||
+                        item.title ||
+                        item.name ||
+                        "";
+
+                      return (
+                        <div className={s.summaryItem} key={item.id}>
+                          <span>
+                            {label} x{item.quantity}
+                          </span>
+                          <span>₺{item.price * item.quantity}</span>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
 
-            <div className={s.summaryTotal}>
-              <span>{t("checkout.total")}</span>
-              <span className={s.totalPrice}>₺{total}</span>
-            </div>
+                  <div className={s.summaryTotal}>
+                    <span>{t("checkout.total")}</span>
+                    <span className={s.totalPrice}>₺{total}</span>
+                  </div>
 
-            <button className={s.placeOrderBtn} onClick={handleOrder}>
-              {t("checkout.place_order")}
-            </button>
-          </>
+                  <button
+                    type="submit"
+                    className={s.placeOrderBtn}
+                    disabled={isSubmitting || cartItems.length === 0}
+                  >
+                    {t("checkout.place_order")}
+                  </button>
+                </>
+              )}
+            </section>
+          </Form>
         )}
-      </section>
+      </Formik>
     </main>
   );
 }
