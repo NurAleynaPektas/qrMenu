@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../redux/authSlice";
@@ -16,6 +16,24 @@ export default function Login() {
   const [error, setError] = useState("");
 
   const from = location.state?.from || "/";
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem("ff-credentials");
+      if (!raw) return;
+
+      const saved = JSON.parse(raw);
+
+      if (saved?.email) {
+        setEmail(saved.email);
+      }
+       if (saved?.password) {
+         setPassword(saved.password);
+       }
+    } catch (err) {
+      console.error("Saved credentials parse error:", err);
+    }
+  }, []);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +66,6 @@ export default function Login() {
       return;
     }
 
-    // 🔐 Şimdilik fake JWT token
     const fakeToken = "fake-jwt-token-for-" + saved.email;
 
     dispatch(
