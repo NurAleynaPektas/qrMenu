@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import iziToast from "izitoast";
 import { addOrder } from "../redux/ordersSlice";
+import { clearCart } from "../redux/cartSlice";
 
 export default function Checkout() {
   const { t } = useTranslation();
@@ -50,6 +51,8 @@ export default function Checkout() {
         total,
       })
     );
+
+    dispatch(clearCart());
 
     iziToast.success({
       title: t("checkout.success_title"),

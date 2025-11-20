@@ -1,4 +1,3 @@
-// src/pages/AdminDashboard.jsx
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useMemo } from "react";
@@ -17,13 +16,13 @@ export default function AdminDashboard() {
 
   const admin = useSelector((state) => state.auth.user);
   const menuItems = useSelector((state) => state.menu.items);
-  const orders = useSelector((state) => state.orders.list); // ✅ Redux orders
+  const orders = useSelector((state) => state.orders.list);
 
-  // Orders filtre state
-  const [statusFilter, setStatusFilter] = useState("all"); // all | pending | preparing | completed
+  
+  const [statusFilter, setStatusFilter] = useState("all"); 
   const [search, setSearch] = useState("");
 
-  // Menu form state
+  
   const [editingId, setEditingId] = useState(null);
   const [menuForm, setMenuForm] = useState({
     name: "",
@@ -32,7 +31,7 @@ export default function AdminDashboard() {
     available: true,
   });
 
-  // İstatistikler (orders)
+  
   const { totalOrders, pendingCount, completedCount, totalRevenue } =
     useMemo(() => {
       const totalOrders = orders.length;
@@ -45,7 +44,6 @@ export default function AdminDashboard() {
       return { totalOrders, pendingCount, completedCount, totalRevenue };
     }, [orders]);
 
-  // Filtrelenmiş + arama uygulanmış orders listesi
   const filteredOrders = useMemo(() => {
     return orders.filter((o) => {
       if (statusFilter !== "all" && o.status !== statusFilter) {
@@ -55,13 +53,14 @@ export default function AdminDashboard() {
       if (!search.trim()) return true;
 
       const q = search.toLowerCase();
-      const haystack = `${o.id} ${o.items} ${o.table}`.toLowerCase();
+      const haystack = `${o.id} ${o.items} ${o.table} ${
+        o.note || ""
+      }`.toLowerCase();
 
       return haystack.includes(q);
     });
   }, [orders, statusFilter, search]);
 
-  // Orders status güncelleme (Redux)
   const handleStatusChange = (id, newStatus) => {
     dispatch(updateOrderStatus({ id, status: newStatus }));
   };
@@ -79,7 +78,7 @@ export default function AdminDashboard() {
     }
   };
 
-  // Menü formu değişiklikleri
+
   const handleMenuChange = (e) => {
     const { name, value, type, checked } = e.target;
     setMenuForm((prev) => ({
@@ -87,6 +86,7 @@ export default function AdminDashboard() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+
 
   const resetMenuForm = () => {
     setEditingId(null);
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
     });
   };
 
-  // Menü ekle / güncelle
+  
   const handleMenuSubmit = (e) => {
     e.preventDefault();
 
@@ -109,6 +109,7 @@ export default function AdminDashboard() {
     if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
 
     if (editingId) {
+ 
       dispatch(
         updateMenuItem({
           id: editingId,
@@ -121,6 +122,7 @@ export default function AdminDashboard() {
         })
       );
     } else {
+  
       dispatch(
         addMenuItem({
           name: trimmedName,
@@ -145,8 +147,9 @@ export default function AdminDashboard() {
   };
 
   const handleDeleteClick = (id) => {
-    dispatch(deleteMenuItem(id));
-    dispatch(removeFromCart(id));
+    dispatch(deleteMenuItem(id)); 
+    dispatch(removeFromCart(id)); 
+
     if (editingId === id) {
       resetMenuForm();
     }
@@ -154,7 +157,6 @@ export default function AdminDashboard() {
 
   return (
     <main className={s.page}>
-      {/* Üst kısım - başlık + admin bilgisi */}
       <section className={s.header}>
         <div>
           <h1 className={s.title}>
@@ -274,6 +276,7 @@ export default function AdminDashboard() {
                 <th>{t("checkout.table_number") || "Table"}</th>
                 <th>{t("checkout.order_summary") || "Items"}</th>
                 <th>{t("checkout.total") || "Total"}</th>
+                <th>{t("checkout.note_optional") || "Note"}</th>
                 <th>{t("admin.status") || "Status"}</th>
                 <th>{t("admin.time") || "Time"}</th>
               </tr>
@@ -281,7 +284,7 @@ export default function AdminDashboard() {
             <tbody>
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className={s.emptyRow}>
+                  <td colSpan={7} className={s.emptyRow}>
                     {t("admin.no_orders") ||
                       "No orders found for the current filter."}
                   </td>
@@ -293,6 +296,7 @@ export default function AdminDashboard() {
                     <td>{o.table}</td>
                     <td>{o.items}</td>
                     <td>₺{o.total}</td>
+                    <td>{o.note && o.note.trim() ? o.note : "—"}</td>
                     <td>
                       <div className={s.statusCell}>
                         <span
@@ -330,7 +334,7 @@ export default function AdminDashboard() {
         </div>
       </section>
 
-      {/* Menü Yönetimi - aynı */}
+      {/*  Menü Yönetimi */}
       <section className={s.menuSection}>
         <div className={s.menuHeader}>
           <div>
@@ -344,6 +348,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        {/* Form - yeni ürün / düzenleme */}
         <form className={s.menuForm} onSubmit={handleMenuSubmit}>
           <div className={s.menuFormRow}>
             <div className={s.menuField}>
@@ -419,6 +424,7 @@ export default function AdminDashboard() {
           </div>
         </form>
 
+        {/* Menü tablosu */}
         <div className={s.menuTableWrap}>
           <table className={s.menuTable}>
             <thead>
