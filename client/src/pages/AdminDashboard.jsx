@@ -1,3 +1,4 @@
+// src/pages/AdminDashboard.jsx
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useMemo } from "react";
@@ -7,43 +8,8 @@ import {
   updateMenuItem,
   deleteMenuItem,
 } from "../redux/menuSlice";
-import { removeFromCart } from "../redux/cartSlice"; // ✅ sepetten de silmek için
-
-// Mock siparişler
-const initialOrders = [
-  {
-    id: "ORD-101",
-    table: 5,
-    items: "Köfte Menü x2, Ayran x2",
-    total: 540,
-    status: "pending",
-    time: "12:34",
-  },
-  {
-    id: "ORD-102",
-    table: 3,
-    items: "Klasik Burger x1, Limonata x1",
-    total: 220,
-    status: "preparing",
-    time: "12:40",
-  },
-  {
-    id: "ORD-103",
-    table: 1,
-    items: "Sufle x2, Ayran x1",
-    total: 210,
-    status: "completed",
-    time: "12:10",
-  },
-  {
-    id: "ORD-104",
-    table: 7,
-    items: "Köfte Menü x1, Limonata x2",
-    total: 250,
-    status: "pending",
-    time: "12:45",
-  },
-];
+import { removeFromCart } from "../redux/cartSlice";
+import { updateOrderStatus } from "../redux/ordersSlice";
 
 export default function AdminDashboard() {
   const { t } = useTranslation();
@@ -51,13 +17,13 @@ export default function AdminDashboard() {
 
   const admin = useSelector((state) => state.auth.user);
   const menuItems = useSelector((state) => state.menu.items);
+  const orders = useSelector((state) => state.orders.list); // ✅ Redux orders
 
-  // 🔥 Orders state
-  const [orders, setOrders] = useState(initialOrders);
+  // Orders filtre state
   const [statusFilter, setStatusFilter] = useState("all"); // all | pending | preparing | completed
   const [search, setSearch] = useState("");
 
-  // 🔥 Menu form state
+  // Menu form state
   const [editingId, setEditingId] = useState(null);
   const [menuForm, setMenuForm] = useState({
     name: "",
@@ -95,18 +61,9 @@ export default function AdminDashboard() {
     });
   }, [orders, statusFilter, search]);
 
-  // Orders status güncelleme
-  const updateStatus = (id, newStatus) => {
-    setOrders((prev) =>
-      prev.map((o) =>
-        o.id === id
-          ? {
-              ...o,
-              status: newStatus,
-            }
-          : o
-      )
-    );
+  // Orders status güncelleme (Redux)
+  const handleStatusChange = (id, newStatus) => {
+    dispatch(updateOrderStatus({ id, status: newStatus }));
   };
 
   const statusLabel = (status) => {
@@ -122,7 +79,7 @@ export default function AdminDashboard() {
     }
   };
 
-  // 🔸 Menü formu değişiklikleri
+  // Menü formu değişiklikleri
   const handleMenuChange = (e) => {
     const { name, value, type, checked } = e.target;
     setMenuForm((prev) => ({
@@ -131,7 +88,6 @@ export default function AdminDashboard() {
     }));
   };
 
-  // 🔸 Menü formunu resetle
   const resetMenuForm = () => {
     setEditingId(null);
     setMenuForm({
@@ -142,7 +98,7 @@ export default function AdminDashboard() {
     });
   };
 
-  // 🔸 Menü ekle / güncelle (Redux)
+  // Menü ekle / güncelle
   const handleMenuSubmit = (e) => {
     e.preventDefault();
 
@@ -153,7 +109,6 @@ export default function AdminDashboard() {
     if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
 
     if (editingId) {
-      // Güncelle
       dispatch(
         updateMenuItem({
           id: editingId,
@@ -166,7 +121,6 @@ export default function AdminDashboard() {
         })
       );
     } else {
-      // Yeni ekle
       dispatch(
         addMenuItem({
           name: trimmedName,
@@ -180,7 +134,6 @@ export default function AdminDashboard() {
     resetMenuForm();
   };
 
-  // 🔸 Edit'e tıklayınca formu doldur
   const handleEditClick = (item) => {
     setEditingId(item.id);
     setMenuForm({
@@ -191,13 +144,9 @@ export default function AdminDashboard() {
     });
   };
 
-  // 🔸 Delete (menü + sepet senkron)
   const handleDeleteClick = (id) => {
-    // Menuden sil
     dispatch(deleteMenuItem(id));
-    // Sepetten de sil
     dispatch(removeFromCart(id));
-
     if (editingId === id) {
       resetMenuForm();
     }
@@ -356,7 +305,9 @@ export default function AdminDashboard() {
                         <select
                           className={s.statusSelect}
                           value={o.status}
-                          onChange={(e) => updateStatus(o.id, e.target.value)}
+                          onChange={(e) =>
+                            handleStatusChange(o.id, e.target.value)
+                          }
                         >
                           <option value="pending">
                             {t("admin.status_pending") || "Beklemede"}
@@ -379,7 +330,7 @@ export default function AdminDashboard() {
         </div>
       </section>
 
-      {/* 🔥 Menü Yönetimi */}
+      {/* Menü Yönetimi - aynı */}
       <section className={s.menuSection}>
         <div className={s.menuHeader}>
           <div>
@@ -393,7 +344,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Form - yeni ürün / düzenleme */}
         <form className={s.menuForm} onSubmit={handleMenuSubmit}>
           <div className={s.menuFormRow}>
             <div className={s.menuField}>
@@ -469,7 +419,6 @@ export default function AdminDashboard() {
           </div>
         </form>
 
-        {/* Menü tablosu */}
         <div className={s.menuTableWrap}>
           <table className={s.menuTable}>
             <thead>

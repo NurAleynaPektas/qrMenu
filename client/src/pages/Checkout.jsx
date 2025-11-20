@@ -1,15 +1,20 @@
 import { useTranslation } from "react-i18next";
 import s from "./Checkout.module.css";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import iziToast from "izitoast";
+import { addOrder } from "../redux/ordersSlice";
 
 export default function Checkout() {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [tableNumber, setTableNumber] = useState("");
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     if (!user) {
@@ -18,12 +23,34 @@ export default function Checkout() {
   }, [user, navigate]);
 
   if (!user) return null;
+
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
 
   const handleOrder = () => {
+    if (cartItems.length === 0) return;
+    const itemsText = cartItems
+      .map((item) => {
+        const label =
+          (item.nameKey ? t(item.nameKey) : null) ||
+          item.title ||
+          item.name ||
+          "Item";
+        return `${label} x${item.quantity}`;
+      })
+      .join(", ");
+
+    dispatch(
+      addOrder({
+        tableNumber: tableNumber || "-",
+        note,
+        items: itemsText,
+        total,
+      })
+    );
+
     iziToast.success({
       title: t("checkout.success_title"),
       message: t("checkout.success_msg"),
@@ -33,6 +60,10 @@ export default function Checkout() {
       position: "topCenter",
       timeout: 2500,
     });
+
+    setTableNumber("");
+    setNote("");
+
     setTimeout(() => {
       navigate("/");
     }, 2600);
@@ -47,7 +78,13 @@ export default function Checkout() {
           <label htmlFor="table" className={s.formLabel}>
             {t("checkout.table_number")}
           </label>
-          <input id="table" className={s.formInput} placeholder="e.g. 5" />
+          <input
+            id="table"
+            className={s.formInput}
+            placeholder="e.g. 5"
+            value={tableNumber}
+            onChange={(e) => setTableNumber(e.target.value)}
+          />
         </div>
 
         <div className={s.formRow}>
@@ -59,6 +96,8 @@ export default function Checkout() {
             className={s.formTextarea}
             rows={3}
             placeholder={t("checkout.note_placeholder")}
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
           />
         </div>
       </section>
@@ -76,7 +115,11 @@ export default function Checkout() {
           <>
             <div className={s.summaryItems}>
               {cartItems.map((item) => {
-                const label = item.nameKey ? t(item.nameKey) : item.title || "";
+                const label =
+                  (item.nameKey ? t(item.nameKey) : null) ||
+                  item.title ||
+                  item.name ||
+                  "";
 
                 return (
                   <div className={s.summaryItem} key={item.id}>
