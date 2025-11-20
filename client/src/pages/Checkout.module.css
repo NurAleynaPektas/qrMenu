@@ -110,6 +110,15 @@
   cursor: pointer;
   transition: background .2s ease, transform .08s ease;
 }
+.error {
+  color: #d00000;
+  font-size: 14px;
+  margin-top: 4px;
+  font-weight: 700;
+  background: #ffe0e0;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
 
 .placeOrderBtn:hover { background: var(--accent-dark); }
 .placeOrderBtn:active { transform: translateY(1px); }

@@ -53,21 +53,30 @@
       "lemonade": "Citronnade"
     }
   },
-  "checkout": {
-    "title": "Paiement",
-    "table_number": "Numéro de Table",
-    "note_optional": "Note (optionnelle)",
-    "note_placeholder": "Sans oignon, s'il vous plaît",
-    "order_summary": "Récapitulatif de la Commande",
-    "total": "Total",
-    "place_order": "Commander",
-    "success_title": "Commande reçue",
-    "success_msg": "Votre commande a été enregistrée avec succès.",
-    "sample": {
-      "burger_x1": "Burger Classique x1",
-      "lemonade_x2": "Citronnade x2"
-    }
-  },
+ "checkout": {
+  "title": "Paiement",
+  "table_number": "Numéro de Table",
+  "note_optional": "Note (optionnelle)",
+  "note_placeholder": "Sans oignon, s'il vous plaît",
+  "order_summary": "Récapitulatif de la Commande",
+  "total": "Total",
+  "place_order": "Commander",
+
+  "success_title": "Commande reçue",
+  "success_msg": "Votre commande a bien été reçue.",
+
+  "table_number_error": "Veuillez saisir un numéro de table valide.",
+  "table_number_integer": "Le numéro de table doit être un nombre entier.",
+  "table_number_min": "Le numéro de table doit être d'au moins 1.",
+  "table_number_required": "Le numéro de table est obligatoire.",
+  "note_max": "La note peut contenir au maximum 200 caractères.",
+
+  "sample": {
+    "burger_x1": "Burger Classique x1",
+    "lemonade_x2": "Citronnade x2"
+  }
+}
+,
   "admin": {
     "login_title": "Connexion Admin",
     "email": "E-mail",

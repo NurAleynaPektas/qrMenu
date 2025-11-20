@@ -53,20 +53,29 @@
     }
   },
   "checkout": {
-    "title": "Ödeme",
-    "table_number": "Masa Numarası",
-    "note_optional": "Not (opsiyonel)",
-    "note_placeholder": "Soğan olmasın lütfen",
-    "order_summary": "Sipariş Özeti",
-    "total": "Toplam",
-    "place_order": "Sipariş Ver",
-    "success_title": "Sipariş alındı",
-    "success_msg": "Siparişiniz başarıyla alındı!",
-    "sample": {
-      "burger_x1": "Klasik Burger x1",
-      "lemonade_x2": "Limonata x2"
-    }
-  },
+  "title": "Ödeme",
+  "table_number": "Masa Numarası",
+  "note_optional": "Not (opsiyonel)",
+  "note_placeholder": "Soğan olmasın lütfen",
+  "order_summary": "Sipariş Özeti",
+  "total": "Toplam",
+  "place_order": "Sipariş Ver",
+
+  "success_title": "Sipariş alındı",
+  "success_msg": "Siparişiniz başarıyla alındı.",
+
+  "table_number_error": "Lütfen geçerli bir masa numarası girin.",
+  "table_number_integer": "Masa numarası tam sayı olmalıdır.",
+  "table_number_min": "Masa numarası en az 1 olmalıdır.",
+  "table_number_required": "Masa numarası zorunludur.",
+  "note_max": "Not en fazla 200 karakter olabilir.",
+
+  "sample": {
+    "burger_x1": "Klasik Burger x1",
+    "lemonade_x2": "Limonata x2"
+  }
+}
+,
   "admin": {
     "login_title": "Admin Girişi",
     "email": "E-posta",
