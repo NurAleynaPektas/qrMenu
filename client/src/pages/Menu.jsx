@@ -13,33 +13,8 @@ export default function Menu() {
   const location = useLocation();
 
   const user = useSelector((state) => state.auth.user);
-
-  const items = [
-    {
-      id: 1,
-      nameKey: "home.items.meatball",
-      price: 180,
-      img: "https://picsum.photos/400/250?food1",
-    },
-    {
-      id: 2,
-      nameKey: "home.items.ayran",
-      price: 90,
-      img: "https://picsum.photos/400/250?food2",
-    },
-    {
-      id: 3,
-      nameKey: "home.items.souffle",
-      price: 60,
-      img: "https://picsum.photos/400/250?food3",
-    },
-    {
-      id: 4,
-      nameKey: "home.items.lemonade",
-      price: 35,
-      img: "https://picsum.photos/400/250?drink",
-    },
-  ];
+  const menuItems = useSelector((state) => state.menu.items);
+  const visibleItems = menuItems.filter((item) => item.available);
 
   const handleAddToCart = (item) => {
     if (!user) {
@@ -58,13 +33,21 @@ export default function Menu() {
       navigate("/login", { state: { from: location.pathname } });
       return;
     }
-    dispatch(addToCart(item));
+
+    const label = item.nameKey ? t(item.nameKey) : item.name;
+
+    dispatch(
+      addToCart({
+        id: item.id,
+        title: label,
+        price: item.price,
+        img: item.img,
+      })
+    );
 
     iziToast.show({
       title: t("home.added_title") || "Success",
-      message:
-        `${t(item.nameKey)} ${t("home.added_msg")}` ||
-        `${t(item.nameKey)} added to cart.`,
+      message: `${label} ${t("home.added_msg")}` || `${label} added to cart.`,
       backgroundColor: "#031f56",
       titleColor: "#ffffffff",
       messageColor: "#faf4f4ff",
@@ -80,18 +63,25 @@ export default function Menu() {
       <p className={s.subtitle}>{t("home.about_p2")}</p>
 
       <section className={s.grid}>
-        {items.map((it) => (
-          <article className={s.card} key={it.id}>
-            <img src={it.img} alt={t(it.nameKey)} loading="lazy" />
-            <div className={s.info}>
-              <h3 className={s.cardTitle}>{t(it.nameKey)}</h3>
-              <p className={s.cardPrice}>₺{it.price}</p>
-              <button className={s.cardBtn} onClick={() => handleAddToCart(it)}>
-                {t("home.add")}
-              </button>
-            </div>
-          </article>
-        ))}
+        {visibleItems.map((it) => {
+          const label = it.nameKey ? t(it.nameKey) : it.name;
+
+          return (
+            <article className={s.card} key={it.id}>
+              <img src={it.img} alt={label} loading="lazy" />
+              <div className={s.info}>
+                <h3 className={s.cardTitle}>{label}</h3>
+                <p className={s.cardPrice}>₺{it.price}</p>
+                <button
+                  className={s.cardBtn}
+                  onClick={() => handleAddToCart(it)}
+                >
+                  {t("home.add")}
+                </button>
+              </div>
+            </article>
+          );
+        })}
       </section>
     </main>
   );

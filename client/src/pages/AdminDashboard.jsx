@@ -1,9 +1,15 @@
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useMemo } from "react";
 import s from "./AdminDashboard.module.css";
+import {
+  addMenuItem,
+  updateMenuItem,
+  deleteMenuItem,
+} from "../redux/menuSlice";
+import { removeFromCart } from "../redux/cartSlice"; // ✅ sepetten de silmek için
 
-// 🔹 Mock siparişler
+// Mock siparişler
 const initialOrders = [
   {
     id: "ORD-101",
@@ -39,49 +45,19 @@ const initialOrders = [
   },
 ];
 
-// 🔹 Mock menü ürünleri
-const initialMenuItems = [
-  {
-    id: "M-1",
-    name: "Köfte Menü",
-    price: 270,
-    category: "Ana Yemek",
-    available: true,
-  },
-  {
-    id: "M-2",
-    name: "Klasik Burger",
-    price: 220,
-    category: "Ana Yemek",
-    available: true,
-  },
-  {
-    id: "M-3",
-    name: "Sufle",
-    price: 105,
-    category: "Tatlı",
-    available: true,
-  },
-  {
-    id: "M-4",
-    name: "Limonata",
-    price: 35,
-    category: "İçecek",
-    available: false,
-  },
-];
-
 export default function AdminDashboard() {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const admin = useSelector((state) => state.auth.user);
+  const menuItems = useSelector((state) => state.menu.items);
 
   // 🔥 Orders state
   const [orders, setOrders] = useState(initialOrders);
   const [statusFilter, setStatusFilter] = useState("all"); // all | pending | preparing | completed
   const [search, setSearch] = useState("");
 
-  // 🔥 Menu state
-  const [menuItems, setMenuItems] = useState(initialMenuItems);
+  // 🔥 Menu form state
   const [editingId, setEditingId] = useState(null);
   const [menuForm, setMenuForm] = useState({
     name: "",
@@ -166,7 +142,7 @@ export default function AdminDashboard() {
     });
   };
 
-  // 🔸 Menü ekle / güncelle
+  // 🔸 Menü ekle / güncelle (Redux)
   const handleMenuSubmit = (e) => {
     e.preventDefault();
 
@@ -178,31 +154,27 @@ export default function AdminDashboard() {
 
     if (editingId) {
       // Güncelle
-      setMenuItems((prev) =>
-        prev.map((item) =>
-          item.id === editingId
-            ? {
-                ...item,
-                name: trimmedName,
-                price: priceNumber,
-                category: menuForm.category.trim() || "Genel",
-                available: menuForm.available,
-              }
-            : item
-        )
+      dispatch(
+        updateMenuItem({
+          id: editingId,
+          changes: {
+            name: trimmedName,
+            price: priceNumber,
+            category: menuForm.category.trim() || "Genel",
+            available: menuForm.available,
+          },
+        })
       );
     } else {
       // Yeni ekle
-      const newId =
-        "M-" + (menuItems.length + 1 + Math.floor(Math.random() * 90));
-      const newItem = {
-        id: newId,
-        name: trimmedName,
-        price: priceNumber,
-        category: menuForm.category.trim() || "Genel",
-        available: menuForm.available,
-      };
-      setMenuItems((prev) => [...prev, newItem]);
+      dispatch(
+        addMenuItem({
+          name: trimmedName,
+          price: priceNumber,
+          category: menuForm.category.trim() || "Genel",
+          available: menuForm.available,
+        })
+      );
     }
 
     resetMenuForm();
@@ -219,9 +191,13 @@ export default function AdminDashboard() {
     });
   };
 
-  // 🔸 Delete
+  // 🔸 Delete (menü + sepet senkron)
   const handleDeleteClick = (id) => {
-    setMenuItems((prev) => prev.filter((item) => item.id !== id));
+    // Menuden sil
+    dispatch(deleteMenuItem(id));
+    // Sepetten de sil
+    dispatch(removeFromCart(id));
+
     if (editingId === id) {
       resetMenuForm();
     }

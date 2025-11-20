@@ -28,48 +28,48 @@ export default function Cart() {
           </div>
         )}
 
-        {cartItems.map((item) => (
-          <article className={s.cartItem} key={item.id}>
-            <img
-              className={s.cartItemImg}
-              src={item.img}
-              alt={t(item.nameKey)}
-            />
+        {cartItems.map((item) => {
+          const label = item.nameKey ? t(item.nameKey) : item.title || "";
 
-            <div className={s.cartItemInfo}>
-              <h3 className={s.cartItemName}>{t(item.nameKey)}</h3>
-              <p className={s.cartItemPrice}>₺{item.price}</p>
-            </div>
+          return (
+            <article className={s.cartItem} key={item.id}>
+              <img className={s.cartItemImg} src={item.img} alt={label} />
 
-            <div className={s.cartItemControls}>
-              <button
-                className={s.removeBtn}
-                onClick={() => dispatch(removeFromCart(item.id))}
-                aria-label="Remove item"
-              >
-                ✕
-              </button>
-
-              <div className={s.qtyGroup}>
-                <button
-                  className={s.qtyBtn}
-                  onClick={() => dispatch(decreaseQty(item.id))}
-                  aria-label="Decrease quantity"
-                >
-                  −
-                </button>
-                <span className={s.qtyValue}>{item.quantity}</span>
-                <button
-                  className={s.qtyBtn}
-                  onClick={() => dispatch(increaseQty(item.id))}
-                  aria-label="Increase quantity"
-                >
-                  +
-                </button>
+              <div className={s.cartItemInfo}>
+                <h3 className={s.cartItemName}>{label}</h3>
+                <p className={s.cartItemPrice}>₺{item.price}</p>
               </div>
-            </div>
-          </article>
-        ))}
+
+              <div className={s.cartItemControls}>
+                <button
+                  className={s.removeBtn}
+                  onClick={() => dispatch(removeFromCart(item.id))}
+                  aria-label="Remove item"
+                >
+                  ✕
+                </button>
+
+                <div className={s.qtyGroup}>
+                  <button
+                    className={s.qtyBtn}
+                    onClick={() => dispatch(decreaseQty(item.id))}
+                    aria-label="Decrease quantity"
+                  >
+                    −
+                  </button>
+                  <span className={s.qtyValue}>{item.quantity}</span>
+                  <button
+                    className={s.qtyBtn}
+                    onClick={() => dispatch(increaseQty(item.id))}
+                    aria-label="Increase quantity"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </article>
+          );
+        })}
       </div>
 
       {cartItems.length > 0 && (

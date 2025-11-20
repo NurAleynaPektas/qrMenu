@@ -2,20 +2,28 @@ import { useTranslation } from "react-i18next";
 import s from "./Checkout.module.css";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Checkout() {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
+  const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
 
+  // Kullanıcı yoksa login'e at
   useEffect(() => {
     if (!user) {
       navigate("/login", { replace: true, state: { from: "/checkout" } });
     }
   }, [user, navigate]);
 
-  if (!user) return null; 
+  if (!user) return null;
+
+  // Sepet boşsa basit bir guard (istersen kaldırabiliriz)
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
     <main className={s.checkoutPage}>
@@ -26,7 +34,12 @@ export default function Checkout() {
           <label htmlFor="table" className={s.formLabel}>
             {t("checkout.table_number")}
           </label>
-          <input id="table" className={s.formInput} placeholder="e.g. 5" />
+          <input
+            id="table"
+            className={s.formInput}
+            placeholder="e.g. 5"
+            // burada state tutup masayı da ileride order objesine ekleyebiliriz
+          />
         </div>
 
         <div className={s.formRow}>
@@ -45,23 +58,41 @@ export default function Checkout() {
       <section className={s.checkoutSummary}>
         <h2 className={s.summaryTitle}>{t("checkout.order_summary")}</h2>
 
-        <div className={s.summaryItems}>
-          <div className={s.summaryItem}>
-            <span>{t("checkout.sample.burger_x1")}</span>
-            <span>₺150</span>
+        {/* Sepet boşsa mesaj göster */}
+        {cartItems.length === 0 ? (
+          <div className={s.emptySummary}>
+            <p>{t("cart.empty")}</p>
+            <Link to="/menu" className={s.backToMenuBtn}>
+              {t("home.hero_cta")}
+            </Link>
           </div>
-          <div className={s.summaryItem}>
-            <span>{t("checkout.sample.lemonade_x2")}</span>
-            <span>₺70</span>
-          </div>
-        </div>
+        ) : (
+          <>
+            <div className={s.summaryItems}>
+              {cartItems.map((item) => {
+                const label = item.nameKey ? t(item.nameKey) : item.title || "";
 
-        <div className={s.summaryTotal}>
-          <span>{t("checkout.total")}</span>
-          <span className={s.totalPrice}>₺220</span>
-        </div>
+                return (
+                  <div className={s.summaryItem} key={item.id}>
+                    <span>
+                      {label} x{item.quantity}
+                    </span>
+                    <span>₺{item.price * item.quantity}</span>
+                  </div>
+                );
+              })}
+            </div>
 
-        <button className={s.placeOrderBtn}>{t("checkout.place_order")}</button>
+            <div className={s.summaryTotal}>
+              <span>{t("checkout.total")}</span>
+              <span className={s.totalPrice}>₺{total}</span>
+            </div>
+
+            <button className={s.placeOrderBtn}>
+              {t("checkout.place_order")}
+            </button>
+          </>
+        )}
       </section>
     </main>
   );
