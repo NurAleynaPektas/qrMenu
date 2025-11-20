@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./cartSlice";
 import authReducer from "./authSlice";
 import menuReducer from "./menuSlice";
+import ordersReducer from "./ordersSlice";
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     auth: authReducer,
     menu: menuReducer,
+    orders: ordersReducer, 
   },
 });
 
@@ -15,10 +17,8 @@ if (typeof window !== "undefined") {
   store.subscribe(() => {
     const state = store.getState();
 
-    // Cart
     window.localStorage.setItem("ff-cart", JSON.stringify(state.cart.items));
 
-    // Auth
     window.localStorage.setItem(
       "ff-auth",
       JSON.stringify({
@@ -28,7 +28,7 @@ if (typeof window !== "undefined") {
       })
     );
 
-    // Menü 
-    window.localStorage.setItem("ff-menu", JSON.stringify(state.menu.items));
+    //Siparişleri de kaydet
+    window.localStorage.setItem("ff-orders", JSON.stringify(state.orders.list));
   });
 }

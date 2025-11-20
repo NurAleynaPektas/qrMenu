@@ -3,6 +3,7 @@ import s from "./Checkout.module.css";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import iziToast from "izitoast";
 
 export default function Checkout() {
   const { t } = useTranslation();
@@ -10,7 +11,6 @@ export default function Checkout() {
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
 
-  // Kullanıcı yoksa login'e at
   useEffect(() => {
     if (!user) {
       navigate("/login", { replace: true, state: { from: "/checkout" } });
@@ -18,12 +18,25 @@ export default function Checkout() {
   }, [user, navigate]);
 
   if (!user) return null;
-
-  // Sepet boşsa basit bir guard (istersen kaldırabiliriz)
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const handleOrder = () => {
+    iziToast.success({
+      title: t("checkout.success_title"),
+      message: t("checkout.success_msg"),
+      backgroundColor: "#025127ff",
+      titleColor: "#ffffff",
+      messageColor: "#e6fff4",
+      position: "topCenter",
+      timeout: 2500,
+    });
+    setTimeout(() => {
+      navigate("/");
+    }, 2600);
+  };
 
   return (
     <main className={s.checkoutPage}>
@@ -34,12 +47,7 @@ export default function Checkout() {
           <label htmlFor="table" className={s.formLabel}>
             {t("checkout.table_number")}
           </label>
-          <input
-            id="table"
-            className={s.formInput}
-            placeholder="e.g. 5"
-            // burada state tutup masayı da ileride order objesine ekleyebiliriz
-          />
+          <input id="table" className={s.formInput} placeholder="e.g. 5" />
         </div>
 
         <div className={s.formRow}>
@@ -57,8 +65,6 @@ export default function Checkout() {
 
       <section className={s.checkoutSummary}>
         <h2 className={s.summaryTitle}>{t("checkout.order_summary")}</h2>
-
-        {/* Sepet boşsa mesaj göster */}
         {cartItems.length === 0 ? (
           <div className={s.emptySummary}>
             <p>{t("cart.empty")}</p>
@@ -88,7 +94,7 @@ export default function Checkout() {
               <span className={s.totalPrice}>₺{total}</span>
             </div>
 
-            <button className={s.placeOrderBtn}>
+            <button className={s.placeOrderBtn} onClick={handleOrder}>
               {t("checkout.place_order")}
             </button>
           </>

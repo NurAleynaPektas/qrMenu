@@ -1,18 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import s from "./Cart.module.css";
 import { increaseQty, decreaseQty, removeFromCart } from "../redux/cartSlice";
 
 export default function Cart() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const cartItems = useSelector((state) => state.cart.items);
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const handleCheckoutClick = () => {
+    if (cartItems.length === 0) return; 
+    navigate("/checkout");
+  };
 
   return (
     <main className={s.cartPage}>
@@ -81,7 +88,13 @@ export default function Cart() {
           <p className={s.cartTotal}>
             {t("cart.total")}: <span>₺{total}</span>
           </p>
-          <button className={s.checkoutBtn}>{t("cart.checkout")}</button>
+          <button
+            type="button"
+            className={s.checkoutBtn}
+            onClick={handleCheckoutClick}
+          >
+            {t("cart.checkout")}
+          </button>
         </div>
       )}
     </main>
