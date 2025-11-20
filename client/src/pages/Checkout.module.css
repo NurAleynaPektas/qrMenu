@@ -43,7 +43,7 @@
   background: #fff;
   color: var(--text);
   outline: none;
-  transition: border-color .2s ease, box-shadow .2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .formInput:focus,
@@ -108,10 +108,10 @@
   font-weight: 700;
   font-size: 16px;
   cursor: pointer;
-  transition: background .2s ease, transform .08s ease;
+  transition: background 0.2s ease, transform 0.08s ease;
 }
 .error {
-  color: #d00000;
+  color: #f00606;
   font-size: 14px;
   margin-top: 4px;
   font-weight: 700;
@@ -120,13 +120,23 @@
   border-radius: 6px;
 }
 
-.placeOrderBtn:hover { background: var(--accent-dark); }
-.placeOrderBtn:active { transform: translateY(1px); }
+.placeOrderBtn:hover {
+  background: var(--accent-dark);
+}
+.placeOrderBtn:active {
+  transform: translateY(1px);
+}
 
 @media (min-width: 768px) {
-  .checkoutPage { padding: 28px; }
-  .checkoutTitle { font-size: 32px; }
+  .checkoutPage {
+    padding: 28px;
+  }
+  .checkoutTitle {
+    font-size: 32px;
+  }
 }
 @media (min-width: 1020px) {
-  .checkoutPage { padding: 32px; }
+  .checkoutPage {
+    padding: 32px;
+  }
 }
