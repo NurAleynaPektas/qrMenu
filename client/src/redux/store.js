@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     cart: cartReducer,
     auth: authReducer,
-    menu: menuReducer, 
+    menu: menuReducer,
   },
 });
 
@@ -28,7 +28,7 @@ if (typeof window !== "undefined") {
       })
     );
 
-    // Menu
+    // Menü 
     window.localStorage.setItem("ff-menu", JSON.stringify(state.menu.items));
   });
 }
