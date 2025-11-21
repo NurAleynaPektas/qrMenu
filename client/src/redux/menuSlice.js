@@ -1,21 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// LocalStorage'tan varsa menüyü oku
-let savedMenu = null;
-
-if (typeof window !== "undefined") {
-  try {
-    const raw = window.localStorage.getItem("ff-menu");
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        savedMenu = parsed;
-      }
-    }
-  } catch (err) {
-    console.error("Menu localStorage parse error:", err);
-  }
-}
+const STORAGE_KEY = "ff-menu-items";
 
 const defaultItems = [
   {
@@ -56,9 +41,33 @@ const defaultItems = [
   },
 ];
 
+let persistedItems = [];
+if (typeof window !== "undefined") {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) {
+        persistedItems = parsed;
+      }
+    }
+  } catch (err) {
+    console.error("Menu localStorage parse error:", err);
+  }
+}
+
 const initialState = {
-  // Eğer localStorage'ta menü varsa onu kullan, yoksa default listeyi
-  items: savedMenu || defaultItems,
+  items: persistedItems.length > 0 ? persistedItems : defaultItems,
+};
+
+const saveToStorage = (items) => {
+  try {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+  } catch (err) {
+    console.error("Menu localStorage save error:", err);
+  }
 };
 
 const menuSlice = createSlice({
@@ -90,16 +99,23 @@ const menuSlice = createSlice({
           img ||
           `https://picsum.photos/400/250?random=${state.items.length + 1}`,
       });
+
+      saveToStorage(state.items);
     },
+
     updateMenuItem: (state, action) => {
       const { id, changes } = action.payload;
       const item = state.items.find((it) => it.id === id);
       if (!item) return;
+
       Object.assign(item, changes);
+      saveToStorage(state.items);
     },
+
     deleteMenuItem: (state, action) => {
       const id = action.payload;
       state.items = state.items.filter((it) => it.id !== id);
+      saveToStorage(state.items);
     },
   },
 });

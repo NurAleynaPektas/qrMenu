@@ -15,12 +15,10 @@ body {
   font-size: 16px;  
   line-height: 1.5;
   color: var(--text);
+
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
   font-weight: 700;
-}
-button:hover {
-  box-shadow: 0 4px 14px rgba(4, 73, 211, 0.25);
 }
