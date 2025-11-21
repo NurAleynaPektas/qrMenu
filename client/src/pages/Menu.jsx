@@ -1,19 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import s from "./Menu.module.css";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
 import iziToast from "izitoast";
 import { useNavigate, useLocation } from "react-router-dom";
+import { fetchMenu } from "../redux/menuSlice";
 
 export default function Menu() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const user = useSelector((state) => state.auth.user);
-  const menuItems = useSelector((state) => state.menu.items);
+  const {
+    items: menuItems,
+    loading,
+    error,
+  } = useSelector((state) => state.menu);
+
+  useEffect(() => {
+    dispatch(fetchMenu());
+  }, [dispatch]);
 
   const visibleItems = menuItems.filter((item) => item.available);
 
@@ -64,26 +73,39 @@ export default function Menu() {
       <h1 className={s.title}>{t("home.title")}</h1>
       <p className={s.subtitle}>{t("home.about_p2")}</p>
 
-      <section className={s.grid}>
-        {visibleItems.map((it) => {
-          const label = it.nameKey ? t(it.nameKey) : it.name;
+      {/* YÜKLENİYOR DURUMU */}
+      {loading && <p className={s.infoText}>Loading menu...</p>}
 
-          return (
-            <article className={s.card} key={it.id}>
-              <img src={it.img} alt={label} loading="lazy" />
-              <div className={s.info}>
-                <h3 className={s.cardTitle}>{label}</h3>
-                <p className={s.cardPrice}>₺{it.price}</p>
-                <button
-                  className={s.cardBtn}
-                  onClick={() => handleAddToCart(it)}
-                >
-                  {t("home.add")}
-                </button>
-              </div>
-            </article>
-          );
-        })}
+      {/* HATA DURUMU */}
+      {error && !loading && (
+        <p className={s.errorText}>
+          {error || "Failed to load menu. Please try again."}
+        </p>
+      )}
+
+      {/* MENÜ KARTLARI */}
+      <section className={s.grid}>
+        {!loading &&
+          !error &&
+          visibleItems.map((it) => {
+            const label = it.nameKey ? t(it.nameKey) : it.name;
+
+            return (
+              <article className={s.card} key={it.id}>
+                <img src={it.img} alt={label} loading="lazy" />
+                <div className={s.info}>
+                  <h3 className={s.cardTitle}>{label}</h3>
+                  <p className={s.cardPrice}>₺{it.price}</p>
+                  <button
+                    className={s.cardBtn}
+                    onClick={() => handleAddToCart(it)}
+                  >
+                    {t("home.add")}
+                  </button>
+                </div>
+              </article>
+            );
+          })}
       </section>
     </main>
   );

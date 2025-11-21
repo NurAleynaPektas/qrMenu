@@ -1,73 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const STORAGE_KEY = "ff-menu-items";
+// Backend endpoint
+const API_URL = `${import.meta.env.VITE_API_URL}/api/menu`;
 
-const defaultItems = [
-  {
-    id: "M-1",
-    nameKey: "home.items.meatball",
-    name: "Köfte Menü",
-    price: 180,
-    category: "Meals",
-    available: true,
-    img: "https://picsum.photos/400/250?food1",
-  },
-  {
-    id: "M-2",
-    nameKey: "home.items.ayran",
-    name: "Ayran",
-    price: 90,
-    category: "Drinks",
-    available: true,
-    img: "https://picsum.photos/400/250?food2",
-  },
-  {
-    id: "M-3",
-    nameKey: "home.items.souffle",
-    name: "Sufle",
-    price: 60,
-    category: "Desserts",
-    available: true,
-    img: "https://picsum.photos/400/250?food3",
-  },
-  {
-    id: "M-4",
-    nameKey: "home.items.lemonade",
-    name: "Limonata",
-    price: 35,
-    category: "Drinks",
-    available: true,
-    img: "https://picsum.photos/400/250?drink",
-  },
-];
 
-let persistedItems = [];
-if (typeof window !== "undefined") {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        persistedItems = parsed;
-      }
+// Menüleri backend'den çek
+export const fetchMenu = createAsyncThunk(
+  "menu/fetchMenu",
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get(API_URL);
+      return res.data;
+    } catch (err) {
+      const msg =
+        err.response?.data?.message || err.message || "Failed to load menu";
+      return thunkAPI.rejectWithValue(msg);
     }
-  } catch (err) {
-    console.error("Menu localStorage parse error:", err);
   }
-}
+);
 
 const initialState = {
-  items: persistedItems.length > 0 ? persistedItems : defaultItems,
-};
-
-const saveToStorage = (items) => {
-  try {
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    }
-  } catch (err) {
-    console.error("Menu localStorage save error:", err);
-  }
+  items: [],
+  loading: false,
+  error: null,
 };
 
 const menuSlice = createSlice({
@@ -90,33 +46,54 @@ const menuSlice = createSlice({
 
       state.items.push({
         id: newId,
-        name,
+        name: name || "Menu item",
         nameKey: nameKey || null,
-        price,
-        category,
+        price: Number(price) || 0,
+        category: category || "General",
         available,
         img:
           img ||
           `https://picsum.photos/400/250?random=${state.items.length + 1}`,
       });
-
-      saveToStorage(state.items);
     },
-
     updateMenuItem: (state, action) => {
       const { id, changes } = action.payload;
       const item = state.items.find((it) => it.id === id);
       if (!item) return;
 
       Object.assign(item, changes);
-      saveToStorage(state.items);
     },
-
     deleteMenuItem: (state, action) => {
       const id = action.payload;
       state.items = state.items.filter((it) => it.id !== id);
-      saveToStorage(state.items);
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchMenu.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMenu.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.items = (action.payload || []).map((item, idx) => ({
+          id: item.id || `M-${idx + 1}`,
+          name: item.name || "Menu item",
+          nameKey: item.nameKey || null,
+          price: Number(item.price) || 0,
+          category: item.category || "General",
+          available:
+            typeof item.available === "boolean" ? item.available : true,
+          img:
+            item.img ||
+            `https://picsum.photos/400/250?random=from-api-${idx + 1}`,
+        }));
+      })
+      .addCase(fetchMenu.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to load menu";
+      });
   },
 });
 
