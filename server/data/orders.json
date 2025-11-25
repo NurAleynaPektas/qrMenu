@@ -1,0 +1,64 @@
+[
+  {
+    "id": "1764100346091",
+    "table": 1,
+    "note": "Ayran Froid",
+    "items": [
+      {
+        "id": "M-1",
+        "title": "Menu Boulettes",
+        "nameKey": "home.items.meatball",
+        "price": 180,
+        "quantity": 1
+      },
+      {
+        "id": "M-2",
+        "title": "Ayran",
+        "nameKey": "home.items.ayran",
+        "price": 90,
+        "quantity": 1
+      }
+    ],
+    "status": "pending",
+    "createdAt": "2025-11-25T19:52:26.091Z"
+  },
+  {
+    "id": "1764102444664",
+    "table": 20,
+    "note": "Limonade Fresh Please",
+    "items": [
+      {
+        "id": "M-4",
+        "title": "Limonade",
+        "nameKey": "home.items.lemonade",
+        "price": 35,
+        "quantity": 1
+      },
+      {
+        "id": "M-3",
+        "title": "Soufflé",
+        "nameKey": "home.items.souffle",
+        "price": 60,
+        "quantity": 1
+      }
+    ],
+    "status": "pending",
+    "createdAt": "2025-11-25T20:27:24.664Z"
+  },
+  {
+    "id": "1764103986843",
+    "table": 5,
+    "note": "bol soslu",
+    "items": [
+      {
+        "id": "M-1764103970706",
+        "title": "Mantı",
+        "nameKey": null,
+        "price": 200,
+        "quantity": 1
+      }
+    ],
+    "status": "pending",
+    "createdAt": "2025-11-25T20:53:06.843Z"
+  }
+]

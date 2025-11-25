@@ -16,7 +16,6 @@ export default function Checkout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     if (!user) {
       navigate("/login", { replace: true, state: { from: "/checkout" } });
@@ -51,8 +50,17 @@ export default function Checkout() {
       .nullable(),
   });
 
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = async (values, { resetForm }) => {
     if (cartItems.length === 0) return;
+
+    
+    const itemsPayload = cartItems.map((item) => ({
+      id: item.id,
+      title: item.title || item.name || "",
+      nameKey: item.nameKey || null,
+      price: item.price,
+      quantity: item.quantity,
+    }));
 
     const itemsText = cartItems
       .map((item) => {
@@ -65,32 +73,61 @@ export default function Checkout() {
       })
       .join(", ");
 
-    dispatch(
-      addOrder({
-        tableNumber: values.tableNumber || "-",
-        note: values.note || "",
-        items: itemsText,
-        total,
-      })
-    );
+    try {
+      const res = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          table: values.tableNumber,
+          note: values.note,
+          items: itemsPayload, 
+        }),
+      });
 
-    dispatch(clearCart());
+      if (!res.ok) {
+        throw new Error("Failed to send order");
+      }
 
-    iziToast.success({
-      title: t("checkout.success_title"),
-      message: t("checkout.success_msg"),
-      backgroundColor: "#025127ff",
-      titleColor: "#ffffff",
-      messageColor: "#e6fff4",
-      position: "topCenter",
-      timeout: 2500,
-    });
+      const data = await res.json();
+      console.log("Order saved:", data);
 
-    resetForm();
+      dispatch(
+        addOrder({
+          tableNumber: values.tableNumber || "-",
+          note: values.note || "",
+          items: itemsText,
+          total,
+        })
+      );
 
-    setTimeout(() => {
-      navigate("/");
-    }, 2600);
+      dispatch(clearCart());
+
+      iziToast.success({
+        title: t("checkout.success_title"),
+        message: t("checkout.success_msg"),
+        backgroundColor: "#025127ff",
+        titleColor: "#ffffff",
+        messageColor: "#e6fff4",
+        position: "topCenter",
+        timeout: 2500,
+      });
+
+      resetForm();
+
+      setTimeout(() => {
+        navigate("/");
+      }, 2600);
+    } catch (err) {
+      console.error(err);
+      iziToast.error({
+        title: "Error",
+        message: t("auth.error") || "Something went wrong. Please try again.",
+        position: "topCenter",
+        timeout: 3000,
+      });
+    }
   };
 
   return (

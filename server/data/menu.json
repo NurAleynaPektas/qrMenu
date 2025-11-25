@@ -34,5 +34,14 @@
     "category": "Drinks",
     "available": true,
     "img": "https://picsum.photos/400/250?drink"
+  },
+  {
+    "id": "M-1764103970706",
+    "name": "Mantı",
+    "nameKey": null,
+    "price": 200,
+    "category": "Ana Yemek",
+    "available": true,
+    "img": "https://picsum.photos/400/250?menu-5"
   }
 ]

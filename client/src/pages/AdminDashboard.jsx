@@ -10,6 +10,28 @@ import {
 import { removeFromCart } from "../redux/cartSlice";
 import { updateOrderStatus } from "../redux/ordersSlice";
 
+
+function formatOrderItems(order) {
+  const items = order.items;
+
+ 
+  if (Array.isArray(items)) {
+    return items
+      .map((it) => {
+        const label = it.title || it.name || "Item";
+        return `${label} x${it.quantity}`;
+      })
+      .join(", ");
+  }
+
+ 
+  if (typeof items === "string") {
+    return items;
+  }
+
+  return "";
+}
+
 export default function AdminDashboard() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -18,11 +40,9 @@ export default function AdminDashboard() {
   const menuItems = useSelector((state) => state.menu.items);
   const orders = useSelector((state) => state.orders.list);
 
-  
-  const [statusFilter, setStatusFilter] = useState("all"); 
+  const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
 
-  
   const [editingId, setEditingId] = useState(null);
   const [menuForm, setMenuForm] = useState({
     name: "",
@@ -31,7 +51,6 @@ export default function AdminDashboard() {
     available: true,
   });
 
-  
   const { totalOrders, pendingCount, completedCount, totalRevenue } =
     useMemo(() => {
       const totalOrders = orders.length;
@@ -53,7 +72,9 @@ export default function AdminDashboard() {
       if (!search.trim()) return true;
 
       const q = search.toLowerCase();
-      const haystack = `${o.id} ${o.items} ${o.table} ${
+      const itemsText = formatOrderItems(o);
+
+      const haystack = `${o.id} ${itemsText} ${o.table} ${
         o.note || ""
       }`.toLowerCase();
 
@@ -78,7 +99,6 @@ export default function AdminDashboard() {
     }
   };
 
-
   const handleMenuChange = (e) => {
     const { name, value, type, checked } = e.target;
     setMenuForm((prev) => ({
@@ -86,7 +106,6 @@ export default function AdminDashboard() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
 
   const resetMenuForm = () => {
     setEditingId(null);
@@ -98,7 +117,6 @@ export default function AdminDashboard() {
     });
   };
 
-  
   const handleMenuSubmit = (e) => {
     e.preventDefault();
 
@@ -109,7 +127,6 @@ export default function AdminDashboard() {
     if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
 
     if (editingId) {
- 
       dispatch(
         updateMenuItem({
           id: editingId,
@@ -122,7 +139,6 @@ export default function AdminDashboard() {
         })
       );
     } else {
-  
       dispatch(
         addMenuItem({
           name: trimmedName,
@@ -147,8 +163,8 @@ export default function AdminDashboard() {
   };
 
   const handleDeleteClick = (id) => {
-    dispatch(deleteMenuItem(id)); 
-    dispatch(removeFromCart(id)); 
+    dispatch(deleteMenuItem(id));
+    dispatch(removeFromCart(id));
 
     if (editingId === id) {
       resetMenuForm();
@@ -294,7 +310,7 @@ export default function AdminDashboard() {
                   <tr key={o.id}>
                     <td>{o.id}</td>
                     <td>{o.table}</td>
-                    <td>{o.items}</td>
+                    <td>{formatOrderItems(o)}</td>
                     <td>₺{o.total}</td>
                     <td>{o.note && o.note.trim() ? o.note : "—"}</td>
                     <td>
@@ -334,7 +350,7 @@ export default function AdminDashboard() {
         </div>
       </section>
 
-      {/*  Menü Yönetimi */}
+      {/* Menü Yönetimi */}
       <section className={s.menuSection}>
         <div className={s.menuHeader}>
           <div>
