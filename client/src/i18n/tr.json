@@ -115,7 +115,9 @@
     "menu_edit": "Düzenle",
     "menu_delete": "Sil",
      "menu_upload_label": "Resmi buraya sürükleyip bırak veya tıklayıp seç",
-  "menu_upload_selected": "Seçilen: {{file}}"
+  "menu_upload_selected": "Seçilen: {{file}}",
+  "menu_upload_btn": "Dosya seç"
+
   },
   "auth": {
     "login": "Giriş Yap",

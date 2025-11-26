@@ -114,7 +114,9 @@
     "menu_edit": "Edit",
     "menu_delete": "Delete",
      "menu_upload_label": "Drag & drop an image here or click to select",
-  "menu_upload_selected": "Selected: {{file}}"
+  "menu_upload_selected": "Selected: {{file}}",
+  "menu_upload_btn": "Choose file"
+
   },
   "auth": {
     "login": "Login",

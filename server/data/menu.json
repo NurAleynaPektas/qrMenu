@@ -7,5 +7,14 @@
     "category": "Ana Yemek",
     "available": true,
     "img": "http://localhost:5000/uploads/1764193048219-download.jpg"
+  },
+  {
+    "id": "M-1764193907544",
+    "name": "Salata",
+    "nameKey": null,
+    "price": 100,
+    "category": "Ana Yemek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764193907529-seasonal.jpg"
   }
 ]

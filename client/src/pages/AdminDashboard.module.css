@@ -484,27 +484,53 @@
 }
 .menuUpload {
   margin: 12px 0;
-  padding: 12px;
-  border: 1px dashed #cbd5e1;
-  border-radius: 10px;
+  padding: 20px;
+  border: 2px dashed #cbd5e1;
+  background: #f8fafc;
+  border-radius: 12px;
   text-align: center;
+  position: relative;
   cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.menuUpload:hover {
+  border-color: #94a3b8;
+  background: #f1f5f9;
+}
+
+.menuUploadContent {
+  pointer-events: none; /* içerdeki yazılar buton input'a engel olmasın */
 }
 
 .menuUploadText {
   font-size: 14px;
   color: #64748b;
+  margin-bottom: 8px;
 }
 
 .menuUploadFileName {
-  margin-top: 6px;
   font-size: 13px;
   color: #0f172a;
-  font-weight: 500;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.menuUploadButton {
+  pointer-events: auto;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 13px;
+  color: #0f172a;
 }
 
 .menuUploadInput {
-  margin-top: 8px;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
 @media (min-width: 768px) {

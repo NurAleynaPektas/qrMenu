@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import s from "./AdminDashboard.module.css";
 import {
   addMenuItem,
@@ -47,8 +47,8 @@ export default function AdminDashboard() {
     category: "",
     available: true,
   });
-  const [imgFile, setImgFile] = useState(null); // 🖼 yeni: resim dosyası
-
+  const [imgFile, setImgFile] = useState(null);
+  const fileInputRef = useRef(null);
   const { totalOrders, pendingCount, completedCount, totalRevenue } =
     useMemo(() => {
       const totalOrders = orders.length;
@@ -444,14 +444,25 @@ export default function AdminDashboard() {
             className={s.menuUpload}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()} // kutuya tıklayınca aç
           >
-            <p className={s.menuUploadText}>{t("admin.menu_upload_label")}</p>
-            {imgFile && (
-              <p className={s.menuUploadFileName}>
-                {t("admin.menu_upload_selected", { file: imgFile.name })}
-              </p>
-            )}
+            <div className={s.menuUploadContent}>
+              <p className={s.menuUploadText}>{t("admin.menu_upload_label")}</p>
+
+              {imgFile && (
+                <p className={s.menuUploadFileName}>
+                  {t("admin.menu_upload_selected", { file: imgFile.name })}
+                </p>
+              )}
+
+              <button type="button" className={s.menuUploadButton}>
+                {t("admin.menu_upload_btn")}
+              </button>
+            </div>
+
+            {/* Gizli input */}
             <input
+              ref={fileInputRef}
               type="file"
               accept="image/*"
               onChange={handleFileChange}

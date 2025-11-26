@@ -116,7 +116,9 @@
     "menu_edit": "Modifier",
     "menu_delete": "Supprimer",
       "menu_upload_label": "Glissez-déposez une image ici ou cliquez pour en choisir une",
-  "menu_upload_selected": "Sélectionné : {{file}}"
+  "menu_upload_selected": "Sélectionné : {{file}}",
+  "menu_upload_btn": "Choisir un fichier"
+
   },
   "auth": {
     "login": "Se connecter",
