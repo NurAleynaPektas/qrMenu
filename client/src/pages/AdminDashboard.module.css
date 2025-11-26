@@ -482,6 +482,30 @@
 .menuRowDelete:hover {
   background: #fee2e2;
 }
+.menuUpload {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.menuUploadText {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.menuUploadFileName {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #0f172a;
+  font-weight: 500;
+}
+
+.menuUploadInput {
+  margin-top: 8px;
+}
 
 @media (min-width: 768px) {
   .page {

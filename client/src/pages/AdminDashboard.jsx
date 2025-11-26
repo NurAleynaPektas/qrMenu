@@ -439,17 +439,17 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* 🖼 Resim upload alanı */}
+          {/* Resim upload alanı */}
           <div
             className={s.menuUpload}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
           >
-            <p className={s.menuUploadText}>
-              Resmi buraya sürükleyip bırak veya tıklayıp seç
-            </p>
+            <p className={s.menuUploadText}>{t("admin.menu_upload_label")}</p>
             {imgFile && (
-              <p className={s.menuUploadFileName}>Seçilen: {imgFile.name}</p>
+              <p className={s.menuUploadFileName}>
+                {t("admin.menu_upload_selected", { file: imgFile.name })}
+              </p>
             )}
             <input
               type="file"

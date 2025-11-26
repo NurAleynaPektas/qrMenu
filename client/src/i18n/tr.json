@@ -113,7 +113,9 @@
     "menu_available_short": "Aktif",
     "menu_unavailable_short": "Gizli",
     "menu_edit": "Düzenle",
-    "menu_delete": "Sil"
+    "menu_delete": "Sil",
+     "menu_upload_label": "Resmi buraya sürükleyip bırak veya tıklayıp seç",
+  "menu_upload_selected": "Seçilen: {{file}}"
   },
   "auth": {
     "login": "Giriş Yap",

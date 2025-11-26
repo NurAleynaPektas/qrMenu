@@ -112,7 +112,9 @@
     "menu_available_short": "Active",
     "menu_unavailable_short": "Hidden",
     "menu_edit": "Edit",
-    "menu_delete": "Delete"
+    "menu_delete": "Delete",
+     "menu_upload_label": "Drag & drop an image here or click to select",
+  "menu_upload_selected": "Selected: {{file}}"
   },
   "auth": {
     "login": "Login",
