@@ -10,11 +10,9 @@ import {
 import { removeFromCart } from "../redux/cartSlice";
 import { updateOrderStatus } from "../redux/ordersSlice";
 
-
 function formatOrderItems(order) {
   const items = order.items;
 
- 
   if (Array.isArray(items)) {
     return items
       .map((it) => {
@@ -24,7 +22,6 @@ function formatOrderItems(order) {
       .join(", ");
   }
 
- 
   if (typeof items === "string") {
     return items;
   }
@@ -50,6 +47,7 @@ export default function AdminDashboard() {
     category: "",
     available: true,
   });
+  const [imgFile, setImgFile] = useState(null); // 🖼 yeni: resim dosyası
 
   const { totalOrders, pendingCount, completedCount, totalRevenue } =
     useMemo(() => {
@@ -115,6 +113,28 @@ export default function AdminDashboard() {
       category: "",
       available: true,
     });
+    setImgFile(null);
+  };
+
+  // 🖼 Dosya seçimi (input)
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImgFile(file);
+    }
+  };
+
+  // 🖼 Drag & drop
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      setImgFile(file);
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
   };
 
   const handleMenuSubmit = (e) => {
@@ -127,26 +147,36 @@ export default function AdminDashboard() {
     if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
 
     if (editingId) {
+      // GÜNCELLEME → FormData
+      const formData = new FormData();
+      formData.append("name", trimmedName);
+      formData.append("price", priceNumber);
+      formData.append("category", menuForm.category.trim() || "Genel");
+      formData.append("available", menuForm.available ? "true" : "false");
+
+      if (imgFile) {
+        formData.append("img", imgFile);
+      }
+
       dispatch(
         updateMenuItem({
           id: editingId,
-          changes: {
-            name: trimmedName,
-            price: priceNumber,
-            category: menuForm.category.trim() || "Genel",
-            available: menuForm.available,
-          },
+          changes: formData,
         })
       );
     } else {
-      dispatch(
-        addMenuItem({
-          name: trimmedName,
-          price: priceNumber,
-          category: menuForm.category.trim() || "Genel",
-          available: menuForm.available,
-        })
-      );
+      // YENİ ÜRÜN EKLEME → FormData
+      const formData = new FormData();
+      formData.append("name", trimmedName);
+      formData.append("price", priceNumber);
+      formData.append("category", menuForm.category.trim() || "Genel");
+      formData.append("available", menuForm.available ? "true" : "false");
+
+      if (imgFile) {
+        formData.append("img", imgFile);
+      }
+
+      dispatch(addMenuItem(formData));
     }
 
     resetMenuForm();
@@ -160,6 +190,7 @@ export default function AdminDashboard() {
       category: item.category,
       available: item.available,
     });
+    setImgFile(null); // mevcut resmi değiştirmek zorunda değil; isterse yeni seçer
   };
 
   const handleDeleteClick = (id) => {
@@ -406,6 +437,26 @@ export default function AdminDashboard() {
                 placeholder="Ana Yemek / Tatlı / İçecek"
               />
             </div>
+          </div>
+
+          {/* 🖼 Resim upload alanı */}
+          <div
+            className={s.menuUpload}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <p className={s.menuUploadText}>
+              Resmi buraya sürükleyip bırak veya tıklayıp seç
+            </p>
+            {imgFile && (
+              <p className={s.menuUploadFileName}>Seçilen: {imgFile.name}</p>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className={s.menuUploadInput}
+            />
           </div>
 
           <div className={s.menuFormRowBottom}>

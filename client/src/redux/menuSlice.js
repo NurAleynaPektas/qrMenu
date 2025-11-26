@@ -1,10 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
 const API_URL = `${import.meta.env.VITE_API_URL}/api/menu`;
 
-
+// MENÜYÜ ÇEK
 export const fetchMenu = createAsyncThunk(
   "menu/fetchMenu",
   async (_, thunkAPI) => {
@@ -19,13 +18,14 @@ export const fetchMenu = createAsyncThunk(
   }
 );
 
-// YENİ: Menü item ekle (POST /api/menu)
+// MENÜ ITEM EKLE 
 export const addMenuItem = createAsyncThunk(
   "menu/addMenuItem",
   async (payload, thunkAPI) => {
     try {
+    
       const res = await axios.post(API_URL, payload);
-      return res.data; 
+      return res.data;
     } catch (err) {
       const msg =
         err.response?.data?.message || err.message || "Failed to add menu item";
@@ -34,13 +34,13 @@ export const addMenuItem = createAsyncThunk(
   }
 );
 
-// YENİ: Menü item güncelle (PUT /api/menu/:id)
+// MENÜ ITEM GÜNCELLE 
 export const updateMenuItem = createAsyncThunk(
   "menu/updateMenuItem",
   async ({ id, changes }, thunkAPI) => {
     try {
       const res = await axios.put(`${API_URL}/${id}`, changes);
-      return res.data; 
+      return res.data;
     } catch (err) {
       const msg =
         err.response?.data?.message ||
@@ -51,7 +51,7 @@ export const updateMenuItem = createAsyncThunk(
   }
 );
 
-// YENİ: Menü item sil 
+// MENÜ ITEM SİL
 export const deleteMenuItem = createAsyncThunk(
   "menu/deleteMenuItem",
   async (id, thunkAPI) => {
@@ -77,7 +77,7 @@ const initialState = {
 const menuSlice = createSlice({
   name: "menu",
   initialState,
-  reducers: {}, 
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // MENÜYÜ ÇEK

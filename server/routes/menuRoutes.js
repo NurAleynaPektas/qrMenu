@@ -1,8 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const { readJson, writeJson } = require("../utils/fileDb");
+const path = require("path");
+const multer = require("multer");
+const { readJson, writeJson } = require("../utils/fileDB");
 
 const MENU_PATH = "data/menu.json";
+
+//Multer storage ayarı
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, "..", "uploads")); 
+  },
+  filename: (req, file, cb) => {
+    const safeName = file.originalname.replace(/\s+/g, "_");
+    cb(null, Date.now() + "-" + safeName);
+  },
+});
+
+const upload = multer({ storage });
 
 // GET /api/menu → tüm menüyü getir
 router.get("/", async (req, res) => {
@@ -16,20 +31,36 @@ router.get("/", async (req, res) => {
 });
 
 // POST /api/menu → yeni ürün ekle
-router.post("/", async (req, res) => {
+router.post("/", upload.single("img"), async (req, res) => {
   try {
-    const { name, price, category, available = true, img, nameKey } = req.body;
+    const { name, price, category, available = "true", nameKey } = req.body;
 
     const menu = await readJson(MENU_PATH);
 
+   
+    let imgUrl = null;
+    if (req.file) {
+      imgUrl = `${req.protocol}://${req.get("host")}/uploads/${
+        req.file.filename
+      }`;
+    } else if (req.body.img) {
+      
+      imgUrl = req.body.img;
+    }
+
+    const isAvailable =
+      typeof available === "string"
+        ? available !== "false"
+        : Boolean(available);
+
     const newItem = {
-      id: req.body.id || `M-${Date.now()}`, 
+      id: req.body.id || `M-${Date.now()}`,
       name: name || "Menu item",
       nameKey: nameKey || null,
       price: Number(price) || 0,
       category: category || "General",
-      available: typeof available === "boolean" ? available : true,
-      img: img || `https://picsum.photos/400/250?menu-${menu.length + 1}`,
+      available: isAvailable,
+      img: imgUrl || `https://picsum.photos/400/250?menu-${menu.length + 1}`,
     };
 
     menu.push(newItem);
@@ -42,8 +73,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-// PUT /api/menu/:id → ürünü güncelle
-router.put("/:id", async (req, res) => {
+// PUT /api/menu/:id → ürünü güncelle (gerekirse resim de değişebilir)
+router.put("/:id", upload.single("img"), async (req, res) => {
   try {
     const { id } = req.params;
     const changes = req.body || {};
@@ -55,11 +86,28 @@ router.put("/:id", async (req, res) => {
       return res.status(404).json({ message: "Menu item not found" });
     }
 
+    let imgUrl = menu[index].img;
+
+    if (req.file) {
+      imgUrl = `${req.protocol}://${req.get("host")}/uploads/${
+        req.file.filename
+      }`;
+    } else if (changes.img) {
+      imgUrl = changes.img;
+    }
+
     const updated = {
       ...menu[index],
       ...changes,
       price:
         changes.price !== undefined ? Number(changes.price) : menu[index].price,
+      img: imgUrl,
+      available:
+        changes.available !== undefined
+          ? changes.available === "false"
+            ? false
+            : Boolean(changes.available)
+          : menu[index].available,
     };
 
     menu[index] = updated;
