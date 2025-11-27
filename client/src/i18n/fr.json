@@ -53,30 +53,29 @@
       "lemonade": "Citronnade"
     }
   },
- "checkout": {
-  "title": "Paiement",
-  "table_number": "Numéro de Table",
-  "note_optional": "Note (optionnelle)",
-  "note_placeholder": "Sans oignon, s'il vous plaît",
-  "order_summary": "Récapitulatif de la Commande",
-  "total": "Total",
-  "place_order": "Commander",
+  "checkout": {
+    "title": "Paiement",
+    "table_number": "Numéro de Table",
+    "note_optional": "Note (optionnelle)",
+    "note_placeholder": "Sans oignon, s'il vous plaît",
+    "order_summary": "Récapitulatif de la Commande",
+    "total": "Total",
+    "place_order": "Commander",
 
-  "success_title": "Commande reçue",
-  "success_msg": "Votre commande a bien été reçue.",
+    "success_title": "Commande reçue",
+    "success_msg": "Votre commande a bien été reçue.",
 
-  "table_number_error": "Veuillez saisir un numéro de table valide.",
-  "table_number_integer": "Le numéro de table doit être un nombre entier.",
-  "table_number_min": "Le numéro de table doit être d'au moins 1.",
-  "table_number_required": "Le numéro de table est obligatoire.",
-  "note_max": "La note peut contenir au maximum 200 caractères.",
+    "table_number_error": "Veuillez saisir un numéro de table valide.",
+    "table_number_integer": "Le numéro de table doit être un nombre entier.",
+    "table_number_min": "Le numéro de table doit être d'au moins 1.",
+    "table_number_required": "Le numéro de table est obligatoire.",
+    "note_max": "La note peut contenir au maximum 200 caractères.",
 
-  "sample": {
-    "burger_x1": "Burger Classique x1",
-    "lemonade_x2": "Citronnade x2"
-  }
-}
-,
+    "sample": {
+      "burger_x1": "Burger Classique x1",
+      "lemonade_x2": "Citronnade x2"
+    }
+  },
   "admin": {
     "login_title": "Connexion Admin",
     "email": "E-mail",
@@ -115,10 +114,15 @@
     "menu_unavailable_short": "Caché",
     "menu_edit": "Modifier",
     "menu_delete": "Supprimer",
-      "menu_upload_label": "Glissez-déposez une image ici ou cliquez pour en choisir une",
-  "menu_upload_selected": "Sélectionné : {{file}}",
-  "menu_upload_btn": "Choisir un fichier"
+    "menu_upload_label": "Glissez-déposez une image ici ou cliquez pour en choisir une",
+    "menu_upload_selected": "Sélectionné : {{file}}",
+    "menu_upload_btn": "Choisir un fichier",
 
+    "cat_main": "Plat principal",
+    "cat_drink": "Boisson",
+    "cat_appetizer": "Apéritif",
+    "cat_dessert": "Dessert",
+    "menu_category_placeholder": "Choisissez une catégorie"
   },
   "auth": {
     "login": "Se connecter",

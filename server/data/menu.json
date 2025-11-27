@@ -3,7 +3,7 @@
     "id": "M-1764193048226",
     "name": "Lahmacun",
     "nameKey": null,
-    "price": 500,
+    "price": 100,
     "category": "Ana Yemek",
     "available": true,
     "img": "http://localhost:5000/uploads/1764193048219-download.jpg"
@@ -13,8 +13,116 @@
     "name": "Salata",
     "nameKey": null,
     "price": 100,
+    "category": "Aperatif",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764284769955-salata.jpg"
+  },
+  {
+    "id": "M-1764284610154",
+    "name": "Mantı",
+    "nameKey": null,
+    "price": 200,
     "category": "Ana Yemek",
     "available": true,
-    "img": "http://localhost:5000/uploads/1764193907529-seasonal.jpg"
+    "img": "http://localhost:5000/uploads/1764284610134-mantÄ±.jpg"
+  },
+  {
+    "id": "M-1764284646261",
+    "name": "Çiğ Köfte",
+    "nameKey": null,
+    "price": 100,
+    "category": "Aperatif",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764284646245-cigKofte.jpg"
+  },
+  {
+    "id": "M-1764284658402",
+    "name": "Su",
+    "nameKey": null,
+    "price": 10,
+    "category": "İçecek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764284658387-su.jpg"
+  },
+  {
+    "id": "M-1764284673412",
+    "name": "Tepsi Mantı",
+    "nameKey": null,
+    "price": 250,
+    "category": "Ana Yemek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764284673399-tepsiMantÄ±.jpg"
+  },
+  {
+    "id": "M-1764284686476",
+    "name": "Ayran",
+    "nameKey": null,
+    "price": 25,
+    "category": "İçecek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764284686463-ayran.jpg"
+  },
+  {
+    "id": "M-1764284702249",
+    "name": "Limonata",
+    "nameKey": null,
+    "price": 80,
+    "category": "İçecek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764284702235-Limonata.jpg"
+  },
+  {
+    "id": "M-1764284980457",
+    "name": "Kebab",
+    "nameKey": null,
+    "price": 300,
+    "category": "Ana Yemek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764284980443-kebab.jpg"
+  },
+  {
+    "id": "M-1764284996046",
+    "name": "Sariyer Cola",
+    "nameKey": null,
+    "price": 80,
+    "category": "İçecek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764284996031-sariyer.jpg"
+  },
+  {
+    "id": "M-1764285013399",
+    "name": "Kavurmalı Pide",
+    "nameKey": null,
+    "price": 300,
+    "category": "Ana Yemek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764285013385-kavurmalÄ±Pide.jpg"
+  },
+  {
+    "id": "M-1764285025908",
+    "name": "Sucuklu Pide",
+    "nameKey": null,
+    "price": 280,
+    "category": "Ana Yemek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764285025894-sucukluPide.jpg"
+  },
+  {
+    "id": "M-1764285039165",
+    "name": "Peynirli Pide",
+    "nameKey": null,
+    "price": 250,
+    "category": "Ana Yemek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764285039151-peynirliPide.jpg"
+  },
+  {
+    "id": "M-1764285111189",
+    "name": "IceTea Şeftali",
+    "nameKey": null,
+    "price": 80,
+    "category": "İçecek",
+    "available": true,
+    "img": "http://localhost:5000/uploads/1764285111183-didi.jpg"
   }
 ]

@@ -49,6 +49,27 @@ export default function AdminDashboard() {
   });
   const [imgFile, setImgFile] = useState(null);
   const fileInputRef = useRef(null);
+
+  // 🔽 Kategori seçenekleri (select için)
+  const CATEGORY_OPTIONS = [
+    {
+      value: "ANA YEMEK",
+      label: t("admin.cat_main") || "Ana Yemek",
+    },
+    {
+      value: "İÇECEK",
+      label: t("admin.cat_drink") || "İçecek",
+    },
+    {
+      value: "APERATİF",
+      label: t("admin.cat_appetizer") || "Aperatif",
+    },
+    {
+      value: "TATLI",
+      label: t("admin.cat_dessert") || "Tatlı",
+    },
+  ];
+
   const { totalOrders, pendingCount, completedCount, totalRevenue } =
     useMemo(() => {
       const totalOrders = orders.length;
@@ -425,17 +446,27 @@ export default function AdminDashboard() {
                 placeholder="250"
               />
             </div>
+
+            {/* 🔽 Kategori artık select */}
             <div className={s.menuField}>
               <label className={s.menuLabel}>
                 {t("admin.menu_category") || "Category"}
               </label>
-              <input
+              <select
                 name="category"
                 className={s.menuInput}
                 value={menuForm.category}
                 onChange={handleMenuChange}
-                placeholder="Ana Yemek / Tatlı / İçecek"
-              />
+              >
+                <option value="">
+                  {t("admin.menu_category_placeholder") || "Kategori seçin"}
+                </option>
+                {CATEGORY_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 {
   "brand": "Friend's First",
-  "nav": { 
+  "nav": {
     "home": "Home",
     "menu": "Menu",
     "my_cart": "My Cart",
@@ -52,29 +52,29 @@
       "burger": "Classic Burger"
     }
   },
- "checkout": {
-  "title": "Checkout",
-  "table_number": "Table Number",
-  "note_optional": "Note (optional)",
-  "note_placeholder": "No onion, please",
-  "order_summary": "Order Summary",
-  "total": "Total",
-  "place_order": "Place Order",
+  "checkout": {
+    "title": "Checkout",
+    "table_number": "Table Number",
+    "note_optional": "Note (optional)",
+    "note_placeholder": "No onion, please",
+    "order_summary": "Order Summary",
+    "total": "Total",
+    "place_order": "Place Order",
 
-  "success_title": "Order received",
-  "success_msg": "Your order has been received successfully.",
+    "success_title": "Order received",
+    "success_msg": "Your order has been received successfully.",
 
-  "table_number_error": "Please enter a valid table number.",
-  "table_number_integer": "Table number must be an integer.",
-  "table_number_min": "Table number must be at least 1.",
-  "table_number_required": "Table number is required.",
-  "note_max": "Note can be at most 200 characters.",
+    "table_number_error": "Please enter a valid table number.",
+    "table_number_integer": "Table number must be an integer.",
+    "table_number_min": "Table number must be at least 1.",
+    "table_number_required": "Table number is required.",
+    "note_max": "Note can be at most 200 characters.",
 
-  "sample": {
-    "burger_x1": "Classic Burger x1",
-    "lemonade_x2": "Lemonade x2"
-  }
-},
+    "sample": {
+      "burger_x1": "Classic Burger x1",
+      "lemonade_x2": "Lemonade x2"
+    }
+  },
   "admin": {
     "login_title": "Admin Panel Login",
     "email": "Email",
@@ -113,10 +113,15 @@
     "menu_unavailable_short": "Hidden",
     "menu_edit": "Edit",
     "menu_delete": "Delete",
-     "menu_upload_label": "Drag & drop an image here or click to select",
-  "menu_upload_selected": "Selected: {{file}}",
-  "menu_upload_btn": "Choose file"
+    "menu_upload_label": "Drag & drop an image here or click to select",
+    "menu_upload_selected": "Selected: {{file}}",
+    "menu_upload_btn": "Choose file",
 
+    "cat_main": "Main Dish",
+    "cat_drink": "Drink",
+    "cat_appetizer": "Appetizer",
+    "cat_dessert": "Dessert",
+    "menu_category_placeholder": "Select category"
   },
   "auth": {
     "login": "Login",
