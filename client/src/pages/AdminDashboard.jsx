@@ -50,7 +50,7 @@ export default function AdminDashboard() {
   const [imgFile, setImgFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  // 🔽 Kategori seçenekleri (select için)
+  // Kategori seçenekleri (select için)
   const CATEGORY_OPTIONS = [
     {
       value: "ANA YEMEK",
@@ -447,7 +447,7 @@ export default function AdminDashboard() {
               />
             </div>
 
-            {/* 🔽 Kategori artık select */}
+            {/*  Kategori artık select */}
             <div className={s.menuField}>
               <label className={s.menuLabel}>
                 {t("admin.menu_category") || "Category"}

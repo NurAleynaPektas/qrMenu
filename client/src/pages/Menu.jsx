@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import s from "./Menu.module.css";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,11 +20,60 @@ export default function Menu() {
     error,
   } = useSelector((state) => state.menu);
 
+  // Aktif kategori filtresi
+  const [activeCategory, setActiveCategory] = useState("all");
+
   useEffect(() => {
     dispatch(fetchMenu());
   }, [dispatch]);
 
-  const visibleItems = menuItems.filter((item) => item.available);
+  
+  const visibleItems = useMemo(
+    () => menuItems.filter((item) => item.available),
+    [menuItems]
+  );
+
+
+  const CATEGORY_ORDER = ["ANA YEMEK", "APERATİF", "TATLI", "İÇECEK"];
+
+  //  Kategori label
+  const categoryLabel = (cat) => {
+    switch (cat) {
+      case "ANA YEMEK":
+        return t("admin.cat_main") || cat;
+      case "İÇECEK":
+        return t("admin.cat_drink") || cat;
+      case "APERATİF":
+        return t("admin.cat_appetizer") || cat;
+      case "TATLI":
+        return t("admin.cat_dessert") || cat;
+      default:
+        return cat;
+    }
+  };
+
+ 
+  const categories = useMemo(() => {
+    const set = new Set(
+      visibleItems.map((it) => it.category).filter((c) => !!c)
+    );
+    const arr = Array.from(set);
+
+    return arr.sort((a, b) => {
+      const ia = CATEGORY_ORDER.indexOf(a);
+      const ib = CATEGORY_ORDER.indexOf(b);
+
+      if (ia === -1 && ib === -1) return a.localeCompare(b); 
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
+  }, [visibleItems]);
+
+  const filteredItems = useMemo(() => {
+    if (activeCategory === "all") return visibleItems;
+    return visibleItems.filter((it) => it.category === activeCategory);
+  }, [visibleItems, activeCategory]);
 
   const handleAddToCart = (item) => {
     if (!user) {
@@ -73,6 +122,34 @@ export default function Menu() {
       <h1 className={s.title}>{t("home.title")}</h1>
       <p className={s.subtitle}>{t("home.about_p2")}</p>
 
+      {/* Kategori filtre butonları */}
+      {categories.length > 0 && (
+        <div className={s.filters}>
+          <button
+            type="button"
+            className={`${s.filterBtn} ${
+              activeCategory === "all" ? s.filterBtnActive : ""
+            }`}
+            onClick={() => setActiveCategory("all")}
+          >
+            {t("admin.filter_all") || "All"}
+          </button>
+
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              className={`${s.filterBtn} ${
+                activeCategory === cat ? s.filterBtnActive : ""
+              }`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {categoryLabel(cat)}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* YÜKLENİYOR DURUMU */}
       {loading && <p className={s.infoText}>Loading menu...</p>}
 
@@ -87,7 +164,7 @@ export default function Menu() {
       <section className={s.grid}>
         {!loading &&
           !error &&
-          visibleItems.map((it) => {
+          filteredItems.map((it) => {
             const label = it.nameKey ? t(it.nameKey) : it.name;
 
             return (
