@@ -122,7 +122,9 @@
     "cat_drink": "Boisson",
     "cat_appetizer": "Apéritif",
     "cat_dessert": "Dessert",
-    "menu_category_placeholder": "Choisissez une catégorie"
+    "menu_category_placeholder": "Choisissez une catégorie",
+
+    "cat.filters":"Filtres"
   },
   "auth": {
     "login": "Se connecter",

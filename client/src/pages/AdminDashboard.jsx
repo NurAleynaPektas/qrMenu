@@ -50,25 +50,41 @@ export default function AdminDashboard() {
   const [imgFile, setImgFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Kategori seçenekleri (select için)
+  // 🔹 Kategori seçenekleri (artık sabit kodlar)
   const CATEGORY_OPTIONS = [
     {
-      value: "ANA YEMEK",
+      value: "MAIN",
       label: t("admin.cat_main") || "Ana Yemek",
     },
     {
-      value: "İÇECEK",
+      value: "DRINK",
       label: t("admin.cat_drink") || "İçecek",
     },
     {
-      value: "APERATİF",
+      value: "APPETIZER",
       label: t("admin.cat_appetizer") || "Aperatif",
     },
     {
-      value: "TATLI",
+      value: "DESSERT",
       label: t("admin.cat_dessert") || "Tatlı",
     },
   ];
+
+  // 🔹 Kategori kodunu ekranda doğru dile göre göster
+  const categoryLabel = (cat) => {
+    switch (cat) {
+      case "MAIN":
+        return t("admin.cat_main") || "Ana Yemek";
+      case "DRINK":
+        return t("admin.cat_drink") || "İçecek";
+      case "APPETIZER":
+        return t("admin.cat_appetizer") || "Aperatif";
+      case "DESSERT":
+        return t("admin.cat_dessert") || "Tatlı";
+      default:
+        return cat || "-";
+    }
+  };
 
   const { totalOrders, pendingCount, completedCount, totalRevenue } =
     useMemo(() => {
@@ -137,7 +153,7 @@ export default function AdminDashboard() {
     setImgFile(null);
   };
 
-  // 🖼 Dosya seçimi (input)
+  // 🖼 Dosya seçimi
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -167,12 +183,14 @@ export default function AdminDashboard() {
     const priceNumber = Number(menuForm.price);
     if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
 
+    const categoryCode = menuForm.category || "OTHER";
+
     if (editingId) {
       // GÜNCELLEME → FormData
       const formData = new FormData();
       formData.append("name", trimmedName);
       formData.append("price", priceNumber);
-      formData.append("category", menuForm.category.trim() || "Genel");
+      formData.append("category", categoryCode);
       formData.append("available", menuForm.available ? "true" : "false");
 
       if (imgFile) {
@@ -190,7 +208,7 @@ export default function AdminDashboard() {
       const formData = new FormData();
       formData.append("name", trimmedName);
       formData.append("price", priceNumber);
-      formData.append("category", menuForm.category.trim() || "Genel");
+      formData.append("category", categoryCode);
       formData.append("available", menuForm.available ? "true" : "false");
 
       if (imgFile) {
@@ -208,10 +226,10 @@ export default function AdminDashboard() {
     setMenuForm({
       name: item.name,
       price: item.price,
-      category: item.category,
+      category: item.category || "",
       available: item.available,
     });
-    setImgFile(null); // mevcut resmi değiştirmek zorunda değil; isterse yeni seçer
+    setImgFile(null);
   };
 
   const handleDeleteClick = (id) => {
@@ -447,7 +465,7 @@ export default function AdminDashboard() {
               />
             </div>
 
-            {/*  Kategori artık select */}
+            {/* Kategori select */}
             <div className={s.menuField}>
               <label className={s.menuLabel}>
                 {t("admin.menu_category") || "Category"}
@@ -475,7 +493,7 @@ export default function AdminDashboard() {
             className={s.menuUpload}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()} // kutuya tıklayınca aç
+            onClick={() => fileInputRef.current?.click()}
           >
             <div className={s.menuUploadContent}>
               <p className={s.menuUploadText}>{t("admin.menu_upload_label")}</p>
@@ -560,7 +578,8 @@ export default function AdminDashboard() {
                     <td>{item.id}</td>
                     <td>{item.name}</td>
                     <td>₺{item.price}</td>
-                    <td>{item.category}</td>
+                    {/* Kategori kodunu label'e çeviriyoruz */}
+                    <td>{categoryLabel(item.category)}</td>
                     <td>
                       <span
                         className={

@@ -121,7 +121,9 @@
     "cat_drink": "Drink",
     "cat_appetizer": "Appetizer",
     "cat_dessert": "Dessert",
-    "menu_category_placeholder": "Select category"
+    "menu_category_placeholder": "Select category",
+    "cat.filters":"Filters"
+    
   },
   "auth": {
     "login": "Login",

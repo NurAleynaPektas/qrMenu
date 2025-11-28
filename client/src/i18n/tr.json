@@ -121,7 +121,9 @@
     "cat_drink": "İçecek",
     "cat_appetizer": "Aperatif",
     "cat_dessert": "Tatlı",
-    "menu_category_placeholder": "Kategori seçin"
+    "menu_category_placeholder": "Kategori seçin",
+
+    "cat.filters":"Filtreler"
   },
   "auth": {
     "login": "Giriş Yap",

@@ -27,32 +27,32 @@ export default function Menu() {
     dispatch(fetchMenu());
   }, [dispatch]);
 
-  
+  // Sadece aktif ürünler
   const visibleItems = useMemo(
     () => menuItems.filter((item) => item.available),
     [menuItems]
   );
 
+  // 🔹 Kategori sırası (kod bazlı)
+  const CATEGORY_ORDER = ["MAIN", "APPETIZER", "DESSERT", "DRINK"];
 
-  const CATEGORY_ORDER = ["ANA YEMEK", "APERATİF", "TATLI", "İÇECEK"];
-
-  //  Kategori label
+  // 🔹 Kategori kodunu dile göre label yap
   const categoryLabel = (cat) => {
     switch (cat) {
-      case "ANA YEMEK":
-        return t("admin.cat_main") || cat;
-      case "İÇECEK":
-        return t("admin.cat_drink") || cat;
-      case "APERATİF":
-        return t("admin.cat_appetizer") || cat;
-      case "TATLI":
-        return t("admin.cat_dessert") || cat;
+      case "MAIN":
+        return t("admin.cat_main") || "Ana Yemek";
+      case "DRINK":
+        return t("admin.cat_drink") || "İçecek";
+      case "APPETIZER":
+        return t("admin.cat_appetizer") || "Aperatif";
+      case "DESSERT":
+        return t("admin.cat_dessert") || "Tatlı";
       default:
         return cat;
     }
   };
 
- 
+  // 🔹 Menüde gerçekten kullanılan kategoriler
   const categories = useMemo(() => {
     const set = new Set(
       visibleItems.map((it) => it.category).filter((c) => !!c)
@@ -63,13 +63,14 @@ export default function Menu() {
       const ia = CATEGORY_ORDER.indexOf(a);
       const ib = CATEGORY_ORDER.indexOf(b);
 
-      if (ia === -1 && ib === -1) return a.localeCompare(b); 
+      if (ia === -1 && ib === -1) return a.localeCompare(b);
       if (ia === -1) return 1;
       if (ib === -1) return -1;
       return ia - ib;
     });
   }, [visibleItems]);
 
+  // 🔹 Aktif kategoriye göre ürünler
   const filteredItems = useMemo(() => {
     if (activeCategory === "all") return visibleItems;
     return visibleItems.filter((it) => it.category === activeCategory);
@@ -125,6 +126,7 @@ export default function Menu() {
       {/* Kategori filtre butonları */}
       {categories.length > 0 && (
         <div className={s.filters}>
+          <h4 className={s.filtersTitle}>{t("admin.cat.filters") || "Filters"}</h4>
           <button
             type="button"
             className={`${s.filterBtn} ${

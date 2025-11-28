@@ -3,6 +3,36 @@ import axios from "axios";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/menu`;
 
+// 🔹 Eski kategorileri (ANA YEMEK, İÇECEK...) yeni kodlara çevir
+const mapLegacyCategory = (cat) => {
+  if (!cat) return "OTHER";
+
+  const val = String(cat).toUpperCase();
+
+  switch (val) {
+    case "ANA YEMEK":
+    case "MAIN":
+      return "MAIN";
+
+    case "İÇECEK":
+    case "ICECEK":
+    case "DRINK":
+      return "DRINK";
+
+    case "APERATİF":
+    case "APERATIF":
+    case "APPETIZER":
+      return "APPETIZER";
+
+    case "TATLI":
+    case "DESSERT":
+      return "DESSERT";
+
+    default:
+      return val; // bilinmeyen bir şeyse dokunma, büyük harf olarak bırak
+  }
+};
+
 // MENÜYÜ ÇEK
 export const fetchMenu = createAsyncThunk(
   "menu/fetchMenu",
@@ -18,12 +48,11 @@ export const fetchMenu = createAsyncThunk(
   }
 );
 
-// MENÜ ITEM EKLE 
+// MENÜ ITEM EKLE
 export const addMenuItem = createAsyncThunk(
   "menu/addMenuItem",
   async (payload, thunkAPI) => {
     try {
-    
       const res = await axios.post(API_URL, payload);
       return res.data;
     } catch (err) {
@@ -34,7 +63,7 @@ export const addMenuItem = createAsyncThunk(
   }
 );
 
-// MENÜ ITEM GÜNCELLE 
+// MENÜ ITEM GÜNCELLE
 export const updateMenuItem = createAsyncThunk(
   "menu/updateMenuItem",
   async ({ id, changes }, thunkAPI) => {
@@ -93,7 +122,7 @@ const menuSlice = createSlice({
           name: item.name || "Menu item",
           nameKey: item.nameKey || null,
           price: Number(item.price) || 0,
-          category: item.category || "General",
+          category: mapLegacyCategory(item.category),
           available:
             typeof item.available === "boolean" ? item.available : true,
           img:
@@ -114,7 +143,7 @@ const menuSlice = createSlice({
           name: item.name || "Menu item",
           nameKey: item.nameKey || null,
           price: Number(item.price) || 0,
-          category: item.category || "General",
+          category: mapLegacyCategory(item.category),
           available:
             typeof item.available === "boolean" ? item.available : true,
           img:
@@ -128,10 +157,14 @@ const menuSlice = createSlice({
         const updated = action.payload;
         const index = state.items.findIndex((it) => it.id === updated.id);
         if (index !== -1) {
+          const prev = state.items[index];
           state.items[index] = {
-            ...state.items[index],
+            ...prev,
             ...updated,
-            price: Number(updated.price ?? state.items[index].price),
+            price: Number(updated.price ?? prev.price),
+            category: mapLegacyCategory(
+              updated.category !== undefined ? updated.category : prev.category
+            ),
           };
         }
       })
