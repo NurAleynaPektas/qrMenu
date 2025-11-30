@@ -1,0 +1,90 @@
+.footer {
+  width: 100%;
+  border-top: 1px solid var(--border);
+  padding: 18px 0;
+  background: linear-gradient(90deg, var(--paper) 0%, #fafafa 100%);
+  display: flex;
+  justify-content: center;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* SOL TARAF */
+.brand {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+/* SAĞ TARAF */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.made {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.made span {
+  font-weight: 600;
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+
+.made span:hover {
+  color: var(--accent-2);
+}
+
+/* ICONLAR */
+
+.icons {
+  display: flex;
+  gap: 2px;
+}
+
+.iconLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  fill: var(--text-muted);
+  transition: fill 0.2s ease;
+}
+
+.iconLink:hover .icon {
+  fill: var(--accent);
+}
+
+.iconLink:hover {
+  background: #f3f4ff;
+  transform: translateY(-2px);
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}

@@ -187,8 +187,10 @@
 }
 
 .cardBtn:hover {
-  background: var(--accent);
-  color: var(--bg);
+  background: #f3f4ff;
+  border-color: var(--accent);
+  color: var(--accent);
+  
 }
 
 /* Tablet 780px */

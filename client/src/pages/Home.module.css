@@ -336,12 +336,12 @@
   transition: transform 1s ease, background 0.2s ease, color 0.2s ease;
 }
 .ctaBtn:hover {
-  background: var(--accent);
-  color: var(--bg);
+  background: #f3f4ff;
+  border-color: var(--accent);
+  color: var(--accent);
+
 }
-.ctaBtn:active {
-  transform: translateY(1px);
-}
+
 .ctaTextWrap {
   display: flex;
   flex-direction: column;
