@@ -111,8 +111,7 @@
 }
 
 .logoutBtn:hover,
-.authLink:hover,
-.authLinkAccent:hover {
+.authLink:hover {
   background: var(--accent-light);
   color: var(--accent);
   box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
