@@ -73,7 +73,7 @@
   text-align: center;
 }
 .navbarRight a:hover {
-font-size: 19px; 
+
   color: var(--accent);
 }
 .authArea {
