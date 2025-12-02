@@ -9,6 +9,9 @@ import { clearCart } from "../redux/cartSlice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+
+const API_BASE = import.meta.env.VITE_API_URL;
+
 export default function Checkout() {
   const { t } = useTranslation();
   const user = useSelector((state) => state.auth.user);
@@ -53,7 +56,6 @@ export default function Checkout() {
   const handleSubmit = async (values, { resetForm }) => {
     if (cartItems.length === 0) return;
 
-    
     const itemsPayload = cartItems.map((item) => ({
       id: item.id,
       title: item.title || item.name || "",
@@ -74,7 +76,8 @@ export default function Checkout() {
       .join(", ");
 
     try {
-      const res = await fetch("http://localhost:5000/api/orders", {
+     
+      const res = await fetch(`${API_BASE}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +85,7 @@ export default function Checkout() {
         body: JSON.stringify({
           table: values.tableNumber,
           note: values.note,
-          items: itemsPayload, 
+          items: itemsPayload,
         }),
       });
 
@@ -93,6 +96,7 @@ export default function Checkout() {
       const data = await res.json();
       console.log("Order saved:", data);
 
+   
       dispatch(
         addOrder({
           tableNumber: values.tableNumber || "-",
