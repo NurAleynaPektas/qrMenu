@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/api/menu`;
 
-// 🔹 Eski kategorileri (ANA YEMEK, İÇECEK...) yeni kodlara çevir
+// Eski kategorileri (ANA YEMEK, İÇECEK...) yeni kodlara çevir
 const mapLegacyCategory = (cat) => {
   if (!cat) return "OTHER";
 
