@@ -2,16 +2,18 @@ import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 
 export default function AdminRoute({ children }) {
-  const { user, isAdmin } = useSelector((state) => state.auth);
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
   const location = useLocation();
 
-  console.log("AdminRoute state:", { user, isAdmin }); // debug
+  console.log("AdminRoute isAdmin:", isAdmin);
 
-  if (!user || !isAdmin) {
+  
+  if (!isAdmin) {
     return (
       <Navigate to="/admin/login" replace state={{ from: location.pathname }} />
     );
   }
 
+  
   return children;
 }
