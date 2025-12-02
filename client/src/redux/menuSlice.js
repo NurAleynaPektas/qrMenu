@@ -1,9 +1,38 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = `${import.meta.env.VITE_API_URL}/api/menu`;
 
-// Eski kategorileri (ANA YEMEK, İÇECEK...) yeni kodlara çevir
+const API_BASE = import.meta.env.VITE_API_URL;
+const API_URL = `${API_BASE}/api/menu`;
+
+
+const resolveImageUrl = (img, fallbackRandomKey = "1") => {
+
+  if (!img) {
+    return `https://picsum.photos/400/250?random=${fallbackRandomKey}`;
+  }
+
+  let url = String(img);
+
+  if (url.startsWith("http://localhost:5000")) {
+    return url.replace("http://localhost:5000", API_BASE);
+  }
+
+
+  if (url.startsWith("/uploads/")) {
+    return `${API_BASE}${url}`;
+  }
+
+
+  if (!url.startsWith("http")) {
+    return `${API_BASE}/uploads/${url}`;
+  }
+
+  
+  return url;
+};
+
+// Eski kategorileri (ANA YEMEK, İÇECEK...)
 const mapLegacyCategory = (cat) => {
   if (!cat) return "OTHER";
 
@@ -125,9 +154,7 @@ const menuSlice = createSlice({
           category: mapLegacyCategory(item.category),
           available:
             typeof item.available === "boolean" ? item.available : true,
-          img:
-            item.img ||
-            `https://picsum.photos/400/250?random=from-api-${idx + 1}`,
+          img: resolveImageUrl(item.img, `from-api-${idx + 1}`),
         }));
       })
       .addCase(fetchMenu.rejected, (state, action) => {
@@ -146,9 +173,10 @@ const menuSlice = createSlice({
           category: mapLegacyCategory(item.category),
           available:
             typeof item.available === "boolean" ? item.available : true,
-          img:
-            item.img ||
-            `https://picsum.photos/400/250?random=${state.items.length + 1}`,
+          img: resolveImageUrl(
+            item.img,
+            state.items.length + 1 // fallback için
+          ),
         });
       })
 
@@ -165,6 +193,7 @@ const menuSlice = createSlice({
             category: mapLegacyCategory(
               updated.category !== undefined ? updated.category : prev.category
             ),
+            img: resolveImageUrl(updated.img ?? prev.img, updated.id || "1"),
           };
         }
       })
