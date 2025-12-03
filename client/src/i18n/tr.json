@@ -77,6 +77,7 @@
   },
   "admin": {
     "login_title": "Admin Girişi",
+    "login_sub": "Admin paneline giriş yapmak için bilgilerinizi girin.",
     "email": "E-posta",
     "password": "Şifre",
     "sign_in": "Giriş Yap",

@@ -59,7 +59,7 @@ export default function Home() {
           </div>
           <div className={s.chefCard}>
             <img className={s.chefImg} src={chef2} alt="Chef 2" />
-            <h3 className={s.chefName}>Lina Ghosh</h3>
+            <h3 className={s.chefName}>Pierre Garcia</h3>
             <p className={s.chefRole}>{t("home.chef_role")}</p>
           </div>
           <div className={s.chefCard}>

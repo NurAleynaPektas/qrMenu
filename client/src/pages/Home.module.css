@@ -191,7 +191,7 @@
 .chefImg {
   width: 100%;
   height: 220px;
-  object-fit: cover;
+  
   border-radius: 12px;
   margin-bottom: 10px;
   background: #f2f2f2;
@@ -445,5 +445,11 @@
   .ctaBtn {
     font-size: 15px;
     padding: 10px 22px;
+  }
+  .chefImg{
+  
+  max-width: 250px;
+  max-height: 300px;
+
   }
 }
