@@ -148,5 +148,8 @@
     "title": "Page introuvable",
     "subtitle": "Nous n’avons pas pu charger la page recherchée. Vous pouvez continuer depuis la page d’accueil.",
     "cta": "Accueil"
+  },
+  "loader": {
+    "loading": "Votre menu est en route..."
   }
 }

@@ -1,9 +1,11 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
+import Loader from "./components/Loader";
 
 // Lazy-loaded pages
 const Home = lazy(() => import("./pages/Home"));
@@ -16,6 +18,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
+// Scroll to top component
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -24,35 +27,20 @@ function ScrollToTop() {
   return null;
 }
 
-function FallbackLoader() {
-  return (
-    <div
-      style={{
-        display: "grid",
-        placeItems: "center",
-        minHeight: "50vh",
-        fontWeight: 700,
-        opacity: 0.8,
-      }}
-    >
-      Loading…
-    </div>
-  );
-}
-
 export default function App() {
   return (
     <>
       <Navbar />
       <ScrollToTop />
-      <Suspense fallback={<FallbackLoader />}>
+
+      <Suspense fallback={<Loader />}>
         <Routes>
-          {/* Public */}
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/cart" element={<Cart />} />
 
-          {/* Protected: sadece login olan kullanıcı */}
+          {/* Protected (User Login Required) */}
           <Route
             path="/checkout"
             element={
@@ -62,7 +50,7 @@ export default function App() {
             }
           />
 
-          {/* Admin */}
+          {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route
             path="/admin/dashboard"
@@ -81,6 +69,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+
       <Footer />
     </>
   );

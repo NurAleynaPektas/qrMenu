@@ -149,5 +149,8 @@
     "title": "Sayfa bulunamadı",
     "subtitle": "Aradığınız sayfayı getiremedik. Ana sayfaya dönerek devam edebilirsiniz.",
     "cta": "Ana sayfa"
+  },
+  "loader": {
+    "loading": "Menünüz yolda..."
   }
 }

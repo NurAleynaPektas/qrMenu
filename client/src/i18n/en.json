@@ -146,5 +146,9 @@
     "title": "Page not found",
     "subtitle": "We couldn’t load the page you’re looking for. You can continue from the homepage.",
     "cta": "Go home"
-  }
+  },
+  "loader": {
+  "loading": "Your menu is on the way.."
+}
+
 }
