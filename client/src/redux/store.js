@@ -27,8 +27,5 @@ if (typeof window !== "undefined") {
         isAdmin: state.auth.isAdmin,
       })
     );
-
-    //Siparişleri de kaydet
-    window.localStorage.setItem("ff-orders", JSON.stringify(state.orders.list));
   });
 }

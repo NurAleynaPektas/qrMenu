@@ -1,111 +1,90 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const STORAGE_KEY = "ff-orders";
+const API_BASE = import.meta.env.VITE_API_URL;
+const API_URL = `${API_BASE}/api/orders`;
 
-const defaultOrders = [
-  {
-    id: "ORD-101",
-    table: 5,
-    items: "Köfte Menü x2, Ayran x2",
-    total: 540,
-    status: "pending",
-    time: "12:34",
-    note: "",
-  },
-  {
-    id: "ORD-102",
-    table: 3,
-    items: "Klasik Burger x1, Limonata x1",
-    total: 220,
-    status: "preparing",
-    time: "12:40",
-    note: "",
-  },
-  {
-    id: "ORD-103",
-    table: 1,
-    items: "Sufle x2, Ayran x1",
-    total: 210,
-    status: "completed",
-    time: "12:10",
-    note: "",
-  },
-  {
-    id: "ORD-104",
-    table: 7,
-    items: "Köfte Menü x1, Limonata x2",
-    total: 250,
-    status: "pending",
-    time: "12:45",
-    note: "",
-  },
-];
-
-function loadOrders() {
-  if (typeof window === "undefined") return defaultOrders;
-
-  const raw = window.localStorage.getItem(STORAGE_KEY);
-  if (!raw) return defaultOrders;
-
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : defaultOrders;
-  } catch {
-    return defaultOrders;
+// GET /api/orders
+export const fetchOrders = createAsyncThunk(
+  "orders/fetchOrders",
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get(API_URL);
+      return res.data || [];
+    } catch (err) {
+      const msg =
+        err.response?.data?.message || err.message || "Failed to load orders";
+      return thunkAPI.rejectWithValue(msg);
+    }
   }
-}
+);
 
-function saveOrders(list) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-  } catch {
+// PATCH /api/orders/:id/status
+export const patchOrderStatus = createAsyncThunk(
+  "orders/patchOrderStatus",
+  async ({ id, status }, thunkAPI) => {
+    try {
+      const res = await axios.patch(`${API_URL}/${id}/status`, { status });
+      // res: { message, order }
+      return res.data?.order;
+    } catch (err) {
+      const msg =
+        err.response?.data?.message ||
+        err.message ||
+        "Failed to update order status";
+      return thunkAPI.rejectWithValue(msg);
+    }
   }
-}
+);
 
 const initialState = {
-  list: loadOrders(),
+  list: [],
+  loading: false,
+  error: null,
+  updatingId: null, 
 };
 
 const ordersSlice = createSlice({
   name: "orders",
   initialState,
-  reducers: {
-    addOrder: {
-      reducer(state, action) {
-        state.list.unshift(action.payload);
-        saveOrders(state.list);
-      },
-      prepare({ tableNumber, note, items, total }) {
-        const id = `ORD-${nanoid(6)}`;
-        const time = new Date().toLocaleTimeString("tr-TR", {
-          hour: "2-digit",
-          minute: "2-digit",
-        });
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // FETCH
+      .addCase(fetchOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.list = Array.isArray(action.payload) ? action.payload : [];
+      })
+      .addCase(fetchOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to load orders";
+      })
 
-        return {
-          payload: {
-            id,
-            table: tableNumber,
-            items, 
-            total,
-            status: "pending",
-            time,
-            note: note || "",
-          },
-        };
-      },
-    },
-    updateOrderStatus(state, action) {
-      const { id, status } = action.payload;
-      const order = state.list.find((o) => o.id === id);
-      if (order) {
-        order.status = status;
-        saveOrders(state.list);
-      }
-    },
+      // PATCH STATUS
+      .addCase(patchOrderStatus.pending, (state, action) => {
+        state.error = null;
+        state.updatingId = action.meta.arg?.id || null;
+      })
+      .addCase(patchOrderStatus.fulfilled, (state, action) => {
+        state.updatingId = null;
+        const updated = action.payload;
+        if (!updated?.id) return;
+
+        const idx = state.list.findIndex((o) => o.id === updated.id);
+        if (idx !== -1) {
+          state.list[idx] = { ...state.list[idx], ...updated };
+        }
+      })
+      .addCase(patchOrderStatus.rejected, (state, action) => {
+        state.updatingId = null;
+        state.error = action.payload || "Failed to update order status";
+      });
   },
 });
 
-export const { addOrder, updateOrderStatus } = ordersSlice.actions;
 export default ordersSlice.reducer;

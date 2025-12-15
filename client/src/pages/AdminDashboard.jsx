@@ -1,14 +1,16 @@
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useMemo, useRef } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import s from "./AdminDashboard.module.css";
+
 import {
   addMenuItem,
   updateMenuItem,
   deleteMenuItem,
 } from "../redux/menuSlice";
 import { removeFromCart } from "../redux/cartSlice";
-import { updateOrderStatus } from "../redux/ordersSlice";
+
+import { fetchOrders, patchOrderStatus } from "../redux/ordersSlice";
 
 function formatOrderItems(order) {
   const items = order.items;
@@ -29,13 +31,36 @@ function formatOrderItems(order) {
   return "";
 }
 
+function calcOrderTotal(order) {
+  const items = order.items;
+  if (!Array.isArray(items)) return 0;
+
+  return items.reduce((sum, it) => {
+    const price = Number(it.price) || 0;
+    const qty = Number(it.quantity) || 0;
+    return sum + price * qty;
+  }, 0);
+}
+
+function formatTimeFromISO(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "—";
+  return d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+}
+
 export default function AdminDashboard() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const admin = useSelector((state) => state.auth.user);
   const menuItems = useSelector((state) => state.menu.items);
-  const orders = useSelector((state) => state.orders.list);
+
+  const {
+    list: orders,
+    loading: ordersLoading,
+    error: ordersError,
+  } = useSelector((state) => state.orders);
 
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -50,27 +75,19 @@ export default function AdminDashboard() {
   const [imgFile, setImgFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  // 🔹 Kategori seçenekleri (artık sabit kodlar)
+  // Sayfa açılınca server'dan orders çek
+  useEffect(() => {
+    dispatch(fetchOrders());
+  }, [dispatch]);
+
+  // 🔹 Kategori seçenekleri (sabit kodlar)
   const CATEGORY_OPTIONS = [
-    {
-      value: "MAIN",
-      label: t("admin.cat_main") || "Ana Yemek",
-    },
-    {
-      value: "DRINK",
-      label: t("admin.cat_drink") || "İçecek",
-    },
-    {
-      value: "APPETIZER",
-      label: t("admin.cat_appetizer") || "Aperatif",
-    },
-    {
-      value: "DESSERT",
-      label: t("admin.cat_dessert") || "Tatlı",
-    },
+    { value: "MAIN", label: t("admin.cat_main") || "Ana Yemek" },
+    { value: "DRINK", label: t("admin.cat_drink") || "İçecek" },
+    { value: "APPETIZER", label: t("admin.cat_appetizer") || "Aperatif" },
+    { value: "DESSERT", label: t("admin.cat_dessert") || "Tatlı" },
   ];
 
-  // 🔹 Kategori kodunu ekranda doğru dile göre göster
   const categoryLabel = (cat) => {
     switch (cat) {
       case "MAIN":
@@ -93,17 +110,18 @@ export default function AdminDashboard() {
       const completedCount = orders.filter(
         (o) => o.status === "completed"
       ).length;
-      const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
+
+      const totalRevenue = orders.reduce(
+        (sum, o) => sum + calcOrderTotal(o),
+        0
+      );
 
       return { totalOrders, pendingCount, completedCount, totalRevenue };
     }, [orders]);
 
   const filteredOrders = useMemo(() => {
     return orders.filter((o) => {
-      if (statusFilter !== "all" && o.status !== statusFilter) {
-        return false;
-      }
-
+      if (statusFilter !== "all" && o.status !== statusFilter) return false;
       if (!search.trim()) return true;
 
       const q = search.toLowerCase();
@@ -118,7 +136,7 @@ export default function AdminDashboard() {
   }, [orders, statusFilter, search]);
 
   const handleStatusChange = (id, newStatus) => {
-    dispatch(updateOrderStatus({ id, status: newStatus }));
+    dispatch(patchOrderStatus({ id, status: newStatus }));
   };
 
   const statusLabel = (status) => {
@@ -153,26 +171,18 @@ export default function AdminDashboard() {
     setImgFile(null);
   };
 
-  // 🖼 Dosya seçimi
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setImgFile(file);
-    }
+    if (file) setImgFile(file);
   };
 
-  // 🖼 Drag & drop
   const handleDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
-    if (file) {
-      setImgFile(file);
-    }
+    if (file) setImgFile(file);
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  const handleDragOver = (e) => e.preventDefault();
 
   const handleMenuSubmit = (e) => {
     e.preventDefault();
@@ -185,36 +195,16 @@ export default function AdminDashboard() {
 
     const categoryCode = menuForm.category || "OTHER";
 
+    const formData = new FormData();
+    formData.append("name", trimmedName);
+    formData.append("price", priceNumber);
+    formData.append("category", categoryCode);
+    formData.append("available", menuForm.available ? "true" : "false");
+    if (imgFile) formData.append("img", imgFile);
+
     if (editingId) {
-      // GÜNCELLEME → FormData
-      const formData = new FormData();
-      formData.append("name", trimmedName);
-      formData.append("price", priceNumber);
-      formData.append("category", categoryCode);
-      formData.append("available", menuForm.available ? "true" : "false");
-
-      if (imgFile) {
-        formData.append("img", imgFile);
-      }
-
-      dispatch(
-        updateMenuItem({
-          id: editingId,
-          changes: formData,
-        })
-      );
+      dispatch(updateMenuItem({ id: editingId, changes: formData }));
     } else {
-      // YENİ ÜRÜN EKLEME → FormData
-      const formData = new FormData();
-      formData.append("name", trimmedName);
-      formData.append("price", priceNumber);
-      formData.append("category", categoryCode);
-      formData.append("available", menuForm.available ? "true" : "false");
-
-      if (imgFile) {
-        formData.append("img", imgFile);
-      }
-
       dispatch(addMenuItem(formData));
     }
 
@@ -235,10 +225,7 @@ export default function AdminDashboard() {
   const handleDeleteClick = (id) => {
     dispatch(deleteMenuItem(id));
     dispatch(removeFromCart(id));
-
-    if (editingId === id) {
-      resetMenuForm();
-    }
+    if (editingId === id) resetMenuForm();
   };
 
   return (
@@ -253,6 +240,7 @@ export default function AdminDashboard() {
               "Track orders, tables and menu in one place."}
           </p>
         </div>
+
         {admin && (
           <div className={s.adminBadge}>
             <span className={s.adminAvatar}>
@@ -296,7 +284,7 @@ export default function AdminDashboard() {
         </div>
       </section>
 
-      {/* Filtre barı - Orders */}
+      {/* Orders - filtre */}
       <section className={s.filtersBar}>
         <div className={s.filterChips}>
           <button
@@ -349,11 +337,17 @@ export default function AdminDashboard() {
         />
       </section>
 
-      {/* Tablo - sipariş listesi */}
+      {/* Orders - tablo */}
       <section className={s.tableSection}>
         <h2 className={s.sectionTitle}>
           {t("admin.latest_orders") || "Latest Orders"}
         </h2>
+
+        {ordersLoading && <p className={s.infoText}>Loading orders...</p>}
+        {ordersError && !ordersLoading && (
+          <p className={s.errorText}>{ordersError}</p>
+        )}
+
         <div className={s.tableWrap}>
           <table className={s.table}>
             <thead>
@@ -368,7 +362,7 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.length === 0 ? (
+              {!ordersLoading && filteredOrders.length === 0 ? (
                 <tr>
                   <td colSpan={7} className={s.emptyRow}>
                     {t("admin.no_orders") ||
@@ -381,7 +375,7 @@ export default function AdminDashboard() {
                     <td>{o.id}</td>
                     <td>{o.table}</td>
                     <td>{formatOrderItems(o)}</td>
-                    <td>₺{o.total}</td>
+                    <td>₺{calcOrderTotal(o)}</td>
                     <td>{o.note && o.note.trim() ? o.note : "—"}</td>
                     <td>
                       <div className={s.statusCell}>
@@ -411,7 +405,7 @@ export default function AdminDashboard() {
                         </select>
                       </div>
                     </td>
-                    <td>{o.time}</td>
+                    <td>{formatTimeFromISO(o.createdAt)}</td>
                   </tr>
                 ))
               )}
@@ -434,7 +428,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Form - yeni ürün / düzenleme */}
         <form className={s.menuForm} onSubmit={handleMenuSubmit}>
           <div className={s.menuFormRow}>
             <div className={s.menuField}>
@@ -449,6 +442,7 @@ export default function AdminDashboard() {
                 placeholder="Köfte Menü"
               />
             </div>
+
             <div className={s.menuField}>
               <label className={s.menuLabel}>
                 {t("admin.menu_price") || "Price (₺)"}
@@ -465,7 +459,6 @@ export default function AdminDashboard() {
               />
             </div>
 
-            {/* Kategori select */}
             <div className={s.menuField}>
               <label className={s.menuLabel}>
                 {t("admin.menu_category") || "Category"}
@@ -488,7 +481,6 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Resim upload alanı */}
           <div
             className={s.menuUpload}
             onDragOver={handleDragOver}
@@ -509,7 +501,6 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            {/* Gizli input */}
             <input
               ref={fileInputRef}
               type="file"
@@ -551,7 +542,6 @@ export default function AdminDashboard() {
           </div>
         </form>
 
-        {/* Menü tablosu */}
         <div className={s.menuTableWrap}>
           <table className={s.menuTable}>
             <thead>
@@ -578,7 +568,6 @@ export default function AdminDashboard() {
                     <td>{item.id}</td>
                     <td>{item.name}</td>
                     <td>₺{item.price}</td>
-                    {/* Kategori kodunu label'e çeviriyoruz */}
                     <td>{categoryLabel(item.category)}</td>
                     <td>
                       <span
