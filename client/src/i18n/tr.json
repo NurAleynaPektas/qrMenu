@@ -70,6 +70,9 @@
     "table_number_required": "Masa numarası zorunludur.",
     "note_max": "Not en fazla 200 karakter olabilir.",
 
+     "table_number_placeholder": "Masa seçin",
+    "table_label": "Masa {{n}}",
+
     "sample": {
       "burger_x1": "Klasik Burger x1",
       "lemonade_x2": "Limonata x2"

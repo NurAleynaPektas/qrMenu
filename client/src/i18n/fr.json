@@ -69,6 +69,10 @@
     "table_number_min": "Le numéro de table doit être d'au moins 1.",
     "table_number_required": "Le numéro de table est obligatoire.",
     "note_max": "La note peut contenir au maximum 200 caractères.",
+    
+    "table_number_placeholder": "Choisissez une table",
+    "table_label": "Table {{n}}",
+    
     "sample": {
       "burger_x1": "Burger Classique x1",
       "lemonade_x2": "Citronnade x2"

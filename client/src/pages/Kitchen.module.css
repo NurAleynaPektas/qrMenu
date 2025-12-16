@@ -250,3 +250,33 @@
 .error {
   color: #b91c1c;
 }
+.card {
+  transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Yeni gelen sipariş */
+.cardHighlight {
+  animation: pulseBg 1.8s ease-in-out infinite;
+}
+.headerActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+@keyframes pulseBg {
+  0% {
+    box-shadow: 0 0 0 rgba(255, 180, 0, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(255, 180, 0, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(255, 180, 0, 0.6);
+  }
+}

@@ -68,6 +68,9 @@
     "table_number_required": "Table number is required.",
     "note_max": "Note can be at most 200 characters.",
 
+ "table_number_placeholder": "Select a table",
+    "table_label": "Table {{n}}",
+
     "sample": {
       "burger_x1": "Classic Burger x1",
       "lemonade_x2": "Lemonade x2"

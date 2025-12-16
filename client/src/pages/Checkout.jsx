@@ -4,11 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import iziToast from "izitoast";
-import { addOrder } from "../redux/ordersSlice";
 import { clearCart } from "../redux/cartSlice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
 
 const API_BASE = import.meta.env.VITE_API_URL;
 
@@ -32,9 +30,18 @@ export default function Checkout() {
     0
   );
 
-  // Yup şeması
   const CheckoutSchema = Yup.object().shape({
     tableNumber: Yup.number()
+      .transform((value, originalValue) => {
+        if (
+          originalValue === "" ||
+          originalValue === null ||
+          originalValue === undefined
+        ) {
+          return NaN;
+        }
+        return Number(originalValue);
+      })
       .typeError(
         t("checkout.table_number_error") || "Please enter a valid table number."
       )
@@ -64,24 +71,10 @@ export default function Checkout() {
       quantity: item.quantity,
     }));
 
-    const itemsText = cartItems
-      .map((item) => {
-        const label =
-          (item.nameKey ? t(item.nameKey) : null) ||
-          item.title ||
-          item.name ||
-          "Item";
-        return `${label} x${item.quantity}`;
-      })
-      .join(", ");
-
     try {
-     
       const res = await fetch(`${API_BASE}/api/orders`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           table: values.tableNumber,
           note: values.note,
@@ -89,28 +82,29 @@ export default function Checkout() {
         }),
       });
 
-      if (!res.ok) {
-        throw new Error("Failed to send order");
+      let data = null;
+      try {
+        data = await res.json();
+      } catch {
+        data = null;
       }
 
-      const data = await res.json();
-      console.log("Order saved:", data);
+      if (!res.ok) {
+        const msg =
+          data?.message ||
+          (res.status === 409
+            ? "Bu masa zaten aktif. Yeni adisyon açılamaz."
+            : "Failed to send order");
+        throw new Error(msg);
+      }
 
-   
-      dispatch(
-        addOrder({
-          tableNumber: values.tableNumber || "-",
-          note: values.note || "",
-          items: itemsText,
-          total,
-        })
-      );
+      console.log("Order saved:", data);
 
       dispatch(clearCart());
 
       iziToast.success({
-        title: t("checkout.success_title"),
-        message: t("checkout.success_msg"),
+        title: t("checkout.success_title") || "Success",
+        message: t("checkout.success_msg") || "Order placed successfully.",
         backgroundColor: "#025127ff",
         titleColor: "#ffffff",
         messageColor: "#e6fff4",
@@ -127,9 +121,12 @@ export default function Checkout() {
       console.error(err);
       iziToast.error({
         title: "Error",
-        message: t("auth.error") || "Something went wrong. Please try again.",
+        message:
+          err?.message ||
+          t("auth.error") ||
+          "Something went wrong. Please try again.",
         position: "topCenter",
-        timeout: 3000,
+        timeout: 3500,
       });
     }
   };
@@ -151,13 +148,26 @@ export default function Checkout() {
                 <label htmlFor="tableNumber" className={s.formLabel}>
                   {t("checkout.table_number")}
                 </label>
+
                 <Field
+                  as="select"
                   id="tableNumber"
                   name="tableNumber"
-                  type="number"
                   className={s.formInput}
-                  placeholder="e.g. 5"
-                />
+                >
+                  <option value="">
+                    {t("checkout.table_number_placeholder") || "Masa seçin"}
+                  </option>
+
+                  {Array.from({ length: 20 }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>
+                      {t("checkout.table_label")
+                        ? t("checkout.table_label", { n })
+                        : `Masa ${n}`}
+                    </option>
+                  ))}
+                </Field>
+
                 <ErrorMessage
                   name="tableNumber"
                   component="p"

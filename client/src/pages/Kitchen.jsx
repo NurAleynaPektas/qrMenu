@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import s from "./Kitchen.module.css";
@@ -46,13 +46,26 @@ function saveSeenIds(set) {
   } catch {}
 }
 
+/** Optional beep (user gesture ile unlock) */
+let audioCtx = null;
+function getAudioCtx() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!audioCtx) audioCtx = new AudioCtx();
+  return audioCtx;
+}
+async function unlockAudio() {
+  try {
+    const ctx = getAudioCtx();
+    if (ctx.state === "suspended") await ctx.resume();
+  } catch {}
+}
 function playBeep() {
   try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    const ctx = new AudioCtx();
+    const ctx = getAudioCtx();
+    if (ctx.state !== "running") return;
+
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-
     osc.type = "sine";
     osc.frequency.value = 880;
     gain.gain.value = 0.05;
@@ -61,11 +74,32 @@ function playBeep() {
     gain.connect(ctx.destination);
 
     osc.start();
-    setTimeout(() => {
-      osc.stop();
-      ctx.close();
-    }, 180);
+    setTimeout(() => osc.stop(), 180);
   } catch {}
+}
+
+/** compare fingerprint (liste değişmediyse highlight tetikleme) */
+function normalizeForCompare(list) {
+  return (list || [])
+    .map((o) => ({
+      id: String(o.id),
+      status: o.status || "",
+      table: o.table ?? "",
+      note: o.note || "",
+      createdAt: o.createdAt || "",
+      updatedAt: o.updatedAt || "",
+      itemsKey: Array.isArray(o.items)
+        ? o.items
+            .map(
+              (it) =>
+                `${it.id}:${it.quantity}:${it.price}:${
+                  it.title || it.name || ""
+                }`
+            )
+            .join("|")
+        : String(o.items || ""),
+    }))
+    .sort((a, b) => a.id.localeCompare(b.id));
 }
 
 export default function Kitchen() {
@@ -79,62 +113,83 @@ export default function Kitchen() {
     updatingId,
   } = useSelector((state) => state.orders);
 
-  const [statusFilter, setStatusFilter] = useState("active"); 
+  const [statusFilter, setStatusFilter] = useState("active");
   const [search, setSearch] = useState("");
   const [lastSyncAt, setLastSyncAt] = useState(null);
   const [highlightIds, setHighlightIds] = useState(() => new Set());
+  const [soundOn, setSoundOn] = useState(false);
+
+  // effect dependency fix için: fingerprint ref
+  const lastFingerprintRef = useRef("");
+
+  //  sadece ilk yüklemede loading göstermek için
+  const [initialLoaded, setInitialLoaded] = useState(false);
 
   useEffect(() => {
     let mounted = true;
 
-    const run = async () => {
+    const run = async (silent = false) => {
       try {
         const action = await dispatch(fetchOrders());
         const list = action?.payload || [];
         if (!mounted) return;
 
         setLastSyncAt(Date.now());
+        if (!initialLoaded) setInitialLoaded(true);
+        // liste değişti mi?
+        const fp = JSON.stringify(normalizeForCompare(list));
+        const changed = fp !== lastFingerprintRef.current;
 
-        const seen = loadSeenIds();
-        const active = list.filter(
-          (o) => o.status === "pending" || o.status === "preparing"
-        );
+        // yeni order tespiti 
+        if (changed) {
+          lastFingerprintRef.current = fp;
 
-        const newOnes = active.filter((o) => !seen.has(o.id));
+          const seen = loadSeenIds();
+          const active = list.filter(
+            (o) => o.status === "pending" || o.status === "preparing"
+          );
+          const newOnes = active.filter((o) => !seen.has(o.id));
 
-        if (newOnes.length > 0) {
-          playBeep();
+          if (newOnes.length > 0) {
+            if (!silent && soundOn) playBeep();
 
-          setHighlightIds((prev) => {
-            const next = new Set(prev);
-            newOnes.forEach((o) => next.add(o.id));
-            return next;
-          });
-
-          setTimeout(() => {
             setHighlightIds((prev) => {
               const next = new Set(prev);
-              newOnes.forEach((o) => next.delete(o.id));
+              newOnes.forEach((o) => next.add(o.id));
               return next;
             });
-          }, 6000);
 
-          newOnes.forEach((o) => seen.add(o.id));
-          saveSeenIds(seen);
+            setTimeout(() => {
+              setHighlightIds((prev) => {
+                const next = new Set(prev);
+                newOnes.forEach((o) => next.delete(o.id));
+                return next;
+              });
+            }, 6000);
+
+            newOnes.forEach((o) => seen.add(o.id));
+            saveSeenIds(seen);
+          }
         }
       } catch {
         if (!mounted) return;
         setLastSyncAt(Date.now());
+        if (!initialLoaded) setInitialLoaded(true);
       }
     };
 
-    run();
-    const id = setInterval(run, 8000);
+   
+    run(true);
+
+   
+    const id = setInterval(() => run(true), 8000);
+
     return () => {
       mounted = false;
       clearInterval(id);
     };
-  }, [dispatch]);
+    
+  }, [dispatch, initialLoaded, soundOn]);
 
   const statusLabel = (status) => {
     switch (status) {
@@ -158,8 +213,7 @@ export default function Kitchen() {
       return true;
     });
 
-    // ✅ sıralama: pending -> preparing -> completed, sonra yeni üstte
-    base.sort((a, b) => {
+    const sorted = [...base].sort((a, b) => {
       const pr = (s) => (s === "pending" ? 0 : s === "preparing" ? 1 : 2);
       const p = pr(a.status) - pr(b.status);
       if (p !== 0) return p;
@@ -169,10 +223,10 @@ export default function Kitchen() {
       return (Number.isNaN(tb) ? 0 : tb) - (Number.isNaN(ta) ? 0 : ta);
     });
 
-    if (!search.trim()) return base;
+    if (!search.trim()) return sorted;
 
     const q = search.toLowerCase();
-    return base.filter((o) => {
+    return sorted.filter((o) => {
       const itemsText = formatOrderItems(o);
       const hay = `${o.id} ${o.table} ${
         o.note || ""
@@ -181,17 +235,15 @@ export default function Kitchen() {
     });
   }, [orders, statusFilter, search]);
 
-
-     const handleStatusChange = (id, newStatus) => {
-    dispatch(patchOrderStatus({ id, status: newStatus }))
-      .unwrap()
-      .then(() => {
-        dispatch(fetchOrders());
-      })
-      .catch(() => {});
+  const handleStatusChange = (id, newStatus) => {
+    dispatch(patchOrderStatus({ id, status: newStatus })).catch(() => {});
+    
   };
 
-
+  const handleManualRefresh = async () => {
+    await dispatch(fetchOrders());
+    setLastSyncAt(Date.now());
+  };
 
   return (
     <main className={s.page}>
@@ -204,14 +256,28 @@ export default function Kitchen() {
           </p>
         </div>
 
-        <button
-          className={s.refreshBtn}
-          type="button"
-          onClick={() => dispatch(fetchOrders())}
-          disabled={loading}
-        >
-          {t("kitchen.refresh") || "Refresh"}
-        </button>
+        <div className={s.headerActions}>
+          <button
+            className={s.refreshBtn}
+            type="button"
+            onClick={handleManualRefresh}
+            disabled={loading && !initialLoaded}
+          >
+            {t("kitchen.refresh") || "Refresh"}
+          </button>
+
+          <button
+            className={s.refreshBtn}
+            type="button"
+            onClick={async () => {
+              await unlockAudio();
+              setSoundOn((v) => !v);
+            }}
+            title="Optional"
+          >
+            {soundOn ? "Sound: ON" : "Sound: OFF"}
+          </button>
+        </div>
       </header>
 
       <div className={s.syncRow}>
@@ -263,11 +329,11 @@ export default function Kitchen() {
         />
       </section>
 
-      {loading && <p className={s.info}>Loading orders...</p>}
-      {error && !loading && <p className={s.error}>{error}</p>}
+      {!initialLoaded && loading && <p className={s.info}>Loading orders...</p>}
+      {error && initialLoaded && <p className={s.error}>{error}</p>}
 
       <section className={s.list}>
-        {!loading && filtered.length === 0 ? (
+        {initialLoaded && filtered.length === 0 ? (
           <div className={s.empty}>
             <p>{t("kitchen.empty") || "No orders found."}</p>
           </div>
