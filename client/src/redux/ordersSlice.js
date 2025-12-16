@@ -4,7 +4,6 @@ import axios from "axios";
 const API_BASE = import.meta.env.VITE_API_URL;
 const API_URL = `${API_BASE}/api/orders`;
 
-// GET
 export const fetchOrders = createAsyncThunk(
   "orders/fetchOrders",
   async (_, thunkAPI) => {
@@ -12,42 +11,50 @@ export const fetchOrders = createAsyncThunk(
       const res = await axios.get(API_URL);
       return res.data || [];
     } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err.response?.data?.message || "Failed to load orders"
-      );
+      const msg =
+        err.response?.data?.message || err.message || "Failed to load orders";
+      return thunkAPI.rejectWithValue(msg);
     }
   }
 );
 
-// PATCH status
 export const patchOrderStatus = createAsyncThunk(
   "orders/patchOrderStatus",
   async ({ id, status }, thunkAPI) => {
     try {
       const res = await axios.patch(`${API_URL}/${id}/status`, { status });
-      return res.data.order;
+      return res.data?.order;
     } catch (err) {
-      return thunkAPI.rejectWithValue(
-        err.response?.data?.message || "Failed to update status"
-      );
+      const msg =
+        err.response?.data?.message ||
+        err.message ||
+        "Failed to update order status";
+      return thunkAPI.rejectWithValue(msg);
     }
   }
 );
 
-//  aynı data mı kontrol
-function isSameOrders(a = [], b = []) {
-  if (a.length !== b.length) return false;
 
-  for (let i = 0; i < a.length; i++) {
-    if (
-      a[i].id !== b[i].id ||
-      a[i].status !== b[i].status ||
-      a[i].updatedAt !== b[i].updatedAt
-    ) {
-      return false;
-    }
-  }
-  return true;
+function fingerprint(list) {
+  if (!Array.isArray(list)) return "";
+  return list
+    .map((o) => {
+      const itemsKey = Array.isArray(o.items)
+        ? o.items
+            .map(
+              (it) =>
+                `${it.id}:${it.quantity}:${it.price}:${
+                  it.title || it.name || ""
+                }`
+            )
+            .join("|")
+        : String(o.items || "");
+      return `${o.id}~${o.status}~${o.table}~${o.note || ""}~${
+        o.createdAt || ""
+      }~${o.updatedAt || ""}~${itemsKey}`;
+    })
+    .sort()
+    .join("##");
 }
 
 const initialState = {
@@ -55,6 +62,7 @@ const initialState = {
   loading: false,
   error: null,
   updatingId: null,
+  lastFp: "", 
 };
 
 const ordersSlice = createSlice({
@@ -70,31 +78,39 @@ const ordersSlice = createSlice({
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.loading = false;
+        state.error = null;
 
-        //  KRİTİK NOKTA
-        if (!isSameOrders(state.list, action.payload)) {
-          state.list = action.payload;
-        }
+        const incoming = Array.isArray(action.payload) ? action.payload : [];
+        const fp = fingerprint(incoming);
+        if (fp === state.lastFp) return;
+
+        state.list = incoming;
+        state.lastFp = fp;
       })
       .addCase(fetchOrders.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload || "Failed to load orders";
       })
 
-      // PATCH
+      // PATCH STATUS
       .addCase(patchOrderStatus.pending, (state, action) => {
-        state.updatingId = action.meta.arg.id;
+        state.error = null;
+        state.updatingId = action.meta.arg?.id || null;
       })
       .addCase(patchOrderStatus.fulfilled, (state, action) => {
         state.updatingId = null;
         const updated = action.payload;
+        if (!updated?.id) return;
+
         const idx = state.list.findIndex((o) => o.id === updated.id);
         if (idx !== -1) {
           state.list[idx] = { ...state.list[idx], ...updated };
+          state.lastFp = fingerprint(state.list);
         }
       })
-      .addCase(patchOrderStatus.rejected, (state) => {
+      .addCase(patchOrderStatus.rejected, (state, action) => {
         state.updatingId = null;
+        state.error = action.payload || "Failed to update order status";
       });
   },
 });

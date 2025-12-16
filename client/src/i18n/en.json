@@ -152,6 +152,15 @@
   },
   "loader": {
   "loading": "Your menu is on the way.."
-}
+},
+  "kitchen": {
+    "title": "Kitchen Panel",
+    "sub": "Incoming orders. Completed orders will unlock the table.",
+    "refresh": "Refresh",
+    "active": "Active",
+    "completed": "Completed",
+    "search": "Search table, note, items...",
+    "empty": "No orders found."
+  }
 
 }

@@ -155,5 +155,14 @@
   },
   "loader": {
     "loading": "Menünüz yolda..."
+  },
+  "kitchen": {
+    "title": "Mutfak Paneli",
+    "sub": "Gelen siparişler. Tamamlanan siparişler masayı tekrar kullanılabilir yapar.",
+    "refresh": "Yenile",
+    "active": "Aktif",
+    "completed": "Tamamlanan",
+    "search": "Masa, not veya ürünlerde ara...",
+    "empty": "Sipariş bulunamadı."
   }
 }

@@ -155,5 +155,16 @@
   },
   "loader": {
     "loading": "Votre menu est en route..."
+  },
+  "kitchen": {
+    "title": "Panneau Cuisine",
+    "sub": "Commandes entrantes. Les commandes terminées libèrent la table.",
+    "refresh": "Actualiser",
+    "active": "Actives",
+    "completed": "Terminées",
+    "search": "Rechercher par table, note ou articles...",
+    "empty": "Aucune commande trouvée."
   }
+
+
 }

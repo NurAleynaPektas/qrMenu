@@ -28,78 +28,30 @@ function formatTimeFromISO(iso) {
   return d.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
 }
 
-const SEEN_KEY = "ff-kitchen-seen-order-ids";
+function isWithinRange(createdAt, range) {
+  if (!createdAt) return false;
+  const t = new Date(createdAt).getTime();
+  if (Number.isNaN(t)) return false;
 
-function loadSeenIds() {
-  try {
-    const raw = localStorage.getItem(SEEN_KEY);
-    const arr = raw ? JSON.parse(raw) : [];
-    return new Set(Array.isArray(arr) ? arr : []);
-  } catch {
-    return new Set();
+  const now = Date.now();
+
+  if (range === "all") return true;
+
+  if (range === "24h") {
+    return now - t <= 24 * 60 * 60 * 1000;
   }
-}
 
-function saveSeenIds(set) {
-  try {
-    localStorage.setItem(SEEN_KEY, JSON.stringify(Array.from(set)));
-  } catch {}
-}
+  if (range === "7d") {
+    return now - t <= 7 * 24 * 60 * 60 * 1000;
+  }
 
-/** Optional beep (user gesture ile unlock) */
-let audioCtx = null;
-function getAudioCtx() {
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  if (!audioCtx) audioCtx = new AudioCtx();
-  return audioCtx;
-}
-async function unlockAudio() {
-  try {
-    const ctx = getAudioCtx();
-    if (ctx.state === "suspended") await ctx.resume();
-  } catch {}
-}
-function playBeep() {
-  try {
-    const ctx = getAudioCtx();
-    if (ctx.state !== "running") return;
+  if (range === "today") {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return t >= d.getTime();
+  }
 
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.value = 880;
-    gain.gain.value = 0.05;
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start();
-    setTimeout(() => osc.stop(), 180);
-  } catch {}
-}
-
-/** compare fingerprint (liste değişmediyse highlight tetikleme) */
-function normalizeForCompare(list) {
-  return (list || [])
-    .map((o) => ({
-      id: String(o.id),
-      status: o.status || "",
-      table: o.table ?? "",
-      note: o.note || "",
-      createdAt: o.createdAt || "",
-      updatedAt: o.updatedAt || "",
-      itemsKey: Array.isArray(o.items)
-        ? o.items
-            .map(
-              (it) =>
-                `${it.id}:${it.quantity}:${it.price}:${
-                  it.title || it.name || ""
-                }`
-            )
-            .join("|")
-        : String(o.items || ""),
-    }))
-    .sort((a, b) => a.id.localeCompare(b.id));
+  return true;
 }
 
 export default function Kitchen() {
@@ -113,83 +65,50 @@ export default function Kitchen() {
     updatingId,
   } = useSelector((state) => state.orders);
 
-  const [statusFilter, setStatusFilter] = useState("active");
+  const [statusFilter, setStatusFilter] = useState("active"); 
+  const [completedRange, setCompletedRange] = useState("24h"); 
   const [search, setSearch] = useState("");
   const [lastSyncAt, setLastSyncAt] = useState(null);
-  const [highlightIds, setHighlightIds] = useState(() => new Set());
-  const [soundOn, setSoundOn] = useState(false);
 
-  // effect dependency fix için: fingerprint ref
-  const lastFingerprintRef = useRef("");
-
-  //  sadece ilk yüklemede loading göstermek için
-  const [initialLoaded, setInitialLoaded] = useState(false);
+ 
+  const lastFpRef = useRef("");
 
   useEffect(() => {
     let mounted = true;
 
-    const run = async (silent = false) => {
-      try {
-        const action = await dispatch(fetchOrders());
-        const list = action?.payload || [];
-        if (!mounted) return;
+    const run = async () => {
+      const action = await dispatch(fetchOrders());
+      if (!mounted) return;
 
-        setLastSyncAt(Date.now());
-        if (!initialLoaded) setInitialLoaded(true);
-        // liste değişti mi?
-        const fp = JSON.stringify(normalizeForCompare(list));
-        const changed = fp !== lastFingerprintRef.current;
+      setLastSyncAt(Date.now());
 
-        // yeni order tespiti 
-        if (changed) {
-          lastFingerprintRef.current = fp;
+      const list = action?.payload || [];
+      const fp = JSON.stringify(
+        (Array.isArray(list) ? list : []).map((o) => ({
+          id: String(o.id),
+          status: o.status,
+          table: o.table,
+          note: o.note,
+          createdAt: o.createdAt,
+          updatedAt: o.updatedAt,
+          itemsLen: Array.isArray(o.items)
+            ? o.items.length
+            : String(o.items || "").length,
+        }))
+      );
 
-          const seen = loadSeenIds();
-          const active = list.filter(
-            (o) => o.status === "pending" || o.status === "preparing"
-          );
-          const newOnes = active.filter((o) => !seen.has(o.id));
-
-          if (newOnes.length > 0) {
-            if (!silent && soundOn) playBeep();
-
-            setHighlightIds((prev) => {
-              const next = new Set(prev);
-              newOnes.forEach((o) => next.add(o.id));
-              return next;
-            });
-
-            setTimeout(() => {
-              setHighlightIds((prev) => {
-                const next = new Set(prev);
-                newOnes.forEach((o) => next.delete(o.id));
-                return next;
-              });
-            }, 6000);
-
-            newOnes.forEach((o) => seen.add(o.id));
-            saveSeenIds(seen);
-          }
-        }
-      } catch {
-        if (!mounted) return;
-        setLastSyncAt(Date.now());
-        if (!initialLoaded) setInitialLoaded(true);
-      }
+      if (fp === lastFpRef.current) return;
+      lastFpRef.current = fp;
     };
 
-   
-    run(true);
-
-   
-    const id = setInterval(() => run(true), 8000);
+    run();
+    const id = setInterval(run, 8000);
 
     return () => {
       mounted = false;
       clearInterval(id);
     };
-    
-  }, [dispatch, initialLoaded, soundOn]);
+  }, [dispatch]);
 
   const statusLabel = (status) => {
     switch (status) {
@@ -209,10 +128,16 @@ export default function Kitchen() {
       if (statusFilter === "active") {
         return o.status === "pending" || o.status === "preparing";
       }
-      if (statusFilter === "completed") return o.status === "completed";
-      return true;
+
+      if (statusFilter === "completed") {
+        if (o.status !== "completed") return false;
+        return isWithinRange(o.createdAt, completedRange);
+      }
+
+      return true; 
     });
 
+    
     const sorted = [...base].sort((a, b) => {
       const pr = (s) => (s === "pending" ? 0 : s === "preparing" ? 1 : 2);
       const p = pr(a.status) - pr(b.status);
@@ -233,11 +158,10 @@ export default function Kitchen() {
       } ${itemsText}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [orders, statusFilter, search]);
+  }, [orders, statusFilter, completedRange, search]);
 
   const handleStatusChange = (id, newStatus) => {
     dispatch(patchOrderStatus({ id, status: newStatus })).catch(() => {});
-    
   };
 
   const handleManualRefresh = async () => {
@@ -256,28 +180,14 @@ export default function Kitchen() {
           </p>
         </div>
 
-        <div className={s.headerActions}>
-          <button
-            className={s.refreshBtn}
-            type="button"
-            onClick={handleManualRefresh}
-            disabled={loading && !initialLoaded}
-          >
-            {t("kitchen.refresh") || "Refresh"}
-          </button>
-
-          <button
-            className={s.refreshBtn}
-            type="button"
-            onClick={async () => {
-              await unlockAudio();
-              setSoundOn((v) => !v);
-            }}
-            title="Optional"
-          >
-            {soundOn ? "Sound: ON" : "Sound: OFF"}
-          </button>
-        </div>
+        <button
+          className={s.refreshBtn}
+          type="button"
+          onClick={handleManualRefresh}
+          disabled={loading}
+        >
+          {t("kitchen.refresh") || "Refresh"}
+        </button>
       </header>
 
       <div className={s.syncRow}>
@@ -321,6 +231,21 @@ export default function Kitchen() {
           </button>
         </div>
 
+        {/*  Completed sekmesinde range seçimi */}
+        {statusFilter === "completed" && (
+          <select
+            className={s.rangeSelect}
+            value={completedRange}
+            onChange={(e) => setCompletedRange(e.target.value)}
+            title="Completed range"
+          >
+            <option value="24h">Last 24h</option>
+            <option value="today">Today</option>
+            <option value="7d">Last 7 days</option>
+            <option value="all">All</option>
+          </select>
+        )}
+
         <input
           className={s.search}
           value={search}
@@ -329,97 +254,105 @@ export default function Kitchen() {
         />
       </section>
 
-      {!initialLoaded && loading && <p className={s.info}>Loading orders...</p>}
-      {error && initialLoaded && <p className={s.error}>{error}</p>}
+      {loading && (orders?.length || 0) === 0 && (
+        <p className={s.info}>Loading orders...</p>
+      )}
+      {error && !loading && <p className={s.error}>{error}</p>}
 
       <section className={s.list}>
-        {initialLoaded && filtered.length === 0 ? (
+        {!loading && filtered.length === 0 ? (
           <div className={s.empty}>
             <p>{t("kitchen.empty") || "No orders found."}</p>
           </div>
         ) : (
-          filtered.map((o) => (
-            <article
-              key={o.id}
-              className={`${s.card} ${
-                highlightIds.has(o.id) ? s.cardHighlight : ""
-              }`}
-            >
-              <div className={s.cardTop}>
-                <div className={s.left}>
-                  <div className={s.tableBadge}>
-                    {t("checkout.table_number") || "Table"}: <b>{o.table}</b>
+          filtered.map((o) => {
+            const isDone = o.status === "completed";
+
+            return (
+              <article
+                key={o.id}
+                className={`${s.card} ${isDone ? s.cardDone : ""}`}
+              >
+                <div className={s.cardTop}>
+                  <div className={s.left}>
+                    <div className={s.tableBadge}>
+                      {t("checkout.table_number") || "Table"}: <b>{o.table}</b>
+                    </div>
+
+                    <div className={s.meta}>
+                      <span className={s.orderId}>#{o.id}</span>
+                      <span>{formatTimeFromISO(o.createdAt)}</span>
+                    </div>
                   </div>
 
-                  <div className={s.meta}>
-                    <span className={s.orderId}>#{o.id}</span>
-                    <span>{formatTimeFromISO(o.createdAt)}</span>
-                  </div>
-                </div>
-
-                <div className={s.right}>
-                  <span
-                    className={`${s.statusChip} ${s["status_" + o.status]}`}
-                  >
-                    {statusLabel(o.status)}
-                  </span>
-
-                  <select
-                    className={s.statusSelect}
-                    value={o.status}
-                    onChange={(e) => handleStatusChange(o.id, e.target.value)}
-                    disabled={updatingId === o.id}
-                  >
-                    <option value="pending">
-                      {t("admin.status_pending") || "Beklemede"}
-                    </option>
-                    <option value="preparing">
-                      {t("admin.status_preparing") || "Hazırlanıyor"}
-                    </option>
-                    <option value="completed">
-                      {t("admin.status_completed") || "Tamamlandı"}
-                    </option>
-                  </select>
-
-                  <div className={s.quickBtns}>
-                    <button
-                      type="button"
-                      className={s.quickBtn}
-                      disabled={updatingId === o.id || o.status === "preparing"}
-                      onClick={() => handleStatusChange(o.id, "preparing")}
+                  <div className={s.right}>
+                    <span
+                      className={`${s.statusChip} ${s["status_" + o.status]}`}
                     >
-                      Preparing
-                    </button>
+                      {statusLabel(o.status)}
+                    </span>
 
-                    <button
-                      type="button"
-                      className={s.quickBtnPrimary}
-                      disabled={updatingId === o.id || o.status === "completed"}
-                      onClick={() => handleStatusChange(o.id, "completed")}
+                    <select
+                      className={s.statusSelect}
+                      value={o.status}
+                      onChange={(e) => handleStatusChange(o.id, e.target.value)}
+                      disabled={updatingId === o.id}
                     >
-                      Completed
-                    </button>
+                      <option value="pending">
+                        {t("admin.status_pending") || "Beklemede"}
+                      </option>
+                      <option value="preparing">
+                        {t("admin.status_preparing") || "Hazırlanıyor"}
+                      </option>
+                      <option value="completed">
+                        {t("admin.status_completed") || "Tamamlandı"}
+                      </option>
+                    </select>
+
+                    <div className={s.quickBtns}>
+                      <button
+                        type="button"
+                        className={s.quickBtn}
+                        disabled={
+                          updatingId === o.id || o.status === "preparing"
+                        }
+                        onClick={() => handleStatusChange(o.id, "preparing")}
+                      >
+                        Preparing
+                      </button>
+
+                      <button
+                        type="button"
+                        className={s.quickBtnPrimary}
+                        disabled={
+                          updatingId === o.id || o.status === "completed"
+                        }
+                        onClick={() => handleStatusChange(o.id, "completed")}
+                      >
+                        Completed
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className={s.items}>
-                <div className={s.itemsLabel}>
-                  {t("checkout.order_summary") || "Items"}
+                <div className={s.items}>
+                  <div className={s.itemsLabel}>
+                    {t("checkout.order_summary") || "Items"}
+                  </div>
+                  <div className={s.itemsText}>{formatOrderItems(o)}</div>
                 </div>
-                <div className={s.itemsText}>{formatOrderItems(o)}</div>
-              </div>
 
-              <div className={s.noteRow}>
-                <div className={s.noteLabel}>
-                  {t("checkout.note_optional") || "Note"}
+                <div className={s.noteRow}>
+                  <div className={s.noteLabel}>
+                    {t("checkout.note_optional") || "Note"}
+                  </div>
+                  <div className={s.noteText}>
+                    {o.note && o.note.trim() ? o.note : "—"}
+                  </div>
                 </div>
-                <div className={s.noteText}>
-                  {o.note && o.note.trim() ? o.note : "—"}
-                </div>
-              </div>
-            </article>
-          ))
+              </article>
+            );
+          })
         )}
       </section>
     </main>
