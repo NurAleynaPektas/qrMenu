@@ -124,18 +124,23 @@ export default function Kitchen() {
   };
 
   const filtered = useMemo(() => {
-    const base = (orders || []).filter((o) => {
-      if (statusFilter === "active") {
-        return o.status === "pending" || o.status === "preparing";
-      }
+  const base = (orders || []).filter((o) => {
+    if (statusFilter === "active") {
+      return o.status === "pending" || o.status === "preparing";
+    }
 
-      if (statusFilter === "completed") {
-        if (o.status !== "completed") return false;
-        return isWithinRange(o.createdAt, completedRange);
-      }
+    if (statusFilter === "completed") {
+      if (o.status !== "completed") return false;
+      return isWithinRange(o.createdAt, completedRange);
+    }
 
-      return true; 
-    });
+    if (statusFilter === "all") {
+      return isWithinRange(o.createdAt, "24h");
+    }
+
+    return true;
+  });
+
 
     
     const sorted = [...base].sort((a, b) => {
