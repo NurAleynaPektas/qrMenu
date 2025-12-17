@@ -3,8 +3,7 @@ const router = express.Router();
 const path = require("path");
 const multer = require("multer");
 const { readJson, writeJson } = require("../utils/fileDB");
-
-const MENU_PATH = "data/menu.json";
+const MENU_PATH = path.join(__dirname, "..", "data", "menu.json");
 
 //Multer storage ayarı
 const storage = multer.diskStorage({
