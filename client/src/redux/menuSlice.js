@@ -57,8 +57,16 @@ const mapLegacyCategory = (cat) => {
     case "DESSERT":
       return "DESSERT";
 
+    case "ÇORBA":
+    case "SOUP":
+      return "SOUPE";
+
+    case "SALATA":
+    case "SALAD":
+      return "SALAD";
+
     default:
-      return val; // bilinmeyen bir şeyse dokunma, büyük harf olarak bırak
+      return val; 
   }
 };
 

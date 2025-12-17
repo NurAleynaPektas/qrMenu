@@ -34,7 +34,14 @@ export default function Menu() {
   );
 
   // 🔹 Kategori sırası (kod bazlı)
-  const CATEGORY_ORDER = ["MAIN", "APPETIZER", "DESSERT", "DRINK"];
+  const CATEGORY_ORDER = [
+    "MAIN",
+    "APPETIZER",
+    "DESSERT",
+    "DRINK",
+    "SALAD",
+    "SOUP",
+  ];
 
   // 🔹 Kategori kodunu dile göre label yap
   const categoryLabel = (cat) => {
@@ -47,6 +54,10 @@ export default function Menu() {
         return t("admin.cat_appetizer") || "Aperatif";
       case "DESSERT":
         return t("admin.cat_dessert") || "Tatlı";
+      case "SOUPE":
+        return t("admin.cat_soupes") || "Çorba";
+      case "SALAD":
+        return t("admin.cat_salads") || "Salata";
       default:
         return cat;
     }
@@ -126,7 +137,9 @@ export default function Menu() {
       {/* Kategori filtre butonları */}
       {categories.length > 0 && (
         <div className={s.filters}>
-          <h4 className={s.filtersTitle}>{t("admin.cat.filters") || "Filters"}</h4>
+          <h4 className={s.filtersTitle}>
+            {t("admin.cat.filters") || "Filters"}
+          </h4>
           <button
             type="button"
             className={`${s.filterBtn} ${

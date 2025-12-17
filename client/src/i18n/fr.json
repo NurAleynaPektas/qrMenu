@@ -127,7 +127,9 @@
     "cat_dessert": "Dessert",
     "menu_category_placeholder": "Choisissez une catégorie",
 
-    "cat.filters":"Filtres"
+    "cat.filters":"Filtres",
+    "cat_soupes":"Soupes",
+    "cat_salads":"Salades"
   },
   "auth": {
     "login": "Se connecter",

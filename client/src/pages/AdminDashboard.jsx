@@ -85,6 +85,8 @@ export default function AdminDashboard() {
     { value: "MAIN", label: t("admin.cat_main") || "Ana Yemek" },
     { value: "DRINK", label: t("admin.cat_drink") || "İçecek" },
     { value: "APPETIZER", label: t("admin.cat_appetizer") || "Aperatif" },
+    { value: "SOUPE", label: t("admin.cat_soupes") || "Çorba" },
+    { value: "SALAD", label: t("admin.cat_salads") || "Salata" },
     { value: "DESSERT", label: t("admin.cat_dessert") || "Tatlı" },
   ];
 
@@ -98,6 +100,10 @@ export default function AdminDashboard() {
         return t("admin.cat_appetizer") || "Aperatif";
       case "DESSERT":
         return t("admin.cat_dessert") || "Tatlı";
+      case "SOUPE":
+        return t("admin.cat_soupes") || "Çorba";
+      case "SALAD":
+        return t("admin.cat_salads") || "Salata";
       default:
         return cat || "-";
     }
