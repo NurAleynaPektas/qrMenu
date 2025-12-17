@@ -17,7 +17,7 @@ export default function Cart() {
   );
 
   const handleCheckoutClick = () => {
-    if (cartItems.length === 0) return; 
+    if (cartItems.length === 0) return;
     navigate("/checkout");
   };
 
@@ -52,31 +52,49 @@ export default function Cart() {
               </div>
 
               <div className={s.cartItemControls}>
-                <button
-                  className={s.removeBtn}
-                  onClick={() => dispatch(removeFromCart(item.id))}
-                  aria-label="Remove item"
-                >
-                  ✕
-                </button>
-
-                <div className={s.qtyGroup}>
+                {/* ✅ Stepper: tek parça modern qty */}
+                <div className={s.stepper} role="group" aria-label="Quantity">
                   <button
-                    className={s.qtyBtn}
+                    type="button"
+                    className={s.stepBtn}
                     onClick={() => dispatch(decreaseQty(item.id))}
                     aria-label="Decrease quantity"
                   >
                     −
                   </button>
-                  <span className={s.qtyValue}>{item.quantity}</span>
+
+                  <span className={s.stepValue}>{item.quantity}</span>
+
                   <button
-                    className={s.qtyBtn}
+                    type="button"
+                    className={s.stepBtn}
                     onClick={() => dispatch(increaseQty(item.id))}
                     aria-label="Increase quantity"
                   >
                     +
                   </button>
                 </div>
+
+                {/* ✅ Remove: trash icon buton */}
+                <button
+                  type="button"
+                  className={s.iconRemove}
+                  onClick={() => dispatch(removeFromCart(item.id))}
+                  aria-label="Remove item"
+                  title="Remove"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M9 3h6l1 2h4v2H4V5h4l1-2Zm1 7h2v9h-2v-9Zm4 0h2v9h-2v-9ZM7 10h2v9H7v-9Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </button>
               </div>
             </article>
           );
