@@ -32,9 +32,11 @@ router.get("/", async (req, res) => {
 // POST /api/menu → yeni ürün ekle
 router.post("/", upload.single("img"), async (req, res) => {
   try {
+     console.log("MENU_PATH:", MENU_PATH);
     const { name, price, category, available = "true", nameKey } = req.body;
 
     const menu = await readJson(MENU_PATH);
+   
 
    
     let imgUrl = null;
