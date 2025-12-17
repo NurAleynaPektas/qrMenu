@@ -42,10 +42,10 @@
     }
   },
   "cart": {
-    "title": "Votre Panier",
+    "title": "Panier",
     "total": "Total",
     "checkout": "Paiement",
-    "empty": "Votre panier est vide.",
+    "empty": "Le panier est vide.",
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {

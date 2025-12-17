@@ -42,10 +42,10 @@
     }
   },
   "cart": {
-    "title": "Sepetiniz",
+    "title": "Sepet",
     "total": "Toplam",
     "checkout": "Siparişi Tamamla",
-    "empty": "Sepetiniz boş.",
+    "empty": "Sepet boş.",
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {

@@ -42,10 +42,10 @@
     }
   },
   "cart": {
-    "title": "Your Cart",
+    "title": "Cart",
     "total": "Total",
     "checkout": "Checkout",
-    "empty": "Your cart is empty.",
+    "empty": "Cart is empty.",
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {
