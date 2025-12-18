@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const { readJson, writeJson } = require("../utils/fileDB");
-
-const ORDERS_PATH = "data/orders.json";
-const TABLES_PATH = "data/tables.json";
+const path = require("path");
+const ORDERS_PATH = path.join(__dirname, "..", "data", "orders.json");
+const TABLES_PATH = path.join(__dirname, "..", "data", "tables.json");
 
 // POST /api/orders → yeni sipariş kaydet (MASA KİLİDİ VAR)
 router.post("/", async (req, res) => {

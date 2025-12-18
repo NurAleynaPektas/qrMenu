@@ -92,15 +92,18 @@ export const addMenuItem = createAsyncThunk(
   "menu/addMenuItem",
   async (payload, thunkAPI) => {
     try {
-      const res = await axios.post(API_URL, payload);
+      const res = await axios.post(API_URL, payload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       return res.data;
     } catch (err) {
-      const msg =
-        err.response?.data?.message || err.message || "Failed to add menu item";
-      return thunkAPI.rejectWithValue(msg);
+      return thunkAPI.rejectWithValue(
+        err.response?.data?.message || err.message || "Failed to add menu item"
+      );
     }
   }
 );
+
 
 // MENÜ ITEM GÜNCELLE
 export const updateMenuItem = createAsyncThunk(
