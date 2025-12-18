@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 const multer = require("multer");
-const { readJson, writeJson } = require("../utils/fileDB");
-const MENU_PATH = path.join(__dirname, "..", "data", "menu.json");
 
-//Multer storage ayarı
+const Menu = require("../models/Menu");
+
+// Multer storage ayarı
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "..", "uploads")); 
+    cb(null, path.join(__dirname, "..", "uploads"));
   },
   filename: (req, file, cb) => {
     const safeName = file.originalname.replace(/\s+/g, "_");
@@ -18,10 +18,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// GET /api/menu → tüm menüyü getir
+// GET /api/menu → tüm menüyü getir (Mongo)
 router.get("/", async (req, res) => {
   try {
-    const menu = await readJson(MENU_PATH);
+    const menu = await Menu.find().sort({ createdAt: 1 }).lean();
     res.json(menu);
   } catch (err) {
     console.error("Menu GET error:", err);
@@ -29,23 +29,17 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST /api/menu → yeni ürün ekle
+// POST /api/menu → yeni ürün ekle (Mongo)
 router.post("/", upload.single("img"), async (req, res) => {
   try {
-     console.log("MENU_PATH:", MENU_PATH);
     const { name, price, category, available = "true", nameKey } = req.body;
 
-    const menu = await readJson(MENU_PATH);
-   
-
-   
     let imgUrl = null;
     if (req.file) {
       imgUrl = `${req.protocol}://${req.get("host")}/uploads/${
         req.file.filename
       }`;
     } else if (req.body.img) {
-      
       imgUrl = req.body.img;
     }
 
@@ -54,40 +48,34 @@ router.post("/", upload.single("img"), async (req, res) => {
         ? available !== "false"
         : Boolean(available);
 
-    const newItem = {
+    const doc = await Menu.create({
       id: req.body.id || `M-${Date.now()}`,
       name: name || "Menu item",
       nameKey: nameKey || null,
       price: Number(price) || 0,
       category: category || "General",
       available: isAvailable,
-      img: imgUrl || `https://picsum.photos/400/250?menu-${menu.length + 1}`,
-    };
+      img: imgUrl || `https://picsum.photos/400/250?random=${Date.now()}`,
+    });
 
-    menu.push(newItem);
-    await writeJson(MENU_PATH, menu);
-
-    res.status(201).json(newItem);
+    res.status(201).json(doc.toObject());
   } catch (err) {
     console.error("Menu POST error:", err);
     res.status(500).json({ message: "Menu save error" });
   }
 });
 
-// PUT /api/menu/:id → ürünü güncelle (gerekirse resim de değişebilir)
+// PUT /api/menu/:id → ürünü güncelle (Mongo)
 router.put("/:id", upload.single("img"), async (req, res) => {
   try {
     const { id } = req.params;
     const changes = req.body || {};
 
-    const menu = await readJson(MENU_PATH);
-    const index = menu.findIndex((item) => item.id === id);
-
-    if (index === -1) {
+    const existing = await Menu.findOne({ id });
+    if (!existing)
       return res.status(404).json({ message: "Menu item not found" });
-    }
 
-    let imgUrl = menu[index].img;
+    let imgUrl = existing.img;
 
     if (req.file) {
       imgUrl = `${req.protocol}://${req.get("host")}/uploads/${
@@ -97,22 +85,24 @@ router.put("/:id", upload.single("img"), async (req, res) => {
       imgUrl = changes.img;
     }
 
-    const updated = {
-      ...menu[index],
-      ...changes,
-      price:
-        changes.price !== undefined ? Number(changes.price) : menu[index].price,
-      img: imgUrl,
-      available:
-        changes.available !== undefined
-          ? changes.available === "false"
-            ? false
-            : Boolean(changes.available)
-          : menu[index].available,
-    };
+    const nextAvailable =
+      changes.available !== undefined
+        ? changes.available === "false"
+          ? false
+          : Boolean(changes.available)
+        : existing.available;
 
-    menu[index] = updated;
-    await writeJson(MENU_PATH, menu);
+    const updated = await Menu.findOneAndUpdate(
+      { id },
+      {
+        ...changes,
+        price:
+          changes.price !== undefined ? Number(changes.price) : existing.price,
+        img: imgUrl,
+        available: nextAvailable,
+      },
+      { new: true }
+    ).lean();
 
     res.json(updated);
   } catch (err) {
@@ -121,18 +111,15 @@ router.put("/:id", upload.single("img"), async (req, res) => {
   }
 });
 
-// DELETE /api/menu/:id → ürünü sil
+// DELETE /api/menu/:id → ürünü sil (Mongo)
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const menu = await readJson(MENU_PATH);
-    const newMenu = menu.filter((item) => item.id !== id);
 
-    if (newMenu.length === menu.length) {
+    const deleted = await Menu.findOneAndDelete({ id }).lean();
+    if (!deleted)
       return res.status(404).json({ message: "Menu item not found" });
-    }
 
-    await writeJson(MENU_PATH, newMenu);
     res.json({ id });
   } catch (err) {
     console.error("Menu DELETE error:", err);

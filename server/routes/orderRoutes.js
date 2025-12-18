@@ -1,17 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const { readJson, writeJson } = require("../utils/fileDB");
-const path = require("path");
-const ORDERS_PATH = path.join(__dirname, "..", "data", "orders.json");
-const TABLES_PATH = path.join(__dirname, "..", "data", "tables.json");
+const Order = require("../models/Order");
+const Table = require("../models/Table");
 
 // POST /api/orders → yeni sipariş kaydet (MASA KİLİDİ VAR)
 router.post("/", async (req, res) => {
   try {
     let { table, note, items } = req.body;
 
-    // table: number olmalı
     const tableNumber = Number(table);
     if (!Number.isFinite(tableNumber) || tableNumber <= 0) {
       return res.status(400).json({ message: "Geçersiz masa numarası." });
@@ -21,54 +18,56 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: "Sepet boş." });
     }
 
-    // 1) Tables oku ve masa kilidi kontrol et
-    const tables = await readJson(TABLES_PATH);
-    const tableEntry = tables.find((t) => Number(t.table) === tableNumber);
+    // 1) Masa FREE ise tek sorguda ACTIVE yap (kilit)
+    const nowIso = new Date().toISOString();
 
-    if (!tableEntry) {
-      return res.status(404).json({ message: "Masa bulunamadı." });
-    }
+    const lockedTable = await Table.findOneAndUpdate(
+      { table: tableNumber, status: "FREE" },
+      { $set: { status: "ACTIVE", updatedAt: nowIso } },
+      { new: true }
+    ).lean();
 
-    if (tableEntry.status === "ACTIVE") {
+    if (!lockedTable) {
+      // Masa ya yok, ya da ACTIVE
+      const existing = await Table.findOne({ table: tableNumber }).lean();
+      if (!existing)
+        return res.status(404).json({ message: "Masa bulunamadı." });
+
       return res.status(409).json({
         message: `Masa ${tableNumber} zaten aktif. Yeni adisyon açılamaz.`,
-        activeOrderId: tableEntry.activeOrderId || null,
+        activeOrderId: existing.activeOrderId || null,
       });
     }
 
     // 2) Order oluştur
-    const orders = await readJson(ORDERS_PATH);
-
-    const newOrder = {
+    const newOrder = await Order.create({
       id: Date.now().toString(),
       table: tableNumber,
       note: note || "",
       items,
       status: "pending",
-      createdAt: new Date().toISOString(),
-    };
+      createdAt: nowIso,
+    });
 
-    orders.push(newOrder);
-    await writeJson(ORDERS_PATH, orders);
-
-    // 3) Masa kilitle
-    tableEntry.status = "ACTIVE";
-    tableEntry.activeOrderId = newOrder.id;
-    tableEntry.updatedAt = new Date().toISOString();
-
-    await writeJson(TABLES_PATH, tables);
+    // 3) Masaya activeOrderId yaz
+    const tableAfter = await Table.findOneAndUpdate(
+      { table: tableNumber },
+      { $set: { activeOrderId: newOrder.id, updatedAt: nowIso } },
+      { new: true }
+    ).lean();
 
     return res.status(201).json({
       message: "Sipariş kaydedildi ve masa kilitlendi.",
-      order: newOrder,
-      table: tableEntry,
+      order: newOrder.toObject(),
+      table: tableAfter,
     });
   } catch (err) {
     console.error("Order POST error:", err);
     return res.status(500).json({ message: "Sunucu hatası." });
   }
 });
-// PATCH /api/orders/:id/status → sipariş status güncelle (completed olunca masa aç)
+
+// PATCH /api/orders/:id/status → status güncelle (completed olunca masa aç)
 router.patch("/:id/status", async (req, res) => {
   try {
     const { id } = req.params;
@@ -79,44 +78,38 @@ router.patch("/:id/status", async (req, res) => {
       return res.status(400).json({ message: "Geçersiz status." });
     }
 
-    const orders = await readJson(ORDERS_PATH);
-    const index = orders.findIndex((o) => o.id === id);
+    const nowIso = new Date().toISOString();
 
-    if (index === -1) {
+    const order = await Order.findOneAndUpdate(
+      { id },
+      { $set: { status, updatedAt: nowIso } },
+      { new: true }
+    ).lean();
+
+    if (!order) {
       return res.status(404).json({ message: "Sipariş bulunamadı." });
     }
 
-    // status güncelle
-    orders[index].status = status;
-    orders[index].updatedAt = new Date().toISOString();
-    await writeJson(ORDERS_PATH, orders);
-
     // completed olduysa masayı aç
     if (status === "completed") {
-      const tableNumber = Number(orders[index].table);
-
-      const tables = await readJson(TABLES_PATH);
-      const tableEntry = tables.find((t) => Number(t.table) === tableNumber);
-
-      if (tableEntry) {
-        tableEntry.status = "FREE";
-        tableEntry.activeOrderId = null;
-        tableEntry.updatedAt = new Date().toISOString();
-        await writeJson(TABLES_PATH, tables);
-      }
+      await Table.findOneAndUpdate(
+        { table: Number(order.table) },
+        { $set: { status: "FREE", activeOrderId: null, updatedAt: nowIso } },
+        { new: true }
+      ).lean();
     }
 
-    return res.json({ message: "Status güncellendi.", order: orders[index] });
+    return res.json({ message: "Status güncellendi.", order });
   } catch (err) {
     console.error("Order PATCH status error:", err);
     return res.status(500).json({ message: "Sunucu hatası." });
   }
 });
 
-// GET /api/orders → tüm siparişleri getir (admin/chef kullanacak)
+// GET /api/orders → tüm siparişleri getir
 router.get("/", async (req, res) => {
   try {
-    const orders = await readJson(ORDERS_PATH);
+    const orders = await Order.find().sort({ createdAt: -1 }).lean();
     res.json(orders);
   } catch (err) {
     console.error("Order GET error:", err);

@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { readJson, writeJson } = require("../utils/fileDB");
 
-const TABLES_PATH = "data/tables.json";
+const Table = require("../models/Table");
 
-// GET /api/tables
+// GET /api/tables  → tüm masaları getir (Mongo)
 router.get("/", async (req, res) => {
   try {
-    const tables = await readJson(TABLES_PATH);
+    const tables = await Table.find().sort({ table: 1 }).lean();
     return res.json(tables);
   } catch (err) {
     console.error("Tables GET error:", err);
@@ -15,7 +14,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// PATCH /api/tables/:table/free  
+// PATCH /api/tables/:table/free  → masayı FREE yap
 router.patch("/:table/free", async (req, res) => {
   try {
     const tableNumber = Number(req.params.table);
@@ -23,16 +22,17 @@ router.patch("/:table/free", async (req, res) => {
       return res.status(400).json({ message: "Geçersiz masa numarası." });
     }
 
-    const tables = await readJson(TABLES_PATH);
-    const entry = tables.find((t) => Number(t.table) === tableNumber);
-    if (!entry) return res.status(404).json({ message: "Masa bulunamadı." });
+    const nowIso = new Date().toISOString();
 
-    entry.status = "FREE";
-    entry.activeOrderId = null;
-    entry.updatedAt = new Date().toISOString();
+    const updated = await Table.findOneAndUpdate(
+      { table: tableNumber },
+      { $set: { status: "FREE", activeOrderId: null, updatedAt: nowIso } },
+      { new: true }
+    ).lean();
 
-    await writeJson(TABLES_PATH, tables);
-    return res.json({ message: "Masa FREE yapıldı.", table: entry });
+    if (!updated) return res.status(404).json({ message: "Masa bulunamadı." });
+
+    return res.json({ message: "Masa FREE yapıldı.", table: updated });
   } catch (err) {
     console.error("Tables PATCH free error:", err);
     return res.status(500).json({ message: "Sunucu hatası." });

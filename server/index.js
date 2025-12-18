@@ -1,12 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const orderRoutes = require("./routes/orderRoutes");
 const menuRoutes = require("./routes/menuRoutes");
-const tableRoutes = require("./routes/tableRoutes"); 
-
-const { ensureTablesFile } = require("./utils/ensureTables"); 
+const tableRoutes = require("./routes/tableRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,23 +21,25 @@ app.get("/", (req, res) => {
   res.json({ status: "ok", message: "Friends First API is running " });
 });
 
-// Sipariş ve menü route'ları
 app.use("/api/orders", orderRoutes);
 app.use("/api/menu", menuRoutes);
-
-// Masalar route'u (FREE/ACTIVE görmek için)
 app.use("/api/tables", tableRoutes);
 
-// server başlarken tables.json yoksa oluştur
-ensureTablesFile()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Friends First API listening on http://localhost:${PORT}`);
-    });
-  })
-  .catch((e) => {
-    console.error("ensureTablesFile error:", e);
-    app.listen(PORT, () => {
-      console.log(`Friends First API listening on http://localhost:${PORT}`);
-    });
+async function start() {
+  try {
+    if (!process.env.MONGO_URI) {
+      console.warn(" MONGO_URI yok. .env içine eklemen lazım.");
+    } else {
+      await mongoose.connect(process.env.MONGO_URI);
+      console.log(" MongoDB connected");
+    }
+  } catch (e) {
+    console.error("MongoDB connect error:", e.message);
+  }
+
+  app.listen(PORT, () => {
+    console.log(`Friends First API listening on http://localhost:${PORT}`);
   });
+}
+
+start();
