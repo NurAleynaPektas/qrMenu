@@ -175,6 +175,7 @@ export default function AdminDashboard() {
       available: true,
     });
     setImgFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleFileChange = (e) => {

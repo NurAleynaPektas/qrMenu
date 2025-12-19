@@ -6,6 +6,7 @@ import { addToCart } from "../redux/cartSlice";
 import iziToast from "izitoast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { fetchMenu } from "../redux/menuSlice";
+import { resolveImageUrl } from "../utils/resolveImageUrl";
 
 export default function Menu() {
   const { t } = useTranslation();
@@ -184,7 +185,15 @@ export default function Menu() {
 
             return (
               <article className={s.card} key={it.id}>
-                <img src={it.img} alt={label} loading="lazy" />
+                <img
+                  src={resolveImageUrl(it.img, it.id)}
+                  alt={label}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = `https://picsum.photos/400/250?random=${it.id}`;
+                  }}
+                />
+
                 <div className={s.info}>
                   <h3 className={s.cardTitle}>{label}</h3>
                   <p className={s.cardPrice}>₺{it.price}</p>

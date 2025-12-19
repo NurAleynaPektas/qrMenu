@@ -92,9 +92,7 @@ export const addMenuItem = createAsyncThunk(
   "menu/addMenuItem",
   async (payload, thunkAPI) => {
     try {
-      const res = await axios.post(API_URL, payload, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.post(API_URL, payload); 
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(
@@ -103,6 +101,7 @@ export const addMenuItem = createAsyncThunk(
     }
   }
 );
+
 
 
 // MENÜ ITEM GÜNCELLE
@@ -167,7 +166,7 @@ const menuSlice = createSlice({
           category: mapLegacyCategory(item.category),
           available:
             typeof item.available === "boolean" ? item.available : true,
-          img: resolveImageUrl(item.img, `from-api-${idx + 1}`),
+          img: item.img,
         }));
       })
       .addCase(fetchMenu.rejected, (state, action) => {
@@ -188,7 +187,7 @@ const menuSlice = createSlice({
             typeof item.available === "boolean" ? item.available : true,
           img: resolveImageUrl(
             item.img,
-            state.items.length + 1 // fallback için
+            state.items.length + 1 
           ),
         });
       })
