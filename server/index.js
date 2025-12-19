@@ -41,5 +41,11 @@ async function start() {
     console.log(`Friends First API listening on http://localhost:${PORT}`);
   });
 }
+console.log("CLOUDINARY_CLOUD_NAME:", process.env.CLOUDINARY_CLOUD_NAME);
+console.log("CLOUDINARY_API_KEY var mı:", !!process.env.CLOUDINARY_API_KEY);
+console.log(
+  "CLOUDINARY_API_SECRET var mı:",
+  !!process.env.CLOUDINARY_API_SECRET
+);
 
 start();

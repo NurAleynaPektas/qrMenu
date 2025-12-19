@@ -41,6 +41,15 @@ router.post("/", upload.single("img"), async (req, res) => {
     const { name, price, category, available = "true", nameKey } = req.body;
 
     let imgUrl = null;
+    console.log("CLOUDINARY_CLOUD_NAME:", process.env.CLOUDINARY_CLOUD_NAME);
+    console.log("API_KEY var mı:", !!process.env.CLOUDINARY_API_KEY);
+    console.log("API_SECRET var mı:", !!process.env.CLOUDINARY_API_SECRET);
+    console.log(
+      "req.file var mı:",
+      !!req.file,
+      req.file?.mimetype,
+      req.file?.size
+    );
 
     // 1) FormData ile img geldiyse Cloudinary'ye yükle
     if (req.file) {
