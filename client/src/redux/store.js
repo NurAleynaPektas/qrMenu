@@ -24,6 +24,7 @@ if (typeof window !== "undefined") {
       JSON.stringify({
         user: state.auth.user,
         token: state.auth.token,
+        role: state.auth.role,
         isAdmin: state.auth.isAdmin,
       })
     );

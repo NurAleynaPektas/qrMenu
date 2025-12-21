@@ -3,7 +3,6 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AdminRoute from "./components/AdminRoute";
 import Loader from "./components/Loader";
 
 // Lazy-loaded pages
@@ -11,9 +10,13 @@ const Home = lazy(() => import("./pages/Home"));
 const Menu = lazy(() => import("./pages/Menu"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Checkout = lazy(() => import("./pages/Checkout"));
+
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const Kitchen = lazy(() => import("./pages/Kitchen")); 
+
+const KitchenLogin = lazy(() => import("./pages/KitchenLogin"));
+const Kitchen = lazy(() => import("./pages/Kitchen"));
+
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const NotFound = lazy(() => import("./pages/NotFound"));
@@ -28,9 +31,18 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const location = useLocation();
+  const path = location.pathname;
+
+  const hidePublicLayout =
+    path.startsWith("/kitchen") ||
+    path.startsWith("/admin") ||
+    path.startsWith("/staff");
+
   return (
     <>
-      <Navbar />
+      {!hidePublicLayout && <Navbar />}
+
       <ScrollToTop />
 
       <Suspense fallback={<Loader />}>
@@ -50,28 +62,35 @@ export default function App() {
             }
           />
 
-          {/* Admin Routes */}
+          {/* Admin */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route
             path="/admin/dashboard"
             element={
-              <AdminRoute>
+              <ProtectedRoute
+                allowedRoles={["admin"]}
+                redirectTo="/admin/login"
+              >
                 <AdminDashboard />
-              </AdminRoute>
+              </ProtectedRoute>
             }
           />
 
-          {/*  Kitchen (Chef) Panel */}
+          {/* Kitchen */}
+          <Route path="/kitchen/login" element={<KitchenLogin />} />
           <Route
             path="/kitchen"
             element={
-              <AdminRoute>
+              <ProtectedRoute
+                allowedRoles={["kitchen"]}
+                redirectTo="/kitchen/login"
+              >
                 <Kitchen />
-              </AdminRoute>
+              </ProtectedRoute>
             }
           />
 
-          {/* Auth */}
+          {/* Auth (Customer) */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
@@ -80,7 +99,7 @@ export default function App() {
         </Routes>
       </Suspense>
 
-      <Footer />
+      {!hidePublicLayout && <Footer />}
     </>
   );
 }

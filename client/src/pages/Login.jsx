@@ -6,6 +6,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import s from "./Auth.module.css";
+import { toastSuccess, toastError } from "../utils/toast";
 
 export default function Login() {
   const { t } = useTranslation();
@@ -17,7 +18,6 @@ export default function Login() {
 
   const from = location.state?.from || "/";
 
-  // Formik + Yup
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -41,10 +41,11 @@ export default function Login() {
 
       const raw = window.localStorage.getItem("ff-credentials");
       if (!raw) {
-        setGeneralError(
+        const msg =
           t("auth.no_account") ||
-            "No registered user. Please create an account."
-        );
+          "No registered user. Please create an account.";
+        setGeneralError(msg);
+        toastError("Kayıtlı kullanıcı bulunamadı");
         return;
       }
 
@@ -53,12 +54,16 @@ export default function Login() {
         saved = JSON.parse(raw);
       } catch (err) {
         console.error("Credentials parse error:", err);
-        setGeneralError(t("auth.error") || "Something went wrong.");
+        const msg = t("auth.error") || "Something went wrong.";
+        setGeneralError(msg);
+        toastError("Bir hata oluştu");
         return;
       }
 
       if (saved.email !== email || saved.password !== password) {
-        setGeneralError(t("auth.invalid") || "Invalid email or password.");
+        const msg = t("auth.invalid") || "Invalid email or password.";
+        setGeneralError(msg);
+        toastError("Email veya şifre hatalı");
         return;
       }
 
@@ -68,10 +73,12 @@ export default function Login() {
         setCredentials({
           user: { name: saved.name, email: saved.email },
           token: fakeToken,
+          role: "customer", // ✅ normal kullanıcı
           isAdmin: false,
         })
       );
 
+      toastSuccess("Giriş başarılı");
       navigate(from, { replace: true });
     },
   });
@@ -92,6 +99,7 @@ export default function Login() {
     } catch (err) {
       console.error("Saved credentials parse error:", err);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -148,7 +156,7 @@ export default function Login() {
           )}
         </div>
 
-        {/* GENEL HATA  */}
+        {/* GENEL HATA */}
         {generalError && <p className={s.error}>{generalError}</p>}
 
         <div className={s.actions}>

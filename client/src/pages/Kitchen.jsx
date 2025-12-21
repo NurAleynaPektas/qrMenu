@@ -2,8 +2,10 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import s from "./Kitchen.module.css";
-
+import PanelTopbar from "../components/PanelTopbar";
 import { fetchOrders, patchOrderStatus } from "../redux/ordersSlice";
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 function formatOrderItems(order) {
   const items = order.items;
@@ -165,9 +167,26 @@ export default function Kitchen() {
     });
   }, [orders, statusFilter, completedRange, search]);
 
-  const handleStatusChange = (id, newStatus) => {
-    dispatch(patchOrderStatus({ id, status: newStatus })).catch(() => {});
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await dispatch(patchOrderStatus({ id, status: newStatus })).unwrap();
+
+      const msg =
+        newStatus === "preparing"
+          ? "Sipariş hazırlanıyor"
+          : newStatus === "completed"
+          ? "Sipariş tamamlandı"
+          : "Durum güncellendi";
+
+      iziToast.success({ title: "Başarılı", message: msg });
+    } catch (errMsg) {
+      iziToast.error({
+        title: "Hata",
+        message: String(errMsg || "Durum güncellenemedi"),
+      });
+    }
   };
+
 
   const handleManualRefresh = async () => {
     await dispatch(fetchOrders());
@@ -176,6 +195,7 @@ export default function Kitchen() {
 
   return (
     <main className={s.page}>
+      <PanelTopbar title="Mutfak Paneli" />
       <header className={s.header}>
         <div>
           <h1 className={s.title}>{t("kitchen.title") || "Kitchen Panel"}</h1>

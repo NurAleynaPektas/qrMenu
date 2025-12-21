@@ -5,15 +5,16 @@ let savedAuth = null;
 if (typeof window !== "undefined") {
   const raw =
     window.localStorage.getItem("ff-auth") ||
-    window.localStorage.getItem("ff-user"); // eski yapı desteği
+    window.localStorage.getItem("ff-user");
 
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
+
       if (parsed && parsed.user !== undefined) {
         savedAuth = parsed;
       } else {
-        savedAuth = { user: parsed, token: null, isAdmin: false };
+        savedAuth = { user: parsed, token: null, isAdmin: false, role: null };
       }
     } catch (err) {
       console.error("Auth localStorage parse error:", err);
@@ -25,16 +26,20 @@ if (typeof window !== "undefined") {
 const initialState = {
   user: savedAuth?.user || null,
   token: savedAuth?.token || null,
+  role: savedAuth?.role || null, 
   isAdmin: savedAuth?.isAdmin || false,
 };
 
 const persistAuth = (state) => {
   if (typeof window === "undefined") return;
+
   const toSave = {
     user: state.user,
     token: state.token,
+    role: state.role, 
     isAdmin: state.isAdmin,
   };
+
   window.localStorage.setItem("ff-auth", JSON.stringify(toSave));
 };
 
@@ -43,15 +48,24 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      const { user, token, isAdmin } = action.payload;
+      const { user, token, isAdmin, role } = action.payload;
+
       state.user = user || null;
       state.token = token || null;
-      state.isAdmin = !!isAdmin;
+
+  
+      const finalRole = role || (isAdmin ? "admin" : state.role) || null;
+
+      state.role = finalRole;
+      state.isAdmin = finalRole === "admin";
+
       persistAuth(state);
     },
+
     logout: (state) => {
       state.user = null;
       state.token = null;
+      state.role = null; 
       state.isAdmin = false;
 
       if (typeof window !== "undefined") {

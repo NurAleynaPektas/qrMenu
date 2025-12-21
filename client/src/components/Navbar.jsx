@@ -13,7 +13,10 @@ const Navbar = () => {
   const langRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isAdmin } = useSelector((state) => state.auth);
+  const { user, role } = useSelector((state) => state.auth);
+  const isAdmin = role === "admin";
+  const isCustomer = role === "customer";
+
 
   const changeLang = (lng) => {
     i18n.changeLanguage(lng);
@@ -41,6 +44,7 @@ const Navbar = () => {
     }
 
     dispatch(logout());
+    toastSuccess("Çıkış yapıldı");
     setOpen(false);
     navigate("/");
   };
@@ -52,13 +56,11 @@ const Navbar = () => {
       </Link>
 
       <nav className={`${s.navbarRight} ${open ? s.showMenu : ""}`}>
-    
         <Link to="/" onClick={() => setOpen(false)}>
           {t("nav.home")}
         </Link>
 
-        
-        {user && (
+        {isCustomer && (
           <>
             <Link to="/menu" onClick={() => setOpen(false)}>
               {t("nav.menu")}
@@ -69,7 +71,6 @@ const Navbar = () => {
           </>
         )}
 
-       
         {isAdmin && (
           <Link
             to="/admin/dashboard"

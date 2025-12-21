@@ -8,14 +8,14 @@ import * as Yup from "yup";
 import s from "./Auth.module.css";
 import { toastSuccess, toastError } from "../utils/toast";
 
-export default function AdminLogin() {
+export default function KitchenLogin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
 
   const [generalError, setGeneralError] = useState("");
-  const from = location.state?.from || "/admin/dashboard";
+  const from = location.state?.from || "/kitchen";
 
   const formik = useFormik({
     initialValues: {
@@ -37,25 +37,24 @@ export default function AdminLogin() {
       const normalizedPassword = values.password.trim();
 
       if (
-        normalizedEmail === "admin@friendsfirst.com" &&
-        normalizedPassword === "admin123"
+        normalizedEmail === "kitchen@friendsfirst.com" &&
+        normalizedPassword === "kitchen123"
       ) {
-        const fakeToken = "jwt-admin-" + Date.now();
+        const fakeToken = "jwt-kitchen-" + Date.now();
 
         dispatch(
           setCredentials({
-            user: { name: "Admin", email: normalizedEmail },
+            user: { name: "Kitchen", email: normalizedEmail },
             token: fakeToken,
-            role: "admin",
-            isAdmin: true,
+            role: "kitchen",
           })
         );
 
-        toastSuccess("Admin girişi başarılı");
+        toastSuccess("Mutfak girişi başarılı");
         navigate(from, { replace: true });
       } else {
-        setGeneralError(t("auth.invalid") || "Invalid admin credentials.");
-        toastError("Admin bilgileri hatalı");
+        setGeneralError(t("auth.invalid") || "Invalid kitchen credentials.");
+        toastError("Email veya şifre hatalı");
       }
     },
   });
@@ -64,16 +63,17 @@ export default function AdminLogin() {
     <main className={s.page}>
       <form className={s.card} onSubmit={formik.handleSubmit}>
         <h1 className={s.title}>
-          {t("admin.login_title") || "Admin Panel Login"}
+          {t("kitchen.login_title") || "Mutfak Girişi"}
         </h1>
         <p className={s.subtitle}>
-          {t("admin.login_sub") || "Only authorized administrators can log in."}
+          {t("kitchen.login_sub") ||
+            "Sadece yetkili mutfak personeli giriş yapabilir."}
         </p>
 
         {/* EMAIL */}
         <div className={s.field}>
           <label htmlFor="email" className={s.label}>
-            {t("admin.email") || "Email"}
+            {t("auth.email") || "Email"}
           </label>
           <input
             id="email"
@@ -81,12 +81,9 @@ export default function AdminLogin() {
             type="email"
             className={s.input}
             value={formik.values.email}
-            onChange={(e) => {
-              formik.handleChange(e);
-              setGeneralError("");
-            }}
+            onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="admin@friendsfirst.com"
+            placeholder="kitchen@friendsfirst.com"
           />
           {formik.touched.email && formik.errors.email && (
             <p className={s.error}>{formik.errors.email}</p>
@@ -96,7 +93,7 @@ export default function AdminLogin() {
         {/* PASSWORD */}
         <div className={s.field}>
           <label htmlFor="password" className={s.label}>
-            {t("admin.password") || "Password"}
+            {t("auth.password") || "Password"}
           </label>
           <input
             id="password"
@@ -104,10 +101,7 @@ export default function AdminLogin() {
             type="password"
             className={s.input}
             value={formik.values.password}
-            onChange={(e) => {
-              formik.handleChange(e);
-              setGeneralError("");
-            }}
+            onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             placeholder="••••••"
           />
@@ -121,7 +115,7 @@ export default function AdminLogin() {
 
         <div className={s.actions}>
           <button type="submit" className={s.submitBtn}>
-            {t("admin.sign_in") || "Sign In"}
+            {t("auth.login") || "Login"}
           </button>
         </div>
       </form>

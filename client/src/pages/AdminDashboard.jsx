@@ -2,6 +2,9 @@ import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useMemo, useRef } from "react";
 import s from "./AdminDashboard.module.css";
+import PanelTopbar from "../components/PanelTopbar";
+import { toastSuccess, toastError } from "../utils/toast";
+import "izitoast/dist/css/iziToast.min.css";
 
 import {
   addMenuItem,
@@ -141,9 +144,21 @@ export default function AdminDashboard() {
     });
   }, [orders, statusFilter, search]);
 
-  const handleStatusChange = (id, newStatus) => {
-    dispatch(patchOrderStatus({ id, status: newStatus }));
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await dispatch(patchOrderStatus({ id, status: newStatus })).unwrap();
+      iziToast.success({
+        title: "Başarılı",
+        message: "Sipariş durumu güncellendi",
+      });
+    } catch (errMsg) {
+      iziToast.error({
+        title: "Hata",
+        message: String(errMsg || "Sipariş durumu güncellenemedi"),
+      });
+    }
   };
+
 
   const statusLabel = (status) => {
     switch (status) {
@@ -191,14 +206,20 @@ export default function AdminDashboard() {
 
   const handleDragOver = (e) => e.preventDefault();
 
-  const handleMenuSubmit = (e) => {
+  const handleMenuSubmit = async (e) => {
     e.preventDefault();
 
     const trimmedName = menuForm.name.trim();
-    if (!trimmedName) return;
+    if (!trimmedName) {
+      iziToast.warning({ title: "Uyarı", message: "Ürün adı boş olamaz" });
+      return;
+    }
 
     const priceNumber = Number(menuForm.price);
-    if (Number.isNaN(priceNumber) || priceNumber <= 0) return;
+    if (Number.isNaN(priceNumber) || priceNumber <= 0) {
+      iziToast.warning({ title: "Uyarı", message: "Fiyat geçersiz" });
+      return;
+    }
 
     const categoryCode = menuForm.category || "OTHER";
 
@@ -209,13 +230,23 @@ export default function AdminDashboard() {
     formData.append("available", menuForm.available ? "true" : "false");
     if (imgFile) formData.append("img", imgFile);
 
-    if (editingId) {
-      dispatch(updateMenuItem({ id: editingId, changes: formData }));
-    } else {
-      dispatch(addMenuItem(formData));
+    try {
+      if (editingId) {
+        await dispatch(
+          updateMenuItem({ id: editingId, changes: formData })
+        ).unwrap();
+        iziToast.success({ title: "Başarılı", message: "Ürün güncellendi" });
+      } else {
+        await dispatch(addMenuItem(formData)).unwrap();
+        iziToast.success({ title: "Başarılı", message: "Ürün eklendi" });
+      }
+      resetMenuForm();
+    } catch (errMsg) {
+      iziToast.error({
+        title: "Hata",
+        message: String(errMsg || "İşlem başarısız"),
+      });
     }
-
-    resetMenuForm();
   };
 
   const handleEditClick = (item) => {
@@ -229,14 +260,24 @@ export default function AdminDashboard() {
     setImgFile(null);
   };
 
-  const handleDeleteClick = (id) => {
-    dispatch(deleteMenuItem(id));
-    dispatch(removeFromCart(id));
-    if (editingId === id) resetMenuForm();
+  const handleDeleteClick = async (id) => {
+    try {
+      await dispatch(deleteMenuItem(id)).unwrap();
+      dispatch(removeFromCart(id));
+      if (editingId === id) resetMenuForm();
+
+      iziToast.success({ title: "Silindi", message: "Ürün silindi" });
+    } catch (errMsg) {
+      iziToast.error({
+        title: "Hata",
+        message: String(errMsg || "Silme işlemi başarısız"),
+      });
+    }
   };
 
   return (
     <main className={s.page}>
+      <PanelTopbar title="Admin Paneli" />
       <section className={s.header}>
         <div>
           <h1 className={s.title}>
