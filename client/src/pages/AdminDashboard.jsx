@@ -1,10 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import s from "./AdminDashboard.module.css";
 import PanelTopbar from "../components/PanelTopbar";
-import { toastSuccess, toastError } from "../utils/toast";
 import "izitoast/dist/css/iziToast.min.css";
+import iziToast from "izitoast";
 
 import {
   addMenuItem,
@@ -12,11 +13,10 @@ import {
   deleteMenuItem,
 } from "../redux/menuSlice";
 import { removeFromCart } from "../redux/cartSlice";
-
 import { fetchOrders, patchOrderStatus } from "../redux/ordersSlice";
 
 function formatOrderItems(order) {
-  const items = order.items;
+  const items = order?.items;
 
   if (Array.isArray(items)) {
     return items
@@ -27,15 +27,12 @@ function formatOrderItems(order) {
       .join(", ");
   }
 
-  if (typeof items === "string") {
-    return items;
-  }
-
+  if (typeof items === "string") return items;
   return "";
 }
 
 function calcOrderTotal(order) {
-  const items = order.items;
+  const items = order?.items;
   if (!Array.isArray(items)) return 0;
 
   return items.reduce((sum, it) => {
@@ -55,12 +52,13 @@ function formatTimeFromISO(iso) {
 export default function AdminDashboard() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const admin = useSelector((state) => state.auth.user);
-  const menuItems = useSelector((state) => state.menu.items);
+  const menuItems = useSelector((state) => state.menu.items) || [];
 
   const {
-    list: orders,
+    list: orders = [],
     loading: ordersLoading,
     error: ordersError,
   } = useSelector((state) => state.orders);
@@ -75,15 +73,15 @@ export default function AdminDashboard() {
     category: "",
     available: true,
   });
+
   const [imgFile, setImgFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  // Sayfa açılınca server'dan orders çek
+  // Orders çek
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
 
-  // 🔹 Kategori seçenekleri (sabit kodlar)
   const CATEGORY_OPTIONS = [
     { value: "MAIN", label: t("admin.cat_main") || "Ana Yemek" },
     { value: "DRINK", label: t("admin.cat_drink") || "İçecek" },
@@ -119,12 +117,10 @@ export default function AdminDashboard() {
       const completedCount = orders.filter(
         (o) => o.status === "completed"
       ).length;
-
       const totalRevenue = orders.reduce(
         (sum, o) => sum + calcOrderTotal(o),
         0
       );
-
       return { totalOrders, pendingCount, completedCount, totalRevenue };
     }, [orders]);
 
@@ -139,7 +135,6 @@ export default function AdminDashboard() {
       const haystack = `${o.id} ${itemsText} ${o.table} ${
         o.note || ""
       }`.toLowerCase();
-
       return haystack.includes(q);
     });
   }, [orders, statusFilter, search]);
@@ -158,7 +153,6 @@ export default function AdminDashboard() {
       });
     }
   };
-
 
   const statusLabel = (status) => {
     switch (status) {
@@ -183,12 +177,7 @@ export default function AdminDashboard() {
 
   const resetMenuForm = () => {
     setEditingId(null);
-    setMenuForm({
-      name: "",
-      price: "",
-      category: "",
-      available: true,
-    });
+    setMenuForm({ name: "", price: "", category: "", available: true });
     setImgFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -265,7 +254,6 @@ export default function AdminDashboard() {
       await dispatch(deleteMenuItem(id)).unwrap();
       dispatch(removeFromCart(id));
       if (editingId === id) resetMenuForm();
-
       iziToast.success({ title: "Silindi", message: "Ürün silindi" });
     } catch (errMsg) {
       iziToast.error({
@@ -278,6 +266,7 @@ export default function AdminDashboard() {
   return (
     <main className={s.page}>
       <PanelTopbar title="Admin Paneli" />
+
       <section className={s.header}>
         <div>
           <h1 className={s.title}>
@@ -304,7 +293,6 @@ export default function AdminDashboard() {
         )}
       </section>
 
-      {/* Kartlar - istatistikler */}
       <section className={s.statsGrid}>
         <div className={s.statCard}>
           <span className={s.statLabel}>
@@ -332,7 +320,6 @@ export default function AdminDashboard() {
         </div>
       </section>
 
-      {/* Orders - filtre */}
       <section className={s.filtersBar}>
         <div className={s.filterChips}>
           <button
@@ -344,6 +331,7 @@ export default function AdminDashboard() {
           >
             {t("admin.filter_all") || "All"}
           </button>
+
           <button
             type="button"
             className={`${s.filterChip} ${
@@ -353,6 +341,7 @@ export default function AdminDashboard() {
           >
             {t("admin.status_pending") || "Pending"}
           </button>
+
           <button
             type="button"
             className={`${s.filterChip} ${
@@ -362,6 +351,7 @@ export default function AdminDashboard() {
           >
             {t("admin.status_preparing") || "Preparing"}
           </button>
+
           <button
             type="button"
             className={`${s.filterChip} ${
@@ -385,7 +375,6 @@ export default function AdminDashboard() {
         />
       </section>
 
-      {/* Orders - tablo */}
       <section className={s.tableSection}>
         <h2 className={s.sectionTitle}>
           {t("admin.latest_orders") || "Latest Orders"}
@@ -409,6 +398,7 @@ export default function AdminDashboard() {
                 <th>{t("admin.time") || "Time"}</th>
               </tr>
             </thead>
+
             <tbody>
               {!ordersLoading && filteredOrders.length === 0 ? (
                 <tr>
@@ -434,6 +424,7 @@ export default function AdminDashboard() {
                         >
                           {statusLabel(o.status)}
                         </span>
+
                         <select
                           className={s.statusSelect}
                           value={o.status}
@@ -462,7 +453,6 @@ export default function AdminDashboard() {
         </div>
       </section>
 
-      {/* Menü Yönetimi */}
       <section className={s.menuSection}>
         <div className={s.menuHeader}>
           <div>
@@ -474,6 +464,15 @@ export default function AdminDashboard() {
                 "Add, edit or disable items on your digital menu."}
             </p>
           </div>
+
+          {/* ✅ Personel Oluştur Butonu */}
+          <button
+            type="button"
+            className={s.menuPrimaryBtn}
+            onClick={() => navigate("/admin/staff/create")}
+          >
+            {t("admin.staff_create_btn") || "Personel Oluştur"}
+          </button>
         </div>
 
         <form className={s.menuForm} onSubmit={handleMenuSubmit}>
@@ -581,6 +580,7 @@ export default function AdminDashboard() {
                   {t("admin.menu_cancel_edit") || "Cancel edit"}
                 </button>
               )}
+
               <button type="submit" className={s.menuPrimaryBtn}>
                 {editingId
                   ? t("admin.menu_save_changes") || "Save changes"
@@ -602,6 +602,7 @@ export default function AdminDashboard() {
                 <th>{t("admin.menu_actions") || "Actions"}</th>
               </tr>
             </thead>
+
             <tbody>
               {menuItems.length === 0 ? (
                 <tr>
@@ -637,6 +638,7 @@ export default function AdminDashboard() {
                         >
                           {t("admin.menu_edit") || "Edit"}
                         </button>
+
                         <button
                           type="button"
                           className={s.menuRowDelete}

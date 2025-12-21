@@ -14,37 +14,33 @@ export default function Menu() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const user = useSelector((state) => state.auth.user);
+  const { user, role } = useSelector((state) => state.auth);
   const {
     items: menuItems,
     loading,
     error,
   } = useSelector((state) => state.menu);
 
-  // Aktif kategori filtresi
   const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
     dispatch(fetchMenu());
   }, [dispatch]);
 
-  // Sadece aktif ürünler
   const visibleItems = useMemo(
-    () => menuItems.filter((item) => item.available),
+    () => (menuItems || []).filter((item) => item.available),
     [menuItems]
   );
 
-  // 🔹 Kategori sırası (kod bazlı)
   const CATEGORY_ORDER = [
     "MAIN",
     "APPETIZER",
     "DESSERT",
     "DRINK",
     "SALAD",
-    "SOUP",
+    "SOUPE",
   ];
 
-  // 🔹 Kategori kodunu dile göre label yap
   const categoryLabel = (cat) => {
     switch (cat) {
       case "MAIN":
@@ -64,17 +60,13 @@ export default function Menu() {
     }
   };
 
-  // 🔹 Menüde gerçekten kullanılan kategoriler
   const categories = useMemo(() => {
-    const set = new Set(
-      visibleItems.map((it) => it.category).filter((c) => !!c)
-    );
+    const set = new Set(visibleItems.map((it) => it.category).filter(Boolean));
     const arr = Array.from(set);
 
     return arr.sort((a, b) => {
       const ia = CATEGORY_ORDER.indexOf(a);
       const ib = CATEGORY_ORDER.indexOf(b);
-
       if (ia === -1 && ib === -1) return a.localeCompare(b);
       if (ia === -1) return 1;
       if (ib === -1) return -1;
@@ -82,23 +74,24 @@ export default function Menu() {
     });
   }, [visibleItems]);
 
-  // 🔹 Aktif kategoriye göre ürünler
   const filteredItems = useMemo(() => {
     if (activeCategory === "all") return visibleItems;
     return visibleItems.filter((it) => it.category === activeCategory);
   }, [visibleItems, activeCategory]);
 
   const handleAddToCart = (item) => {
-    if (!user) {
+    // ✅ sadece staff sipariş açabilir
+    if (!user || role !== "staff") {
       iziToast.show({
-        title: t("auth.login") || "Login",
+        title: t("staff.login_title") || "Personel Girişi",
         message:
-          t("auth.login_to_add") || "Please login to add items to your cart.",
+          t("staff.login_to_order") ||
+          "Sipariş oluşturmak için personel girişi yapın.",
         backgroundColor: "#b91c1c",
         titleColor: "#ffffff",
         messageColor: "#fef2f2",
         position: "topCenter",
-        timeout: 3500,
+        timeout: 3000,
         progressBar: true,
       });
 
@@ -135,12 +128,12 @@ export default function Menu() {
       <h1 className={s.title}>{t("home.title")}</h1>
       <p className={s.subtitle}>{t("home.about_p2")}</p>
 
-      {/* Kategori filtre butonları */}
       {categories.length > 0 && (
         <div className={s.filters}>
           <h4 className={s.filtersTitle}>
             {t("admin.cat.filters") || "Filters"}
           </h4>
+
           <button
             type="button"
             className={`${s.filterBtn} ${
@@ -166,17 +159,14 @@ export default function Menu() {
         </div>
       )}
 
-      {/* YÜKLENİYOR DURUMU */}
       {loading && <p className={s.infoText}>Loading menu...</p>}
 
-      {/* HATA DURUMU */}
       {error && !loading && (
         <p className={s.errorText}>
           {error || "Failed to load menu. Please try again."}
         </p>
       )}
 
-      {/* MENÜ KARTLARI */}
       <section className={s.grid}>
         {!loading &&
           !error &&
@@ -197,6 +187,7 @@ export default function Menu() {
                 <div className={s.info}>
                   <h3 className={s.cardTitle}>{label}</h3>
                   <p className={s.cardPrice}>₺{it.price}</p>
+
                   <button
                     className={s.cardBtn}
                     onClick={() => handleAddToCart(it)}

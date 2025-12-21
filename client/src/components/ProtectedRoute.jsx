@@ -9,26 +9,16 @@ export default function ProtectedRoute({
   const { user, role } = useSelector((state) => state.auth);
   const location = useLocation();
 
-  // Login yoksa
+  const from = `${location.pathname}${location.search}${location.hash}`;
+
   if (!user) {
-    return (
-      <Navigate
-        to={redirectTo || "/login"}
-        replace
-        state={{ from: location.pathname }}
-      />
-    );
+    return <Navigate to={redirectTo || "/login"} replace state={{ from }} />;
   }
 
-  // Role kısıtı varsa
-  if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
-    return (
-      <Navigate
-        to={redirectTo || "/"}
-        replace
-        state={{ from: location.pathname }}
-      />
-    );
+  const currentRole = role || "staff";
+
+  if (allowedRoles.length > 0 && !allowedRoles.includes(currentRole)) {
+    return <Navigate to={redirectTo || "/"} replace state={{ from }} />;
   }
 
   return children;

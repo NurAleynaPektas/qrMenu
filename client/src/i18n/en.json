@@ -8,6 +8,11 @@
     "lang_en": "EN",
     "lang_fr": "FR"
   },
+  "staff": {
+    "login_btn": "Staff Login",
+    "login_title": "Staff Login",
+    "login_sub": "Log in as staff to place an order."
+  },
   "home": {
     "hero_title": "Warm Flavors, Cozy Moments",
     "hero_sub": "Enjoy chef-crafted meals made with fresh, seasonal ingredients.",
@@ -53,7 +58,7 @@
     }
   },
   "checkout": {
-    "title": "Checkout",
+    "title": "Create Order",
     "table_number": "Table Number",
     "note_optional": "Note (optional)",
     "note_placeholder": "No onion, please",
@@ -61,7 +66,7 @@
     "total": "Total",
     "place_order": "Place Order",
     "success_title": "Order received",
-    "success_msg": "Your order has been received successfully.",
+    "success_msg": "Your order has been sent to the kitchen.",
     "table_number_error": "Please enter a valid table number.",
     "table_number_integer": "Table number must be an integer.",
     "table_number_min": "Table number must be at least 1.",
@@ -125,11 +130,14 @@
     "menu_category_placeholder": "Select category",
     "cat.filters":"Filters",
     "cat_soupes":"Soups",
-    "cat_salads":"Salads"
+    "cat_salads":"Salads",
+     "staff_create_btn": "Create Staff",
+      "staff.register_btn":"Create Staff",
+      "staf.back_admin":"Back to Admin Panel"
     
   },
   "auth": {
-    "login": "Login",
+    "login": "Staff Login",
     "register": "Register",
     "logout": "Logout",
     "name": "Name",
@@ -142,9 +150,9 @@
     "have_account": "Already have an account?",
     "error": "Something went wrong. Please try again.",
     "invalid": "Invalid email or password.",
-    "login_sub": "Sign in to continue to the menu and cart.",
+    "login_sub": "Log in as staff to continue.",
     "register_sub": "Create an account to save your orders and preferences.",
-    "login_to_add": "Please login to add items to your cart."
+    "login_to_add": "Staff login is required to add items."
   },
   "notFound": {
     "metaTitle": "Page not found — 404",

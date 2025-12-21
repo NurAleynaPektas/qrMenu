@@ -3,10 +3,15 @@
   "nav": {
     "home": "Accueil",
     "menu": "Menu",
-    "my_cart": "Mon Panier",
+    "my_cart": "Panier",
     "lang_tr": "TR",
     "lang_en": "EN",
     "lang_fr": "FR"
+  },
+   "staff": {
+    "login_btn": "Connexion du personnel",
+    "login_title": "Connexion du personnel",
+    "login_sub": "Connectez-vous en tant que personnel pour prendre une commande."
   },
   "home": {
     "hero_title": "Saveurs chaudes, instants cosy",
@@ -54,7 +59,7 @@
     }
   },
   "checkout": {
-    "title": "Paiement",
+    "title": "Créer une commande",
     "table_number": "Numéro de Table",
     "note_optional": "Note (optionnelle)",
     "note_placeholder": "Sans oignon, s'il vous plaît",
@@ -63,7 +68,7 @@
     "place_order": "Commander",
 
     "success_title": "Commande reçue",
-    "success_msg": "Votre commande a bien été reçue.",
+    "success_msg": "La commande a été envoyée à la cuisine.",
     "table_number_error": "Veuillez saisir un numéro de table valide.",
     "table_number_integer": "Le numéro de table doit être un nombre entier.",
     "table_number_min": "Le numéro de table doit être d'au moins 1.",
@@ -129,10 +134,13 @@
 
     "cat.filters":"Filtres",
     "cat_soupes":"Soupes",
-    "cat_salads":"Salades"
+    "cat_salads":"Salades",
+     "staff_create_btn": "Créer un personnel",
+      "staff.register_btn":"Créer un personnel",
+      "staf.back_admin":"Retour au panneau d'administration"
   },
   "auth": {
-    "login": "Se connecter",
+    "login": "Connexion du Personel",
     "register": "Créer un compte",
     "logout": "Se déconnecter",
     "name": "Nom",
@@ -145,9 +153,10 @@
     "have_account": "Vous avez déjà un compte ?",
     "error": "Une erreur s'est produite. Veuillez réessayer.",
     "invalid": "E-mail ou mot de passe incorrect.",
-    "login_sub": "Connectez-vous pour continuer vers le menu et le panier.",
+    "login_sub": "Connectez-vous en tant que personnel pour passer une commande.",
     "register_sub": "Créez un compte pour enregistrer vos commandes et préférences.",
-    "login_to_add": "Veuillez vous connecter pour ajouter des articles à votre panier."
+        "login_to_add": "La connexion du personnel est requise pour ajouter une commande."
+
   },
   "notFound": {
     "metaTitle": "Page introuvable — 404",

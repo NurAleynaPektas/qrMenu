@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/authSlice";
 import { LogOut } from "lucide-react";
+import { toastSuccess } from "../utils/toast";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -13,10 +14,10 @@ const Navbar = () => {
   const langRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const { user, role } = useSelector((state) => state.auth);
   const isAdmin = role === "admin";
-  const isCustomer = role === "customer";
-
+  const isStaff = role === "staff";
 
   const changeLang = (lng) => {
     i18n.changeLanguage(lng);
@@ -60,17 +61,19 @@ const Navbar = () => {
           {t("nav.home")}
         </Link>
 
-        {isCustomer && (
-          <>
-            <Link to="/menu" onClick={() => setOpen(false)}>
-              {t("nav.menu")}
-            </Link>
-            <Link to="/cart" onClick={() => setOpen(false)}>
-              {t("nav.my_cart")}
-            </Link>
-          </>
+        {/* Menu public */}
+        <Link to="/menu" onClick={() => setOpen(false)}>
+          {t("nav.menu")}
+        </Link>
+
+        {/* Cart sadece STAFF ✅ */}
+        {isStaff && (
+          <Link to="/cart" onClick={() => setOpen(false)}>
+            {t("nav.my_cart")}
+          </Link>
         )}
 
+        {/* Admin link */}
         {isAdmin && (
           <Link
             to="/admin/dashboard"
@@ -101,7 +104,7 @@ const Navbar = () => {
               className={s.authLinkAccent}
               onClick={() => setOpen(false)}
             >
-              {t("auth.login") || "Login"}
+              {t("staff.login_btn") || "Personel Girişi"}
             </Link>
           )}
         </div>

@@ -3,10 +3,15 @@
   "nav": {
     "home": "Ana Sayfa",
     "menu": "Menü",
-    "my_cart": "Sepetim",
+    "my_cart": "sepetinize",
     "lang_tr": "TR",
     "lang_en": "EN",
     "lang_fr": "FR"
+  },
+  "staff": {
+    "login_btn": "Personel Girişi",
+    "login_title": "Personel Girişi",
+    "login_sub": "Sipariş almak için personel girişi yapın."
   },
   "home": {
     "hero_title": "Sıcak Lezzetler, Samimi Anlar",
@@ -53,7 +58,7 @@
     }
   },
   "checkout": {
-    "title": "Ödeme",
+    "title": "Sipariş Oluştur",
     "table_number": "Masa Numarası",
     "note_optional": "Not (opsiyonel)",
     "note_placeholder": "Soğan olmasın lütfen",
@@ -62,7 +67,7 @@
     "place_order": "Sipariş Ver",
 
     "success_title": "Sipariş alındı",
-    "success_msg": "Siparişiniz başarıyla alındı.",
+    "success_msg": "Sipariş mutfağa iletildi..",
 
     "table_number_error": "Lütfen geçerli bir masa numarası girin.",
     "table_number_integer": "Masa numarası tam sayı olmalıdır.",
@@ -127,10 +132,13 @@
     "cat_dessert": "Tatlı",
     "menu_category_placeholder": "Kategori seçin",
 
-    "cat.filters":"Filtreler"
+    "cat.filters":"Filtreler",
+    "staff_create_btn": "Personel Oluştur",
+     "staff.register_btn":"Personel Oluştur",
+      "staf.back_admin":"Admin Paneline Geri Dön"
   },
   "auth": {
-    "login": "Giriş Yap",
+    "login": "Personel Giriş",
     "register": "Kayıt Ol",
     "logout": "Çıkış Yap",
     "name": "İsim",
@@ -143,9 +151,9 @@
     "have_account": "Zaten bir hesabınız var mı?",
     "error": "Bir hata oluştu. Lütfen tekrar deneyin.",
     "invalid": "E-posta veya şifre hatalı.",
-    "login_sub": "Menü ve sepetinize devam etmek için giriş yapın.",
+      "login_sub": "Sipariş almak için personel olarak giriş yapın.",
     "register_sub": "Siparişlerinizi ve tercihlerinizi kaydetmek için hesap oluşturun.",
-    "login_to_add": "Sepete ürün eklemek için lütfen giriş yapın."
+    "login_to_add": "Sipariş eklemek için personel girişi gereklidir."
   },
   "notFound": {
     "metaTitle": "Sayfa bulunamadı — 404",

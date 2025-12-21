@@ -17,11 +17,10 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const KitchenLogin = lazy(() => import("./pages/KitchenLogin"));
 const Kitchen = lazy(() => import("./pages/Kitchen"));
 
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
+const Login = lazy(() => import("./pages/Login")); // Staff Login
+const Register = lazy(() => import("./pages/Register")); // ✅ Admin içinden staff oluşturma
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Scroll to top component
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -34,10 +33,9 @@ export default function App() {
   const location = useLocation();
   const path = location.pathname;
 
+  // Admin/Kitchen alanlarında public layout gizle
   const hidePublicLayout =
-    path.startsWith("/kitchen") ||
-    path.startsWith("/admin") ||
-    path.startsWith("/staff");
+    path.startsWith("/kitchen") || path.startsWith("/admin");
 
   return (
     <>
@@ -47,16 +45,25 @@ export default function App() {
 
       <Suspense fallback={<Loader />}>
         <Routes>
-          {/* Public Routes */}
+          {/* Public Routes (Müşteri login yok) */}
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
-          <Route path="/cart" element={<Cart />} />
 
-          {/* Protected (User Login Required) */}
+          {/* Cart = SADECE PERSONEL (STAFF) */}
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute allowedRoles={["staff"]} redirectTo="/login">
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Checkout = SADECE PERSONEL (STAFF) */}
           <Route
             path="/checkout"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["staff"]} redirectTo="/login">
                 <Checkout />
               </ProtectedRoute>
             }
@@ -76,6 +83,19 @@ export default function App() {
             }
           />
 
+          {/* ✅ Admin -> Staff Create (Register sayfası artık personel oluşturma) */}
+          <Route
+            path="/admin/staff/create"
+            element={
+              <ProtectedRoute
+                allowedRoles={["admin"]}
+                redirectTo="/admin/login"
+              >
+                <Register />
+              </ProtectedRoute>
+            }
+          />
+
           {/* Kitchen */}
           <Route path="/kitchen/login" element={<KitchenLogin />} />
           <Route
@@ -90,9 +110,8 @@ export default function App() {
             }
           />
 
-          {/* Auth (Customer) */}
+          {/* Staff Login */}
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
 
           {/* 404 */}
           <Route path="*" element={<NotFound />} />

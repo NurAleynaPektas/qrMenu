@@ -10,10 +10,10 @@ if (typeof window !== "undefined") {
   if (raw) {
     try {
       const parsed = JSON.parse(raw);
-
       if (parsed && parsed.user !== undefined) {
         savedAuth = parsed;
       } else {
+     
         savedAuth = { user: parsed, token: null, isAdmin: false, role: null };
       }
     } catch (err) {
@@ -23,11 +23,21 @@ if (typeof window !== "undefined") {
   }
 }
 
+const migrateRole = (auth) => {
+  if (!auth?.user) return null;
+
+  if (auth.isAdmin) return "admin";
+
+  if (!auth.role) return "staff";
+
+  return auth.role;
+};
+
 const initialState = {
   user: savedAuth?.user || null,
   token: savedAuth?.token || null,
-  role: savedAuth?.role || null, 
   isAdmin: savedAuth?.isAdmin || false,
+  role: migrateRole(savedAuth),
 };
 
 const persistAuth = (state) => {
@@ -36,7 +46,7 @@ const persistAuth = (state) => {
   const toSave = {
     user: state.user,
     token: state.token,
-    role: state.role, 
+    role: state.role,
     isAdmin: state.isAdmin,
   };
 
@@ -53,7 +63,6 @@ const authSlice = createSlice({
       state.user = user || null;
       state.token = token || null;
 
-  
       const finalRole = role || (isAdmin ? "admin" : state.role) || null;
 
       state.role = finalRole;
@@ -65,7 +74,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      state.role = null; 
+      state.role = null;
       state.isAdmin = false;
 
       if (typeof window !== "undefined") {

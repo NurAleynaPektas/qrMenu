@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import s from "./Checkout.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import iziToast from "izitoast";
 import { clearCart } from "../redux/cartSlice";
@@ -12,18 +11,9 @@ const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function Checkout() {
   const { t } = useTranslation();
-  const user = useSelector((state) => state.auth.user);
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/login", { replace: true, state: { from: "/checkout" } });
-    }
-  }, [user, navigate]);
-
-  if (!user) return null;
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -98,8 +88,6 @@ export default function Checkout() {
         throw new Error(msg);
       }
 
-      console.log("Order saved:", data);
-
       dispatch(clearCart());
 
       iziToast.success({
@@ -115,7 +103,7 @@ export default function Checkout() {
       resetForm();
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/menu");
       }, 2600);
     } catch (err) {
       console.error(err);
@@ -142,7 +130,6 @@ export default function Checkout() {
       >
         {({ isSubmitting }) => (
           <Form>
-            {/* FORM KISMI */}
             <section className={s.checkoutForm}>
               <div className={s.formRow}>
                 <label htmlFor="tableNumber" className={s.formLabel}>
@@ -191,7 +178,6 @@ export default function Checkout() {
               </div>
             </section>
 
-            {/* ÖZET KISMI */}
             <section className={s.checkoutSummary}>
               <h2 className={s.summaryTitle}>{t("checkout.order_summary")}</h2>
 

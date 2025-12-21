@@ -1,28 +1,24 @@
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../redux/authSlice";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import s from "./Auth.module.css";
+import { toastSuccess, toastError } from "../utils/toast";
+
+const STAFF_KEY = "ff-staff-credentials";
 
 export default function Register() {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
+    initialValues: { name: "", email: "", password: "" },
     validationSchema: Yup.object({
       name: Yup.string().required(
         t("auth.fill_all") || "Please fill all fields."
       ),
       email: Yup.string()
-        .email("Geçerli bir e-posta girin.")
+        .email(t("staff.email_invalid") || "Geçerli bir e-posta girin.")
         .required(t("auth.fill_all") || "Please fill all fields."),
       password: Yup.string()
         .min(
@@ -31,35 +27,53 @@ export default function Register() {
         )
         .required(t("auth.fill_all") || "Please fill all fields."),
     }),
-    onSubmit: (values) => {
-      const { name, email, password } = values;
-      const creds = { name, email, password };
-      window.localStorage.setItem("ff-credentials", JSON.stringify(creds));
+    onSubmit: (values, { resetForm }) => {
+      const name = values.name.trim();
+      const email = values.email.trim().toLowerCase();
+      const password = values.password.trim();
 
-      const fakeToken = "fake-jwt-token-for-" + email;
+      // 1) mevcut staff listesi
+      let staffList = [];
+      try {
+        const raw = window.localStorage.getItem(STAFF_KEY);
+        staffList = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(staffList)) staffList = [];
+      } catch {
+        staffList = [];
+      }
 
-      dispatch(
-        setCredentials({
-          user: { name, email },
-          token: fakeToken,
-          isAdmin: false,
-        })
+      // 2) aynı email var mı?
+      const exists = staffList.some(
+        (u) => String(u.email).toLowerCase() === email
       );
+      if (exists) {
+        toastError(t("staff.already_exists") || "Bu e-posta zaten kayıtlı.");
+        return;
+      }
 
-      navigate("/", { replace: true });
+      // 3) listeye ekle
+      staffList.push({ name, email, password });
+      window.localStorage.setItem(STAFF_KEY, JSON.stringify(staffList));
+
+      toastSuccess(t("staff.created") || "Personel hesabı oluşturuldu.");
+      resetForm();
+
+      //Admin panelde kalalım
+      navigate("/admin/dashboard", { replace: true });
     },
   });
 
   return (
     <main className={s.page}>
       <form className={s.card} onSubmit={formik.handleSubmit}>
-        <h1 className={s.title}>{t("auth.register") || "Register"}</h1>
+        <h1 className={s.title}>
+          {t("staff.register_title") || "Personel Oluştur"}
+        </h1>
         <p className={s.subtitle}>
-          {t("auth.register_sub") ||
-            "Create an account to save your orders and preferences."}
+          {t("staff.register_sub") ||
+            "Garson/personel hesabı ekleyin (sadece admin)."}
         </p>
 
-        {/* NAME */}
         <div className={s.field}>
           <label htmlFor="name" className={s.label}>
             {t("auth.name") || "Name"}
@@ -71,14 +85,13 @@ export default function Register() {
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="Alex Morgan"
+            placeholder="Ahmet Yılmaz"
           />
           {formik.touched.name && formik.errors.name && (
             <p className={s.error}>{formik.errors.name}</p>
           )}
         </div>
 
-        {/* EMAIL */}
         <div className={s.field}>
           <label htmlFor="email" className={s.label}>
             {t("auth.email") || "Email"}
@@ -91,14 +104,13 @@ export default function Register() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="you@example.com"
+            placeholder="staff@restaurant.com"
           />
           {formik.touched.email && formik.errors.email && (
             <p className={s.error}>{formik.errors.email}</p>
           )}
         </div>
 
-        {/* PASSWORD */}
         <div className={s.field}>
           <label htmlFor="password" className={s.label}>
             {t("auth.password") || "Password"}
@@ -120,15 +132,17 @@ export default function Register() {
 
         <div className={s.actions}>
           <button type="submit" className={s.submitBtn}>
-            {t("auth.register") || "Register"}
+            {t("staff.register_btn") || "Personel Oluştur"}
           </button>
 
-          <p className={s.switchText}>
-            {t("auth.have_account") || "Already have an account?"}{" "}
-            <Link to="/login" className={s.switchLink}>
-              {t("auth.login") || "Login"}
-            </Link>
-          </p>
+          <button
+            type="button"
+            className={s.switchLink}
+            onClick={() => navigate("/admin/dashboard")}
+            style={{ marginTop: 10 }}
+          >
+            ← {t("staff.back_admin") || "Admin Paneline Dön"}
+          </button>
         </div>
       </form>
     </main>
