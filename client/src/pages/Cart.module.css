@@ -9,6 +9,7 @@
   padding: 20px 14px;
   background: var(--bg);
   min-height: calc(100dvh - 64px);
+ 
 }
 
 .cartTitle {
@@ -26,6 +27,7 @@
   max-width: 560px;
   width: 100%;
   margin: 0 auto 18px;
+  
 }
 
 /* ✅ Kart: mobilde grid, temiz */
