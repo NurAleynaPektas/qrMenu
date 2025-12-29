@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import s from "./AdminDashboard.module.css";
-import PanelTopbar from "../components/PanelTopbar";
 import "izitoast/dist/css/iziToast.min.css";
 import iziToast from "izitoast";
 
@@ -265,8 +264,6 @@ export default function AdminDashboard() {
 
   return (
     <main className={s.page}>
-      <PanelTopbar title="Admin Paneli" />
-
       <section className={s.header}>
         <div>
           <h1 className={s.title}>

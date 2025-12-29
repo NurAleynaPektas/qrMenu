@@ -68,38 +68,57 @@
   margin-top: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.submitBtn {
+/* Ortalı, güzel genişlik, hover/active */
+.submitBtn,
+.switchLink {
   width: 100%;
-  border-radius: 999px;
-  border: none;
-  padding: 10px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center; /* ✅ ortala */
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 11px 14px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Primary */
+.submitBtn {
   background: var(--accent);
   color: #fff;
-  cursor: pointer;
-  transition: transform 0.1s ease;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+}
+
+.submitBtn:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 .submitBtn:active {
   transform: translateY(1px);
 }
 
-.switchText {
-  font-size: 14px;
-  text-align: center;
-  color: #555;
-}
-
+/* Secondary (back button) */
 .switchLink {
+  background: transparent;              
   color: var(--accent);
-  font-weight: 600;
-  text-decoration: none;
+  border-color: var(--border);
+  box-shadow: none;
 }
 
 .switchLink:hover {
-  text-decoration: underline;
+  border-color: var(--accent);
+  background: rgba(0, 0, 0, 0.03);      
+  text-decoration: none;                 
+}
+
+.switchLink:active {
+  transform: translateY(1px);
 }

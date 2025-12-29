@@ -35,7 +35,7 @@ export default function App() {
 
   // Admin/Kitchen alanlarında public layout gizle
   const hidePublicLayout =
-    path.startsWith("/kitchen") || path.startsWith("/admin");
+    path.startsWith("/kitchen") ;
 
   return (
     <>

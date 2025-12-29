@@ -11,7 +11,14 @@
   "staff": {
     "login_btn": "Personel Girişi",
     "login_title": "Personel Girişi",
-    "login_sub": "Sipariş almak için personel girişi yapın."
+    "login_sub": "Sipariş almak için personel girişi yapın.",
+    "register_title": "Personel Oluştur",
+    "register_sub": "Garson/personel hesabı ekleyin (sadece admin).",
+    "email_invalid": "Geçerli bir e-posta girin.",
+    "already_exists": "Bu e-posta zaten kayıtlı.",
+    "created": "Personel hesabı oluşturuldu.",
+    "register_btn": "Personel Oluştur",
+    "back_admin": "Admin Paneline Dön"
   },
   "home": {
     "hero_title": "Sıcak Lezzetler, Samimi Anlar",
@@ -141,7 +148,7 @@
     "login": "Personel Giriş",
     "register": "Kayıt Ol",
     "logout": "Çıkış Yap",
-    "name": "İsim",
+    "name": "Ad Soyad",
     "email": "E-posta",
     "password": "Şifre",
     "fill_all": "Lütfen tüm alanları doldurun.",

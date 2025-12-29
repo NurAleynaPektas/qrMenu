@@ -11,7 +11,14 @@
    "staff": {
     "login_btn": "Connexion du personnel",
     "login_title": "Connexion du personnel",
-    "login_sub": "Connectez-vous en tant que personnel pour prendre une commande."
+    "login_sub": "Connectez-vous en tant que personnel pour prendre une commande.",
+     "register_title": "Créer un compte du personnel",
+    "register_sub": "Ajouter un compte serveur/personnel (admin uniquement).",
+    "email_invalid": "Veuillez saisir une adresse e-mail valide.",
+    "already_exists": "Cet e-mail est déjà enregistré.",
+    "created": "Compte du personnel créé avec succès.",
+    "register_btn": "Créer le compte",
+    "back_admin": "Retour au panneau admin"
   },
   "home": {
     "hero_title": "Saveurs chaudes, instants cosy",
@@ -143,7 +150,7 @@
     "login": "Connexion du Personel",
     "register": "Créer un compte",
     "logout": "Se déconnecter",
-    "name": "Nom",
+    "name": "Nom complet",
     "email": "E-mail",
     "password": "Mot de passe",
     "fill_all": "Veuillez remplir tous les champs.",

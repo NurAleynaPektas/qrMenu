@@ -141,7 +141,7 @@ export default function Register() {
             onClick={() => navigate("/admin/dashboard")}
             style={{ marginTop: 10 }}
           >
-            ← {t("staff.back_admin") || "Admin Paneline Dön"}
+           {t("staff.back_admin") || "Admin Paneline Dön"}
           </button>
         </div>
       </form>

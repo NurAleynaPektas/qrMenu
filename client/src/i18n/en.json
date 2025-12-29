@@ -11,7 +11,14 @@
   "staff": {
     "login_btn": "Staff Login",
     "login_title": "Staff Login",
-    "login_sub": "Log in as staff to place an order."
+    "login_sub": "Log in as staff to place an order.",
+     "register_title": "Create Staff Account",
+    "register_sub": "Add a waiter/staff account (admin only).",
+    "email_invalid": "Please enter a valid email address.",
+    "already_exists": "This email is already registered.",
+    "created": "Staff account created successfully.",
+    "register_btn": "Create Staff",
+    "back_admin": "Back to Admin Panel"
   },
   "home": {
     "hero_title": "Warm Flavors, Cozy Moments",
@@ -140,7 +147,7 @@
     "login": "Staff Login",
     "register": "Register",
     "logout": "Logout",
-    "name": "Name",
+    "name": "Full Name",
     "email": "Email",
     "password": "Password",
     "fill_all": "Please fill all fields.",
