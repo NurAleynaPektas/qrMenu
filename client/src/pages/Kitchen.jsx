@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import s from "./Kitchen.module.css";
-import PanelTopbar from "../components/PanelTopbar";
 import { fetchOrders, patchOrderStatus } from "../redux/ordersSlice";
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
@@ -195,7 +194,7 @@ export default function Kitchen() {
 
   return (
     <main className={s.page}>
-      <PanelTopbar title="Mutfak Paneli" />
+     
       <header className={s.header}>
         <div>
           <h1 className={s.title}>{t("kitchen.title") || "Kitchen Panel"}</h1>

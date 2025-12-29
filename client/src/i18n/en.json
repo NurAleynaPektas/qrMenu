@@ -12,7 +12,8 @@
     "login_btn": "Staff Login",
     "login_title": "Staff Login",
     "login_sub": "Log in as staff to place an order.",
-     "register_title": "Create Staff Account",
+    "login_to_order": "Please sign in as staff to create an order.",
+    "register_title": "Create Staff Account",
     "register_sub": "Add a waiter/staff account (admin only).",
     "email_invalid": "Please enter a valid email address.",
     "already_exists": "This email is already registered.",
@@ -83,10 +84,8 @@
     "table_number_min": "Table number must be at least 1.",
     "table_number_required": "Table number is required.",
     "note_max": "Note can be at most 200 characters.",
-
- "table_number_placeholder": "Select a table",
+    "table_number_placeholder": "Select a table",
     "table_label": "Table {{n}}",
-
     "sample": {
       "burger_x1": "Classic Burger x1",
       "lemonade_x2": "Lemonade x2"
@@ -138,14 +137,13 @@
     "cat_drink": "Drink",
     "cat_appetizer": "Appetizer",
     "cat_dessert": "Dessert",
+    "cat_soupes": "Soups",
+    "cat_salads": "Salads",
     "menu_category_placeholder": "Select category",
-    "cat.filters":"Filters",
-    "cat_soupes":"Soups",
-    "cat_salads":"Salads",
-     "staff_create_btn": "Create Staff",
-      "staff.register_btn":"Create Staff",
-      "staf.back_admin":"Back to Admin Panel"
-    
+    "cat": {
+      "filters": "Filters"
+    },
+    "staff_create_btn": "Create Staff"
   },
   "auth": {
     "login": "Staff Login",
@@ -173,8 +171,8 @@
     "cta": "Go home"
   },
   "loader": {
-  "loading": "Your menu is on the way.."
-},
+    "loading": "Your menu is on the way.."
+  },
   "kitchen": {
     "title": "Kitchen Panel",
     "sub": "Incoming orders. Completed orders will unlock the table.",
@@ -182,7 +180,11 @@
     "active": "Active",
     "completed": "Completed",
     "search": "Search table, note, items...",
-    "empty": "No orders found."
+    "empty": "No orders found.",
+    "login_title": "Kitchen Login",
+    "login_sub": "Only authorized kitchen staff can sign in.",
+    "login_btn": "Sign In",
+    "login_success": "Kitchen login successful",
+    "invalid_toast": "Invalid email or password"
   }
-
 }

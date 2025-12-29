@@ -12,6 +12,7 @@
     "login_btn": "Personel Girişi",
     "login_title": "Personel Girişi",
     "login_sub": "Sipariş almak için personel girişi yapın.",
+    "login_to_order": "Sipariş oluşturmak için personel girişi yapın.",
     "register_title": "Personel Oluştur",
     "register_sub": "Garson/personel hesabı ekleyin (sadece admin).",
     "email_invalid": "Geçerli bir e-posta girin.",
@@ -76,19 +77,15 @@
     "order_summary": "Sipariş Özeti",
     "total": "Toplam",
     "place_order": "Sipariş Ver",
-
     "success_title": "Sipariş alındı",
     "success_msg": "Sipariş mutfağa iletildi..",
-
     "table_number_error": "Lütfen geçerli bir masa numarası girin.",
     "table_number_integer": "Masa numarası tam sayı olmalıdır.",
     "table_number_min": "Masa numarası en az 1 olmalıdır.",
     "table_number_required": "Masa numarası zorunludur.",
     "note_max": "Not en fazla 200 karakter olabilir.",
-
-     "table_number_placeholder": "Masa seçin",
+    "table_number_placeholder": "Masa seçin",
     "table_label": "Masa {{n}}",
-
     "sample": {
       "burger_x1": "Klasik Burger x1",
       "lemonade_x2": "Limonata x2"
@@ -136,17 +133,17 @@
     "menu_upload_label": "Resmi buraya sürükleyip bırak veya tıklayıp seç",
     "menu_upload_selected": "Seçilen: {{file}}",
     "menu_upload_btn": "Dosya seç",
-
     "cat_main": "Ana Yemek",
     "cat_drink": "İçecek",
     "cat_appetizer": "Aperatif",
     "cat_dessert": "Tatlı",
+    "cat_soupes": "Çorba",
+    "cat_salads": "Salata",
     "menu_category_placeholder": "Kategori seçin",
-
-    "cat.filters":"Filtreler",
-    "staff_create_btn": "Personel Oluştur",
-     "staff.register_btn":"Personel Oluştur",
-      "staf.back_admin":"Admin Paneline Geri Dön"
+    "cat": {
+      "filters": "Filtreler"
+    },
+    "staff_create_btn": "Personel Oluştur"
   },
   "auth": {
     "login": "Personel Giriş",
@@ -183,6 +180,11 @@
     "active": "Aktif",
     "completed": "Tamamlanan",
     "search": "Masa, not veya ürünlerde ara...",
-    "empty": "Sipariş bulunamadı."
+    "empty": "Sipariş bulunamadı.",
+     "login_title": "Mutfak Girişi",
+    "login_sub": "Sadece yetkili mutfak personeli giriş yapabilir.",
+    "login_btn": "Giriş Yap",
+    "login_success": "Mutfak girişi başarılı",
+    "invalid_toast": "E-posta veya şifre hatalı"
   }
 }

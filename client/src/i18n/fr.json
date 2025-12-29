@@ -8,11 +8,12 @@
     "lang_en": "EN",
     "lang_fr": "FR"
   },
-   "staff": {
+  "staff": {
     "login_btn": "Connexion du personnel",
     "login_title": "Connexion du personnel",
     "login_sub": "Connectez-vous en tant que personnel pour prendre une commande.",
-     "register_title": "Créer un compte du personnel",
+    "login_to_order": "Veuillez vous connecter en tant que personnel pour créer une commande.",
+    "register_title": "Créer un compte du personnel",
     "register_sub": "Ajouter un compte serveur/personnel (admin uniquement).",
     "email_invalid": "Veuillez saisir une adresse e-mail valide.",
     "already_exists": "Cet e-mail est déjà enregistré.",
@@ -65,8 +66,7 @@
     "qty_minus": "-",
     "qty_plus": "+",
     "sample": {
-      "burger": "Burger Classique",
-      "lemonade": "Citronnade"
+      "burger": "Burger Classique"
     }
   },
   "checkout": {
@@ -93,7 +93,7 @@
   },
   "admin": {
     "login_title": "Connexion Admin",
-    "login_sub": "Entrez vos identifiants pour acceder au panneau d'administration.",
+    "login_sub": "Entrez vos identifiants pour accéder au panneau d'administration.",
     "email": "E-mail",
     "password": "Mot de passe",
     "sign_in": "Se connecter",
@@ -108,7 +108,7 @@
     "order_id": "Commande",
     "status": "Statut",
     "time": "Heure",
-    "status_pending": "Attente",
+    "status_pending": "En attente",
     "status_preparing": "Préparation",
     "status_completed": "Terminée",
     "filter_all": "Tous",
@@ -137,17 +137,16 @@
     "cat_drink": "Boisson",
     "cat_appetizer": "Apéritif",
     "cat_dessert": "Dessert",
+    "cat_soupes": "Soupes",
+    "cat_salads": "Salades",
     "menu_category_placeholder": "Choisissez une catégorie",
-
-    "cat.filters":"Filtres",
-    "cat_soupes":"Soupes",
-    "cat_salads":"Salades",
-     "staff_create_btn": "Créer un personnel",
-      "staff.register_btn":"Créer un personnel",
-      "staf.back_admin":"Retour au panneau d'administration"
+    "cat": {
+      "filters": "Filtres"
+    },
+    "staff_create_btn": "Créer un personnel"
   },
   "auth": {
-    "login": "Connexion du Personel",
+    "login": "Connexion du personnel",
     "register": "Créer un compte",
     "logout": "Se déconnecter",
     "name": "Nom complet",
@@ -164,7 +163,6 @@
     "login_sub": "Connectez-vous en tant que personnel pour passer une commande.",
     "register_sub": "Créez un compte pour enregistrer vos commandes et préférences.",
     "login_to_add": "La connexion du personnel est requise pour ajouter une commande."
-
   },
   "notFound": {
     "metaTitle": "Page introuvable — 404",
@@ -182,8 +180,11 @@
     "active": "Actives",
     "completed": "Terminées",
     "search": "Rechercher par table, note ou articles...",
-    "empty": "Aucune commande trouvée."
+    "empty": "Aucune commande trouvée.",
+    "login_title": "Connexion Cuisine",
+    "login_sub": "Seul le personnel de cuisine autorisé peut se connecter.",
+    "login_btn": "Se connecter",
+    "login_success": "Connexion cuisine réussie",
+    "invalid_toast": "E-mail ou mot de passe incorrect"
   }
-
-
 }

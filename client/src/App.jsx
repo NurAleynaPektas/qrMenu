@@ -17,8 +17,8 @@ const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const KitchenLogin = lazy(() => import("./pages/KitchenLogin"));
 const Kitchen = lazy(() => import("./pages/Kitchen"));
 
-const Login = lazy(() => import("./pages/Login")); // Staff Login
-const Register = lazy(() => import("./pages/Register")); // ✅ Admin içinden staff oluşturma
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register")); 
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function ScrollToTop() {
@@ -30,26 +30,19 @@ function ScrollToTop() {
 }
 
 export default function App() {
-  const location = useLocation();
-  const path = location.pathname;
-
-  // Admin/Kitchen alanlarında public layout gizle
-  const hidePublicLayout =
-    path.startsWith("/kitchen") ;
-
   return (
     <>
-      {!hidePublicLayout && <Navbar />}
+      <Navbar />
 
       <ScrollToTop />
 
       <Suspense fallback={<Loader />}>
         <Routes>
-          {/* Public Routes (Müşteri login yok) */}
+          {/* Public */}
           <Route path="/" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
 
-          {/* Cart = SADECE PERSONEL (STAFF) */}
+          {/* Staff only */}
           <Route
             path="/cart"
             element={
@@ -58,8 +51,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* Checkout = SADECE PERSONEL (STAFF) */}
           <Route
             path="/checkout"
             element={
@@ -82,8 +73,6 @@ export default function App() {
               </ProtectedRoute>
             }
           />
-
-          {/* ✅ Admin -> Staff Create (Register sayfası artık personel oluşturma) */}
           <Route
             path="/admin/staff/create"
             element={
@@ -117,8 +106,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-
-      {!hidePublicLayout && <Footer />}
+      <Footer />
     </>
   );
 }
