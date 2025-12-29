@@ -18,7 +18,11 @@
     "already_exists": "Cet e-mail est déjà enregistré.",
     "created": "Compte du personnel créé avec succès.",
     "register_btn": "Créer le compte",
-    "back_admin": "Retour au panneau admin"
+    "back_admin": "Retour au panneau admin",
+    "no_account": "Aucun membre du personnel enregistré. Veuillez demander à l’admin de créer un compte.",
+    "no_account_toast": "Aucun compte du personnel trouvé",
+    "invalid_toast": "E-mail ou mot de passe incorrect",
+    "login_success": "Connexion du personnel réussie"
   },
   "home": {
     "hero_title": "Saveurs chaudes, instants cosy",
@@ -56,7 +60,7 @@
   "cart": {
     "title": "Panier",
     "total": "Total",
-    "checkout": "Paiement",
+    "checkout": "Passer la commande",
     "empty": "Le panier est vide.",
     "qty_minus": "-",
     "qty_plus": "+",
@@ -73,7 +77,6 @@
     "order_summary": "Récapitulatif de la Commande",
     "total": "Total",
     "place_order": "Commander",
-
     "success_title": "Commande reçue",
     "success_msg": "La commande a été envoyée à la cuisine.",
     "table_number_error": "Veuillez saisir un numéro de table valide.",
@@ -81,10 +84,8 @@
     "table_number_min": "Le numéro de table doit être d'au moins 1.",
     "table_number_required": "Le numéro de table est obligatoire.",
     "note_max": "La note peut contenir au maximum 200 caractères.",
-    
     "table_number_placeholder": "Choisissez une table",
     "table_label": "Table {{n}}",
-    
     "sample": {
       "burger_x1": "Burger Classique x1",
       "lemonade_x2": "Citronnade x2"
@@ -132,7 +133,6 @@
     "menu_upload_label": "Glissez-déposez une image ici ou cliquez pour en choisir une",
     "menu_upload_selected": "Sélectionné : {{file}}",
     "menu_upload_btn": "Choisir un fichier",
-
     "cat_main": "Plat principal",
     "cat_drink": "Boisson",
     "cat_appetizer": "Apéritif",
@@ -160,9 +160,10 @@
     "have_account": "Vous avez déjà un compte ?",
     "error": "Une erreur s'est produite. Veuillez réessayer.",
     "invalid": "E-mail ou mot de passe incorrect.",
+    "email_invalid": "Veuillez saisir un e-mail valide.",
     "login_sub": "Connectez-vous en tant que personnel pour passer une commande.",
     "register_sub": "Créez un compte pour enregistrer vos commandes et préférences.",
-        "login_to_add": "La connexion du personnel est requise pour ajouter une commande."
+    "login_to_add": "La connexion du personnel est requise pour ajouter une commande."
 
   },
   "notFound": {

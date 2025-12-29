@@ -3,7 +3,7 @@
   "nav": {
     "home": "Ana Sayfa",
     "menu": "Menü",
-    "my_cart": "sepetinize",
+    "my_cart": "Sipariş",
     "lang_tr": "TR",
     "lang_en": "EN",
     "lang_fr": "FR"
@@ -18,7 +18,11 @@
     "already_exists": "Bu e-posta zaten kayıtlı.",
     "created": "Personel hesabı oluşturuldu.",
     "register_btn": "Personel Oluştur",
-    "back_admin": "Admin Paneline Dön"
+    "back_admin": "Admin Paneline Dön",
+    "no_account": "Kayıtlı personel bulunamadı. Lütfen adminin personel hesabı oluşturmasını isteyin.",
+    "no_account_toast": "Kayıtlı personel bulunamadı",
+    "invalid_toast": "E-posta veya şifre hatalı",
+    "login_success": "Personel girişi başarılı"
   },
   "home": {
     "hero_title": "Sıcak Lezzetler, Samimi Anlar",
@@ -158,9 +162,10 @@
     "have_account": "Zaten bir hesabınız var mı?",
     "error": "Bir hata oluştu. Lütfen tekrar deneyin.",
     "invalid": "E-posta veya şifre hatalı.",
-      "login_sub": "Sipariş almak için personel olarak giriş yapın.",
+    "login_sub": "Sipariş almak için personel olarak giriş yapın.",
     "register_sub": "Siparişlerinizi ve tercihlerinizi kaydetmek için hesap oluşturun.",
-    "login_to_add": "Sipariş eklemek için personel girişi gereklidir."
+    "login_to_add": "Sipariş eklemek için personel girişi gereklidir.",
+    "email_invalid": "Geçerli bir e-posta girin."
   },
   "notFound": {
     "metaTitle": "Sayfa bulunamadı — 404",

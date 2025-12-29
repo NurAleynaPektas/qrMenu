@@ -3,7 +3,7 @@
   "nav": {
     "home": "Home",
     "menu": "Menu",
-    "my_cart": "My Cart",
+    "my_cart": "Cart",
     "lang_tr": "TR",
     "lang_en": "EN",
     "lang_fr": "FR"
@@ -18,7 +18,11 @@
     "already_exists": "This email is already registered.",
     "created": "Staff account created successfully.",
     "register_btn": "Create Staff",
-    "back_admin": "Back to Admin Panel"
+    "back_admin": "Back to Admin Panel",
+    "no_account": "No registered staff found. Please ask the admin to create a staff account.",
+    "no_account_toast": "No staff account found",
+    "invalid_toast": "Invalid email or password",
+    "login_success": "Staff login successful"
   },
   "home": {
     "hero_title": "Warm Flavors, Cozy Moments",
@@ -56,7 +60,7 @@
   "cart": {
     "title": "Cart",
     "total": "Total",
-    "checkout": "Checkout",
+    "checkout": "Finish Order",
     "empty": "Cart is empty.",
     "qty_minus": "-",
     "qty_plus": "+",
@@ -157,6 +161,7 @@
     "have_account": "Already have an account?",
     "error": "Something went wrong. Please try again.",
     "invalid": "Invalid email or password.",
+    "email_invalid": "Please enter a valid email.",
     "login_sub": "Log in as staff to continue.",
     "register_sub": "Create an account to save your orders and preferences.",
     "login_to_add": "Staff login is required to add items."
