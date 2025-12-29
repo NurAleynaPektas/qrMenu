@@ -6,7 +6,9 @@
     "my_cart": "Panier",
     "lang_tr": "TR",
     "lang_en": "EN",
-    "lang_fr": "FR"
+    "lang_fr": "FR",
+    "kitchen_panel": "Panneau Cuisine",
+    "admin_panel": "Panneau Admin"
   },
   "staff": {
     "login_btn": "Connexion du personnel",

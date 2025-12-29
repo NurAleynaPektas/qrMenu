@@ -6,7 +6,9 @@
     "my_cart": "Cart",
     "lang_tr": "TR",
     "lang_en": "EN",
-    "lang_fr": "FR"
+    "lang_fr": "FR",
+    "kitchen_panel": "Kitchen Panel",
+    "admin_panel": "Admin Panel"
   },
   "staff": {
     "login_btn": "Staff Login",

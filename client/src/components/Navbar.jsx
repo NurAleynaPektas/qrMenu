@@ -18,6 +18,7 @@ const Navbar = () => {
   const { user, role } = useSelector((state) => state.auth);
   const isAdmin = role === "admin";
   const isStaff = role === "staff";
+  const isKitchen = role === "kitchen"; 
 
   const changeLang = (lng) => {
     i18n.changeLanguage(lng);
@@ -45,7 +46,7 @@ const Navbar = () => {
     }
 
     dispatch(logout());
-    toastSuccess("Çıkış yapıldı");
+    toastSuccess(t("auth.logout") || "Logged out");
     setOpen(false);
     navigate("/");
   };
@@ -61,15 +62,25 @@ const Navbar = () => {
           {t("nav.home")}
         </Link>
 
-        {/* Menu public */}
         <Link to="/menu" onClick={() => setOpen(false)}>
           {t("nav.menu")}
         </Link>
 
-        {/* Cart sadece STAFF ✅ */}
+        {/* Cart sadece STAFF */}
         {isStaff && (
           <Link to="/cart" onClick={() => setOpen(false)}>
             {t("nav.my_cart")}
+          </Link>
+        )}
+
+        {/*  Kitchen link */}
+        {isKitchen && (
+          <Link
+            to="/kitchen"
+            onClick={() => setOpen(false)}
+            className={s.adminLink}
+          >
+            {t("nav.kitchen_panel") || "Kitchen Panel"}
           </Link>
         )}
 
@@ -80,7 +91,7 @@ const Navbar = () => {
             onClick={() => setOpen(false)}
             className={s.adminLink}
           >
-            Admin Panel
+            {t("nav.admin_panel") || "Admin Panel"}
           </Link>
         )}
 
