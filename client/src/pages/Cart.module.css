@@ -30,7 +30,7 @@
   
 }
 
-/* ✅ Kart: mobilde grid, temiz */
+/* Kart: mobilde grid, temiz */
 .cartItem {
   display: grid;
   grid-template-columns: 78px 1fr;
@@ -232,6 +232,16 @@
 .backToMenuBtn:hover {
   background: #f3f4ff;
   border-color: var(--accent);
+  color: var(--accent);
+}
+
+.emptyText {
+  background: var(--accent);
+  color: #fff;
+}
+
+.emptyText:hover {
+  background-color: var(--accent-light);
   color: var(--accent);
 }
 /* TABLET+ */

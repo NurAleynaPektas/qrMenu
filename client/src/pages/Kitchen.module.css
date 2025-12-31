@@ -346,15 +346,7 @@
   font-size: 14px;
   line-height: 1.35;
 }
-.empty {
-  background: var(--accent);
-  color: #fff;
-}
 
-.empty:hover {
-  background-color: var(--accent-light);
-  color: var(--accent);
-}
 /* states */
 .empty,
 .info,
