@@ -52,7 +52,6 @@ export default function Cart() {
               </div>
 
               <div className={s.cartItemControls}>
-                {/* ✅ Stepper: tek parça modern qty */}
                 <div className={s.stepper} role="group" aria-label="Quantity">
                   <button
                     type="button"
@@ -75,7 +74,7 @@ export default function Cart() {
                   </button>
                 </div>
 
-                {/* ✅ Remove: trash icon buton */}
+                {/*  Remove: trash icon buton */}
                 <button
                   type="button"
                   className={s.iconRemove}
