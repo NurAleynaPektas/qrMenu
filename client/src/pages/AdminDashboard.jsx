@@ -462,13 +462,20 @@ export default function AdminDashboard() {
             </p>
           </div>
 
-          {/* ✅ Personel Oluştur Butonu */}
+          {/* Personel Oluştur Butonu */}
           <button
             type="button"
             className={s.menuPrimaryBtn}
             onClick={() => navigate("/admin/staff/create")}
           >
             {t("admin.staff_create_btn") || "Personel Oluştur"}
+          </button>
+          <button
+            type="button"
+            className={s.menuPrimaryBtn}
+            onClick={() => navigate("/admin/staff")}
+          >
+            Personelleri Gör
           </button>
         </div>
 

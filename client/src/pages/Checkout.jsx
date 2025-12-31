@@ -14,7 +14,7 @@ export default function Checkout() {
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const staffUser = useSelector((state) => state.auth.user);
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -69,6 +69,7 @@ export default function Checkout() {
           table: values.tableNumber,
           note: values.note,
           items: itemsPayload,
+          staffName: staffUser?.name || staffUser?.email || "Staff",
         }),
       });
 

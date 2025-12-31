@@ -25,7 +25,18 @@
     "no_account": "Aucun membre du personnel enregistré. Veuillez demander à l’admin de créer un compte.",
     "no_account_toast": "Aucun compte du personnel trouvé",
     "invalid_toast": "E-mail ou mot de passe incorrect",
-    "login_success": "Connexion du personnel réussie"
+    "login_success": "Connexion du personnel réussie",
+    "list_title": "Personnel",
+    "list_sub": "Afficher et gérer les comptes du personnel créés.",
+    "search": "Rechercher par nom / e-mail...",
+    "refresh": "Actualiser",
+    "empty": "Aucun personnel pour le moment. Créez un compte du personnel.",
+    "no_match": "Aucun personnel ne correspond à votre recherche.",
+    "col_name": "Nom",
+    "col_email": "E-mail",
+    "col_actions": "Actions",
+    "delete": "Supprimer",
+    "create_btn": "Créer un personnel"
   },
   "home": {
     "hero_title": "Saveurs chaudes, instants cosy",

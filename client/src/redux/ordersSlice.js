@@ -34,7 +34,6 @@ export const patchOrderStatus = createAsyncThunk(
   }
 );
 
-
 function fingerprint(list) {
   if (!Array.isArray(list)) return "";
   return list
@@ -50,8 +49,8 @@ function fingerprint(list) {
             .join("|")
         : String(o.items || "");
       return `${o.id}~${o.status}~${o.table}~${o.note || ""}~${
-        o.createdAt || ""
-      }~${o.updatedAt || ""}~${itemsKey}`;
+        o.staffName || ""
+      }~${o.createdAt || ""}~${o.updatedAt || ""}~${itemsKey}`;
     })
     .sort()
     .join("##");
@@ -62,7 +61,7 @@ const initialState = {
   loading: false,
   error: null,
   updatingId: null,
-  lastFp: "", 
+  lastFp: "",
 };
 
 const ordersSlice = createSlice({

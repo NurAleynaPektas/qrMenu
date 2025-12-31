@@ -66,12 +66,11 @@ export default function Kitchen() {
     updatingId,
   } = useSelector((state) => state.orders);
 
-  const [statusFilter, setStatusFilter] = useState("active"); 
-  const [completedRange, setCompletedRange] = useState("24h"); 
+  const [statusFilter, setStatusFilter] = useState("active");
+  const [completedRange, setCompletedRange] = useState("24h");
   const [search, setSearch] = useState("");
   const [lastSyncAt, setLastSyncAt] = useState(null);
 
- 
   const lastFpRef = useRef("");
 
   useEffect(() => {
@@ -125,25 +124,23 @@ export default function Kitchen() {
   };
 
   const filtered = useMemo(() => {
-  const base = (orders || []).filter((o) => {
-    if (statusFilter === "active") {
-      return o.status === "pending" || o.status === "preparing";
-    }
+    const base = (orders || []).filter((o) => {
+      if (statusFilter === "active") {
+        return o.status === "pending" || o.status === "preparing";
+      }
 
-    if (statusFilter === "completed") {
-      if (o.status !== "completed") return false;
-      return isWithinRange(o.createdAt, completedRange);
-    }
+      if (statusFilter === "completed") {
+        if (o.status !== "completed") return false;
+        return isWithinRange(o.createdAt, completedRange);
+      }
 
-    if (statusFilter === "all") {
-      return isWithinRange(o.createdAt, "24h");
-    }
+      if (statusFilter === "all") {
+        return isWithinRange(o.createdAt, "24h");
+      }
 
-    return true;
-  });
+      return true;
+    });
 
-
-    
     const sorted = [...base].sort((a, b) => {
       const pr = (s) => (s === "pending" ? 0 : s === "preparing" ? 1 : 2);
       const p = pr(a.status) - pr(b.status);
@@ -186,7 +183,6 @@ export default function Kitchen() {
     }
   };
 
-
   const handleManualRefresh = async () => {
     await dispatch(fetchOrders());
     setLastSyncAt(Date.now());
@@ -194,7 +190,6 @@ export default function Kitchen() {
 
   return (
     <main className={s.page}>
-     
       <header className={s.header}>
         <div>
           <h1 className={s.title}>{t("kitchen.title") || "Kitchen Panel"}</h1>
@@ -305,6 +300,11 @@ export default function Kitchen() {
 
                     <div className={s.meta}>
                       <span className={s.orderId}>#{o.id}</span>
+                      {o.staffName && (
+                        <span className={s.staffLine}>
+                          Personel: <b>{o.staffName}</b>
+                        </span>
+                      )}
                       <span>{formatTimeFromISO(o.createdAt)}</span>
                     </div>
                   </div>

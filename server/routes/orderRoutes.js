@@ -7,7 +7,7 @@ const Table = require("../models/Table");
 // POST /api/orders → yeni sipariş kaydet (MASA KİLİDİ VAR)
 router.post("/", async (req, res) => {
   try {
-    let { table, note, items } = req.body;
+    let { table, note, items, staffName } = req.body; // ✅ staffName eklendi
 
     const tableNumber = Number(table);
     if (!Number.isFinite(tableNumber) || tableNumber <= 0) {
@@ -18,7 +18,6 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ message: "Sepet boş." });
     }
 
-    // 1) Masa FREE ise tek sorguda ACTIVE yap (kilit)
     const nowIso = new Date().toISOString();
 
     const lockedTable = await Table.findOneAndUpdate(
@@ -28,7 +27,6 @@ router.post("/", async (req, res) => {
     ).lean();
 
     if (!lockedTable) {
-      // Masa ya yok, ya da ACTIVE
       const existing = await Table.findOne({ table: tableNumber }).lean();
       if (!existing)
         return res.status(404).json({ message: "Masa bulunamadı." });
@@ -39,17 +37,17 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // 2) Order oluştur
     const newOrder = await Order.create({
       id: Date.now().toString(),
       table: tableNumber,
       note: note || "",
       items,
+      staffName: staffName || "", // ✅ staffName kaydedildi
       status: "pending",
       createdAt: nowIso,
+      updatedAt: nowIso, // (opsiyonel ama iyi)
     });
 
-    // 3) Masaya activeOrderId yaz
     const tableAfter = await Table.findOneAndUpdate(
       { table: tableNumber },
       { $set: { activeOrderId: newOrder.id, updatedAt: nowIso } },
@@ -66,6 +64,7 @@ router.post("/", async (req, res) => {
     return res.status(500).json({ message: "Sunucu hatası." });
   }
 });
+
 
 // PATCH /api/orders/:id/status → status güncelle (completed olunca masa aç)
 router.patch("/:id/status", async (req, res) => {

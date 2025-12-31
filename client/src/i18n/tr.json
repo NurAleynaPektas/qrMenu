@@ -25,7 +25,18 @@
     "no_account": "Kayıtlı personel bulunamadı. Lütfen adminin personel hesabı oluşturmasını isteyin.",
     "no_account_toast": "Kayıtlı personel bulunamadı",
     "invalid_toast": "E-posta veya şifre hatalı",
-    "login_success": "Personel girişi başarılı"
+    "login_success": "Personel girişi başarılı",
+    "list_title": "Personeller",
+    "list_sub": "Oluşturulan personel hesaplarını görüntüle ve yönet.",
+    "search": "İsim / e-posta ile ara...",
+    "refresh": "Yenile",
+    "empty": "Henüz personel yok. Personel oluştur.",
+    "no_match": "Aramanla eşleşen personel bulunamadı.",
+    "col_name": "Ad Soyad",
+    "col_email": "E-posta",
+    "col_actions": "İşlemler",
+    "delete": "Sil",
+    "create_btn": "Personel Oluştur"
   },
   "home": {
     "hero_title": "Sıcak Lezzetler, Samimi Anlar",

@@ -25,7 +25,18 @@
     "no_account": "No registered staff found. Please ask the admin to create a staff account.",
     "no_account_toast": "No staff account found",
     "invalid_toast": "Invalid email or password",
-    "login_success": "Staff login successful"
+    "login_success": "Staff login successful",
+    "list_title": "Staff",
+    "list_sub": "View and manage created staff accounts.",
+    "search": "Search by name / email...",
+    "refresh": "Refresh",
+    "empty": "No staff yet. Create a staff account.",
+    "no_match": "No staff found matching your search.",
+    "col_name": "Name",
+    "col_email": "Email",
+    "col_actions": "Actions",
+    "delete": "Delete",
+    "create_btn": "Create Staff"
   },
   "home": {
     "hero_title": "Warm Flavors, Cozy Moments",

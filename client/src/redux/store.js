@@ -3,13 +3,14 @@ import cartReducer from "./cartSlice";
 import authReducer from "./authSlice";
 import menuReducer from "./menuSlice";
 import ordersReducer from "./ordersSlice";
-
+import staffReducer from "./staffSlice";
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     auth: authReducer,
     menu: menuReducer,
-    orders: ordersReducer, 
+    orders: ordersReducer,
+    staff: staffReducer,
   },
 });
 

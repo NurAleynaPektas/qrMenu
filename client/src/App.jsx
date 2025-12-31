@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Loader from "./components/Loader";
+import StaffList from "./pages/StaffList";
 
 // Lazy-loaded pages
 const Home = lazy(() => import("./pages/Home"));
@@ -18,7 +19,7 @@ const KitchenLogin = lazy(() => import("./pages/KitchenLogin"));
 const Kitchen = lazy(() => import("./pages/Kitchen"));
 
 const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register")); 
+const Register = lazy(() => import("./pages/Register"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 function ScrollToTop() {
@@ -31,82 +32,97 @@ function ScrollToTop() {
 
 export default function App() {
   return (
-    <>
+    <div className="appShell">
       <Navbar />
-
       <ScrollToTop />
+      <div className="appMain">
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            {/* Public */}
+            <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
 
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          {/* Public */}
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
+            {/* Staff only */}
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute allowedRoles={["staff"]} redirectTo="/login">
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <ProtectedRoute allowedRoles={["staff"]} redirectTo="/login">
+                  <Checkout />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Staff only */}
-          <Route
-            path="/cart"
-            element={
-              <ProtectedRoute allowedRoles={["staff"]} redirectTo="/login">
-                <Cart />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/checkout"
-            element={
-              <ProtectedRoute allowedRoles={["staff"]} redirectTo="/login">
-                <Checkout />
-              </ProtectedRoute>
-            }
-          />
+            {/* Admin */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute
+                  allowedRoles={["admin"]}
+                  redirectTo="/admin/login"
+                >
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Admin */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute
-                allowedRoles={["admin"]}
-                redirectTo="/admin/login"
-              >
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/staff/create"
-            element={
-              <ProtectedRoute
-                allowedRoles={["admin"]}
-                redirectTo="/admin/login"
-              >
-                <Register />
-              </ProtectedRoute>
-            }
-          />
+            {/* Admin Staff List */}
+            <Route
+              path="/admin/staff"
+              element={
+                <ProtectedRoute
+                  allowedRoles={["admin"]}
+                  redirectTo="/admin/login"
+                >
+                  <StaffList />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Kitchen */}
-          <Route path="/kitchen/login" element={<KitchenLogin />} />
-          <Route
-            path="/kitchen"
-            element={
-              <ProtectedRoute
-                allowedRoles={["kitchen"]}
-                redirectTo="/kitchen/login"
-              >
-                <Kitchen />
-              </ProtectedRoute>
-            }
-          />
+            {/* Admin Staff Create */}
+            <Route
+              path="/admin/staff/create"
+              element={
+                <ProtectedRoute
+                  allowedRoles={["admin"]}
+                  redirectTo="/admin/login"
+                >
+                  <Register />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Staff Login */}
-          <Route path="/login" element={<Login />} />
+            {/* Kitchen */}
+            <Route path="/kitchen/login" element={<KitchenLogin />} />
+            <Route
+              path="/kitchen"
+              element={
+                <ProtectedRoute
+                  allowedRoles={["kitchen"]}
+                  redirectTo="/kitchen/login"
+                >
+                  <Kitchen />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+            {/* Staff Login */}
+            <Route path="/login" element={<Login />} />
+
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
