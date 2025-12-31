@@ -156,7 +156,9 @@
     "cat": {
       "filters": "Filtres"
     },
-    "staff_create_btn": "Créer un personnel"
+    "staff_create_btn": "Créer un personnel",
+    "staff": "Serveur"
+
   },
   "auth": {
     "login": "Connexion du personnel",

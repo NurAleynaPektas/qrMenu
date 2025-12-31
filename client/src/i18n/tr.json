@@ -156,7 +156,9 @@
     "cat": {
       "filters": "Filtreler"
     },
-    "staff_create_btn": "Personel Oluştur"
+    "staff_create_btn": "Personel Oluştur",
+    "staff": "Personel"
+
   },
   "auth": {
     "login": "Personel Giriş",

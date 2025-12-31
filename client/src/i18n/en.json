@@ -156,7 +156,9 @@
     "cat": {
       "filters": "Filters"
     },
-    "staff_create_btn": "Create Staff"
+    "staff_create_btn": "Create Staff",
+    "staff": "Staff"
+
   },
   "auth": {
     "login": "Staff Login",
