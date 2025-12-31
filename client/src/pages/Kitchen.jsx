@@ -302,7 +302,7 @@ export default function Kitchen() {
                       <span className={s.orderId}>#{o.id}</span>
                       {o.staffName && (
                         <span className={s.staffLine}>
-                          Personel: <b>{o.staffName}</b>
+                          Personel: <span className={s.staffName}>{o.staffName}</span>
                         </span>
                       )}
                       <span>{formatTimeFromISO(o.createdAt)}</span>

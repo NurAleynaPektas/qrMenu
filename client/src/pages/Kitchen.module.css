@@ -142,7 +142,7 @@
 /*  LIST */
 .list {
   display: grid;
-  grid-template-columns: 1fr; 
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
@@ -163,7 +163,6 @@
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
-
 
 .cardHighlight {
   border-color: rgba(255, 180, 0, 0.35);
@@ -266,7 +265,7 @@
 /* quick buttons */
 .quickBtns {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 8px;
   width: 100%;
 }
@@ -377,7 +376,10 @@
   gap: 10px;
   align-items: center;
 }
-
+.staffName{
+  color: red;
+  font-weight: 700;
+}
 /* TABLET  */
 @media (min-width: 640px) {
   .page {
