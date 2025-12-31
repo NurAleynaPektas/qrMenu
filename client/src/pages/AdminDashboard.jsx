@@ -392,7 +392,7 @@ export default function AdminDashboard() {
                 <th>{t("checkout.total") || "Total"}</th>
                 <th>{t("checkout.note_optional") || "Note"}</th>
                 <th>{t("admin.status") || "Status"}</th>
-                <th>{t("admin.staff") || "Staff"}</th> {/* ✅ */}
+                <th>{t("admin.staff") || "Staff"}</th>
                 <th>{t("admin.time") || "Time"}</th>
               </tr>
             </thead>
@@ -402,7 +402,7 @@ export default function AdminDashboard() {
                 <tr>
                   <td colSpan={8} className={s.emptyRow}>
                     {" "}
-                    {/* ✅ */}
+                   
                     {t("admin.no_orders") ||
                       "No orders found for the current filter."}
                   </td>
@@ -444,7 +444,7 @@ export default function AdminDashboard() {
                         </select>
                       </div>
                     </td>
-                    <td>{o.staffName ? o.staffName : "—"}</td> {/* ✅ */}
+                    <td>{o.staffName ? o.staffName : "—"}</td> 
                     <td>{formatTimeFromISO(o.createdAt)}</td>
                   </tr>
                 ))

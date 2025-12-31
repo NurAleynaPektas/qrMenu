@@ -346,7 +346,15 @@
   font-size: 14px;
   line-height: 1.35;
 }
+.empty {
+  background: var(--accent);
+  color: #fff;
+}
 
+.empty:hover {
+  background-color: var(--accent-light);
+  color: var(--accent);
+}
 /* states */
 .empty,
 .info,
@@ -376,7 +384,7 @@
   gap: 10px;
   align-items: center;
 }
-.staffName{
+.staffName {
   color: red;
   font-weight: 700;
 }
