@@ -402,7 +402,6 @@ export default function AdminDashboard() {
                 <tr>
                   <td colSpan={8} className={s.emptyRow}>
                     {" "}
-                   
                     {t("admin.no_orders") ||
                       "No orders found for the current filter."}
                   </td>
@@ -444,7 +443,7 @@ export default function AdminDashboard() {
                         </select>
                       </div>
                     </td>
-                    <td>{o.staffName ? o.staffName : "—"}</td> 
+                    <td>{o.staffName ? o.staffName : "—"}</td>
                     <td>{formatTimeFromISO(o.createdAt)}</td>
                   </tr>
                 ))
@@ -465,22 +464,6 @@ export default function AdminDashboard() {
                 "Add, edit or disable items on your digital menu."}
             </p>
           </div>
-
-          {/* Personel Oluştur Butonu */}
-          <button
-            type="button"
-            className={s.menuPrimaryBtn}
-            onClick={() => navigate("/admin/staff/create")}
-          >
-            {t("admin.staff_create_btn") || "Personel Oluştur"}
-          </button>
-          <button
-            type="button"
-            className={s.menuPrimaryBtn}
-            onClick={() => navigate("/admin/staff")}
-          >
-            Personelleri Gör
-          </button>
         </div>
 
         <form className={s.menuForm} onSubmit={handleMenuSubmit}>
@@ -661,6 +644,29 @@ export default function AdminDashboard() {
               )}
             </tbody>
           </table>
+        </div>
+        <div className={s.personel}>
+          <p className={s.sectionTitle}>
+            {t("admin.staffPlace") || "Personel"}
+          </p>
+
+          <div className={s.personelActions}>
+            <button
+              type="button"
+              className={s.menuPrimaryBtn}
+              onClick={() => navigate("/admin/staff/create")}
+            >
+              {t("admin.staff_create_btn") || "Personel Oluştur"}
+            </button>
+
+            <button
+              type="button"
+              className={s.menuPrimaryBtn}
+              onClick={() => navigate("/admin/staff")}
+            >
+              {t("admin.staffSee") || "Personel Listesi"}
+            </button>
+          </div>
         </div>
       </section>
     </main>

@@ -157,7 +157,9 @@
       "filters": "Filtres"
     },
     "staff_create_btn": "Créer un personnel",
-    "staff": "Serveur"
+    "staff": "Personnel",
+    "staffPlace": "Personnel",
+    "staffSee": "Voir les personnels"
 
   },
   "auth": {

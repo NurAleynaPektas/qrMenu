@@ -549,8 +549,29 @@
   cursor: pointer;
 }
 
-
-
+.personel {
+  background: var(--tile, #ffffff);
+  border-radius: 14px;
+  padding: 0px 20px 20px ;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+.personel button {
+  width: fit-content;
+}
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary, #222);
+}
+.personelActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
 @media (min-width: 768px) {
   .page {

@@ -157,7 +157,9 @@
       "filters": "Filters"
     },
     "staff_create_btn": "Create Staff",
-    "staff": "Staff"
+    "staff": "Staff",
+    "staffPlace": "Staff",
+    "staffSee": "See Staff"
 
   },
   "auth": {
