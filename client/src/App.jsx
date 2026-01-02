@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -22,6 +22,8 @@ const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
+const QrGenerator = lazy(() => import("./pages/QrGenerator"));
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -35,12 +37,19 @@ export default function App() {
     <div className="appShell">
       <Navbar />
       <ScrollToTop />
+
       <div className="appMain">
         <Suspense fallback={<Loader />}>
           <Routes>
             {/* Public */}
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
+
+            {/* QR redirect */}
+            <Route path="/qr" element={<Navigate to="/menu" replace />} />
+
+            {/* QR generator page (temporary public) */}
+            <Route path="/qr-code" element={<QrGenerator />} />
 
             {/* Staff only */}
             <Route
@@ -122,6 +131,7 @@ export default function App() {
           </Routes>
         </Suspense>
       </div>
+
       <Footer />
     </div>
   );
