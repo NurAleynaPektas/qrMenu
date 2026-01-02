@@ -203,5 +203,13 @@
     "login_btn": "Se connecter",
     "login_success": "Connexion cuisine réussie",
     "invalid_toast": "E-mail ou mot de passe incorrect"
+  },
+   "qr": {
+    "title": "Code QR du Menu",
+    "subtitle": "Scannez le QR code pour ouvrir le menu.",
+    "copy": "Copier",
+    "copied": "Copié !",
+    "copy_error": "Échec de la copie",
+    "hint": "Essayez de scanner le QR code avec votre téléphone."
   }
 }

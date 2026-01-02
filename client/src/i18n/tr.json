@@ -203,5 +203,13 @@
     "login_btn": "Giriş Yap",
     "login_success": "Mutfak girişi başarılı",
     "invalid_toast": "E-posta veya şifre hatalı"
+  },
+    "qr": {
+    "title": "QR Menü Kodu",
+    "subtitle": "QR okutulunca direkt menü açılır.",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı!",
+    "copy_error": "Kopyalanamadı",
+    "hint": "Telefonla QR’ı okutmayı dene."
   }
 }

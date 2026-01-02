@@ -203,5 +203,15 @@
     "login_btn": "Sign In",
     "login_success": "Kitchen login successful",
     "invalid_toast": "Invalid email or password"
+  },
+  "qr": {
+    "title": "QR Menu Code",
+    "subtitle": "Scan the QR code to open the menu.",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "copy_error": "Copy failed",
+    "hint": "Try scanning the QR code with your phone."
   }
+
+
 }
