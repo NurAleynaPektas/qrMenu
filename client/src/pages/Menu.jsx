@@ -7,6 +7,7 @@ import iziToast from "izitoast";
 import { useNavigate, useLocation } from "react-router-dom";
 import { fetchMenu } from "../redux/menuSlice";
 import { resolveImageUrl } from "../utils/resolveImageUrl";
+import Loader from "../components/Loader";
 
 export default function Menu() {
   const { t } = useTranslation();
@@ -27,6 +28,7 @@ export default function Menu() {
     dispatch(fetchMenu());
   }, [dispatch]);
 
+  // ✅ Hook'lar her render'da aynı sırada çalışsın diye tüm useMemo'lar yukarıda
   const visibleItems = useMemo(
     () => (menuItems || []).filter((item) => item.available),
     [menuItems]
@@ -123,12 +125,21 @@ export default function Menu() {
     });
   };
 
+  // ✅ Loader return'u HOOK'lardan sonra => hata yok
+  if (loading) return <Loader />;
+
   return (
     <main className={s.menuPage}>
       <h1 className={s.title}>{t("home.title")}</h1>
       <p className={s.subtitle}>{t("home.about_p2")}</p>
 
-      {categories.length > 0 && (
+      {error && (
+        <p className={s.errorText}>
+          {error || "Failed to load menu. Please try again."}
+        </p>
+      )}
+
+      {!error && categories.length > 0 && (
         <div className={s.filters}>
           <h4 className={s.filtersTitle}>
             {t("admin.cat.filters") || "Filters"}
@@ -159,17 +170,8 @@ export default function Menu() {
         </div>
       )}
 
-      {loading && <p className={s.infoText}>Loading menu...</p>}
-
-      {error && !loading && (
-        <p className={s.errorText}>
-          {error || "Failed to load menu. Please try again."}
-        </p>
-      )}
-
       <section className={s.grid}>
-        {!loading &&
-          !error &&
+        {!error &&
           filteredItems.map((it) => {
             const label = it.nameKey ? t(it.nameKey) : it.name;
 
