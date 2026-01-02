@@ -84,3 +84,38 @@
   font-size: 13px;
   opacity: 0.75;
 }
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  border: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.12);
+  color: inherit;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.brand {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.brandTitle {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.brandSub {
+  font-size: 13px;
+  opacity: 0.7;
+}

@@ -210,6 +210,9 @@
     "copy": "Kopyala",
     "copied": "Kopyalandı!",
     "copy_error": "Kopyalanamadı",
-    "hint": "Telefonla QR’ı okutmayı dene."
+    "hint": "Telefonla QR’ı okutmayı dene.",
+    "download": "Indir (PNG)",
+    "download_error": "Indirilemedi"
+
   }
 }

@@ -210,7 +210,10 @@
     "copy": "Copy",
     "copied": "Copied!",
     "copy_error": "Copy failed",
-    "hint": "Try scanning the QR code with your phone."
+    "hint": "Try scanning the QR code with your phone.",
+    "download": "Download (PNG)",
+    "download_error": "Download failed"
+
   }
 
 

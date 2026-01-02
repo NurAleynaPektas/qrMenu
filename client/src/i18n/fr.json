@@ -210,6 +210,9 @@
     "copy": "Copier",
     "copied": "Copié !",
     "copy_error": "Échec de la copie",
-    "hint": "Essayez de scanner le QR code avec votre téléphone."
+    "hint": "Essayez de scanner le QR code avec votre téléphone.",
+    "download": "Télécharger (PNG)",
+    "download_error": "Téléchargement échoué"
+
   }
 }
