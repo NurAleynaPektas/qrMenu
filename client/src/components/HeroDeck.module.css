@@ -119,6 +119,7 @@
   font-weight: 700;
   border-radius: 8px;
   text-decoration: none;
+  margin-top: 10px;
   background: #fff;
   color: #0b1a30;
   border: none;
@@ -126,7 +127,7 @@
   transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
 .btn:hover {
-    background: #f3f4ff;
+  background: #f3f4ff;
   border-color: var(--accent);
   color: var(--accent);
 }
