@@ -126,7 +126,22 @@
 .placeOrderBtn:active {
   transform: translateY(1px);
 }
+.backToMenuBtn{
+  text-decoration: none;
+  padding: 10px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  font-size: 14px;
+}
+.backToMenuBtn:hover {
+   background-color: var(--accent-light);
+  color: var(--accent);
+  border: 2px solid var(--accent);
 
+}
 @media (min-width: 768px) {
   .checkoutPage {
     padding: 28px;
