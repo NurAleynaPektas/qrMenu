@@ -9,14 +9,14 @@
 .title {
   font-size: 26px;
   font-weight: 800;
-  color: var(--text);
+  color: var(--accent);
   letter-spacing: 0.4px;
   margin-bottom: 6px;
 }
 
 .subtitle {
   font-size: 15px;
-  color: #555;
+  color: var(--accent);
   margin: 0 auto 18px;
   max-width: 520px;
   opacity: 0.9;
@@ -43,16 +43,19 @@
 
 .filterBtn {
   flex: 0 0 auto;
-  border-radius: 999px;
+  border-radius: 12px;
   padding: 9px 16px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 7500;
   background: #fff;
-  color: #555;
+  color: var(--accent);
   border: 1px solid rgba(0, 0, 0, 0.1);
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .filterBtn:hover {
@@ -85,7 +88,10 @@
   box-shadow: 0 6px 16px var(--shadow);
   overflow: hidden;
   text-align: left;
-  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .card:hover {
@@ -129,7 +135,7 @@
 
 .cardTitle {
   font-weight: 900;
-  color: var(--text);
+  color: var(--accent);
   font-size: 18px;
   margin: 0 0 6px;
 }
@@ -179,7 +185,9 @@
   padding: 0 14px;
   border-radius: 12px;
 
-  transition: transform 0.12s ease, opacity 0.15s ease;
+  transition:
+    transform 0.12s ease,
+    opacity 0.15s ease;
 }
 
 .addBtn:hover {
@@ -188,7 +196,7 @@
 }
 
 .plus {
-  font-size: 22px;
+  font-size: 18px;
   line-height: 1;
 }
 
@@ -219,6 +227,9 @@
   .addBtn {
     padding: 0 16px;
   }
+  .plus {
+    display: none;
+  }
 }
 
 /* Desktop */
@@ -233,5 +244,8 @@
 
   .cardImg {
     height: 240px;
+  }
+  .plus {
+    display: none;
   }
 }

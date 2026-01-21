@@ -12,13 +12,13 @@
 
 .navbarLogo {
   text-decoration: none;
-  color: var(--text);
+  color: var(--accent);
   font-weight: 600;
   font-size: 20px;
   line-height: 1;
 }
 .navbarLogo:hover {
-  color: var(--accent);
+  color: var(--accent-dark);
 }
 
 .burger {
@@ -37,7 +37,7 @@
   display: block;
   width: 24px;
   height: 3px;
-  background-color: var(--text);
+  background-color: var(--accent);
   border-radius: 2px;
 }
 
@@ -65,7 +65,7 @@
   display: block;
   width: 100%;
   text-decoration: none;
-  color: var(--text);
+  color: var(--accent);
   font-weight: 500;
   font-size: 18px;
   line-height: 1.4;
@@ -74,7 +74,7 @@
 }
 .navbarRight a:hover {
 
-  color: var(--accent);
+  color: var(--accent-dark);
 }
 .authArea {
   display: flex;
@@ -87,7 +87,7 @@
 .userName {
   font-size: 14px;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-dark);
   text-align: center;
 }
 
@@ -114,7 +114,7 @@
 .authLink:hover {
   background: var(--accent-light);
   color: var(--accent);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 8px 20px var(--accent);
 }
 
 .langMenuWrap {
@@ -130,7 +130,7 @@
   gap: 8px;
   border: 1px solid var(--border);
   background: #fff;
-  color: var(--text);
+  color: var(--accent);
   font-weight: 600;
   font-size: 14px;
   padding: 6px 10px;
@@ -142,10 +142,14 @@
   background: var(--accent-light);
   border-color: var(--accent);
 }
-.globe {
+
+  .globe {
   font-size: 16px;
   line-height: 1;
+  color: var(--accent) !important;
 }
+
+
 .langCode {
   font-size: 12px;
   opacity: 0.8;
@@ -173,7 +177,7 @@
   text-align: left;
   border: 0;
   background: transparent;
-  color: var(--text);
+  color: var(--accent);
   font-weight: 600;
   font-size: 14px;
   padding: 10px 10px;
@@ -183,7 +187,7 @@
 }
 .langItem:hover {
   background: var(--accent-light);
-  color: var(--text);
+  color: var(--accent-dark);
 }
 
 .logoutIconBtn {

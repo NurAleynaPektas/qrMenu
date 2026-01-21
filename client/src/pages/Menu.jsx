@@ -202,6 +202,7 @@ export default function Menu() {
                       className={s.addBtn}
                       onClick={() => handleAddToCart(it)}
                     >
+<span className={s.plus}>+</span>
                       <span className={s.addText}>
                         {t("home.add") || "Sepete Ekle"}
                       </span>

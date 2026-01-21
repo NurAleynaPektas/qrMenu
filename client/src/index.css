@@ -1,25 +1,27 @@
 :root {
   --bg: #fdfdfc;
   --text: #0c0c0c;
-  --accent: #810404; 
-  --accent-dark:  #d10404;
+  --accent: #810404;
+  --accent-dark: #d10404;
   --accent-light: #f4f2f0;
   --border: #5f0303;
-  --shadow: rgba(0, 0, 0, 0.08);
+  --shadow: rgba(213, 66, 66, 0.499);
   --font-body: "Inter", "Open Sans", sans-serif;
   --font-heading: "Poppins", "Inter", sans-serif;
-
 }
 body {
   font-family: var(--font-body);
-  font-size: 16px;  
+  font-size: 16px;
   line-height: 1.5;
   color: var(--text);
   margin: 0;
   background: var(--bg);
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-heading);
   font-weight: 700;
 }

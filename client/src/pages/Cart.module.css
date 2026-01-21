@@ -15,7 +15,7 @@
 .cartTitle {
   text-align: center;
   margin: 6px 0 18px;
-  color: var(--text);
+  color: var(--accent);
   font-size: 24px;
   font-weight: 800;
 }
@@ -62,7 +62,7 @@
 
 .cartItemName {
   font-size: 15px;
-  color: var(--text);
+  color: var(--accent);
   font-weight: 900;
   line-height: 1.2;
 
@@ -76,7 +76,7 @@
   margin-top: 6px;
   font-size: 13px;
   font-weight: 800;
-  color: rgba(0, 0, 0, 0.55);
+  color: var(--accent);
 }
 
 .cartItemControls {
@@ -112,7 +112,7 @@
   cursor: pointer;
   font-size: 16px;
   font-weight: 700;
-  color: var(--text);
+  color: var(--accent);
   line-height: 1;
 }
 
@@ -126,7 +126,7 @@
   place-items: center;
   font-size: 13px;
   font-weight: 700;
-  color: var(--text);
+  color: var(--accent);
   background: #fff;
 
   border-left: 1px solid rgba(0, 0, 0, 0.12);
@@ -138,15 +138,12 @@
   width: 44px;
   height: 44px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 0, 0, 0.22);
-  background: rgba(255, 0, 0, 0.08);
-
+  border: 1px solid var(--accent);
+  background: var(--bg);
   display: grid;
   place-items: center;
-
-  color: rgba(220, 0, 0, 0.9);
+  color: var(--accent);
   cursor: pointer;
-
   transition: transform 0.08s ease, background 0.15s ease;
 }
 
@@ -172,7 +169,7 @@
 .cartTotal {
   font-size: 17px;
   font-weight: 900;
-  color: var(--text);
+  color: var(--accent);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -215,7 +212,7 @@
 
 .emptyText {
   font-size: 1.05rem;
-  color: var(--text);
+  color: var(--accent);
   margin-bottom: 18px;
 }
 
