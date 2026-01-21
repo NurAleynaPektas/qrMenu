@@ -28,10 +28,9 @@ export default function Menu() {
     dispatch(fetchMenu());
   }, [dispatch]);
 
-  // ✅ Hook'lar her render'da aynı sırada çalışsın diye tüm useMemo'lar yukarıda
   const visibleItems = useMemo(
     () => (menuItems || []).filter((item) => item.available),
-    [menuItems]
+    [menuItems],
   );
 
   const CATEGORY_ORDER = [
@@ -82,7 +81,6 @@ export default function Menu() {
   }, [visibleItems, activeCategory]);
 
   const handleAddToCart = (item) => {
-    // ✅ sadece staff sipariş açabilir
     if (!user || role !== "staff") {
       iziToast.show({
         title: t("staff.login_title") || "Personel Girişi",
@@ -110,7 +108,7 @@ export default function Menu() {
         price: item.price,
         img: item.img,
         nameKey: item.nameKey || null,
-      })
+      }),
     );
 
     iziToast.show({
@@ -125,7 +123,6 @@ export default function Menu() {
     });
   };
 
-  // ✅ Loader return'u HOOK'lardan sonra => hata yok
   if (loading) return <Loader />;
 
   return (
@@ -141,27 +138,19 @@ export default function Menu() {
 
       {!error && categories.length > 0 && (
         <div className={s.filters}>
-          <h4 className={s.filtersTitle}>
-            {t("admin.cat.filters") || "Filters"}
-          </h4>
-
           <button
             type="button"
-            className={`${s.filterBtn} ${
-              activeCategory === "all" ? s.filterBtnActive : ""
-            }`}
+            className={`${s.filterBtn} ${activeCategory === "all" ? s.filterBtnActive : ""}`}
             onClick={() => setActiveCategory("all")}
           >
-            {t("admin.filter_all") || "All"}
+            {t("admin.filter_all") || "Tümü"}
           </button>
 
           {categories.map((cat) => (
             <button
               key={cat}
               type="button"
-              className={`${s.filterBtn} ${
-                activeCategory === cat ? s.filterBtnActive : ""
-              }`}
+              className={`${s.filterBtn} ${activeCategory === cat ? s.filterBtnActive : ""}`}
               onClick={() => setActiveCategory(cat)}
             >
               {categoryLabel(cat)}
@@ -174,28 +163,50 @@ export default function Menu() {
         {!error &&
           filteredItems.map((it) => {
             const label = it.nameKey ? t(it.nameKey) : it.name;
+            const isPopular = Boolean(it.isPopular) || Number(it.price) >= 250;
+
+            const desc = it.descriptionKey
+              ? t(it.descriptionKey)
+              : it.description || it.desc || "";
 
             return (
               <article className={s.card} key={it.id}>
-                <img
-                  src={resolveImageUrl(it.img, it.id)}
-                  alt={label}
-                  loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.src = `https://picsum.photos/400/250?random=${it.id}`;
-                  }}
-                />
+                <div className={s.media}>
+                  {isPopular && (
+                    <span className={s.badge}>
+                      ★ {t("home.popular") || "Popüler"}
+                    </span>
+                  )}
 
-                <div className={s.info}>
+                  <img
+                    className={s.cardImg}
+                    src={resolveImageUrl(it.img, it.id)}
+                    alt={label}
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.src = `https://picsum.photos/600/400?random=${it.id}`;
+                    }}
+                  />
+                </div>
+
+                <div className={s.content}>
                   <h3 className={s.cardTitle}>{label}</h3>
-                  <p className={s.cardPrice}>₺{it.price}</p>
 
-                  <button
-                    className={s.cardBtn}
-                    onClick={() => handleAddToCart(it)}
-                  >
-                    {t("home.add")}
-                  </button>
+                  {desc ? <p className={s.cardDesc}>{desc}</p> : null}
+
+                  <div className={s.bottomRow}>
+                    <p className={s.cardPrice}>₺{it.price}</p>
+
+                    <button
+                      type="button"
+                      className={s.addBtn}
+                      onClick={() => handleAddToCart(it)}
+                    >
+                      <span className={s.addText}>
+                        {t("home.add") || "Sepete Ekle"}
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </article>
             );

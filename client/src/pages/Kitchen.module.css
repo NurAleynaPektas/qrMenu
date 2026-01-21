@@ -14,6 +14,7 @@
 }
 
 .title {
+  color: var(--text);
   font-size: 22px;
   font-weight: 800;
   line-height: 1.2;
@@ -21,14 +22,14 @@
 }
 
 .subtitle {
-  color: #6b7280;
+  color: var(--accent);
   margin-top: 4px;
   font-size: 13px;
   line-height: 1.45;
 }
 
 .refreshBtn {
-  background: #111827;
+  background: var(--accent);
   color: #fff;
   padding: 10px 12px;
   border-radius: 12px;
@@ -52,7 +53,7 @@
 /* Sync row */
 .syncRow {
   margin: 10px 0 14px;
-  color: #6b7280;
+  color: var(--accent);
   font-size: 12px;
   display: flex;
   flex-direction: column;
@@ -62,7 +63,7 @@
   padding: 10px 12px;
   border: 1px solid #eef2f7;
   background: #fafafa;
-  border-radius: 14px;
+  border-radius: 12px;
 }
 
 /* CONTROLS */
@@ -81,6 +82,7 @@
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 6px;
+ 
 }
 
 .chips::-webkit-scrollbar {
@@ -94,7 +96,7 @@
 
 .chip {
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 12px;
   border: 1px solid #e5e7eb;
   background: #fff;
   cursor: pointer;
@@ -109,15 +111,15 @@
 }
 
 .chipActive {
-  background: #111827;
+  background: var(--accent);
   color: #fff;
-  border-color: #111827;
+  border-color: var(--border);
 }
 
 .rangeSelect {
   width: 100%;
   padding: 11px 12px;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid #e5e7eb;
   background: #fff;
   color: inherit;
@@ -127,7 +129,7 @@
   width: 100%;
   min-width: 0;
   padding: 11px 12px;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid #e5e7eb;
   font-size: 14px;
   outline: none;
@@ -135,8 +137,8 @@
 }
 
 .search:focus {
-  border-color: #111827;
-  box-shadow: 0 0 0 4px rgba(17, 24, 39, 0.1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--border);
 }
 
 /*  LIST */
@@ -148,10 +150,10 @@
 
 .card {
   background: #ffffff;
-  border-radius: 18px;
+  border-radius: 12px;
   padding: 14px;
   border: 1px solid #eef2f7;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 26px var(--border);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -165,8 +167,8 @@
 }
 
 .cardHighlight {
-  border-color: rgba(255, 180, 0, 0.35);
-  box-shadow: 0 0 0 6px rgba(255, 180, 0, 0.12), 0 10px 26px rgba(0, 0, 0, 0.06);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 6px var(--border), 0 10px 26px var(--accent);
   animation: pulseBg 1.8s ease-in-out infinite;
 }
 
@@ -199,13 +201,8 @@
 }
 
 .tableBadge {
-  background: linear-gradient(
-    135deg,
-    rgb(72, 118, 255),
-    rgb(56, 189, 178),
-    rgb(251, 146, 60)
-  );
-  box-shadow: 0 20px 40px rgba(105, 152, 245, 0.35);
+  background: var(--accent);
+  color: var(--bg);
   padding: 7px 10px;
   border-radius: 12px;
   font-weight: 700;
@@ -216,7 +213,7 @@
   display: flex;
   gap: 8px;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--text);
 }
 
 .orderId {
@@ -227,7 +224,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  align-items: flex-start; /* mobile */
+  align-items: flex-start; 
 }
 
 .statusChip {
@@ -273,7 +270,8 @@
 .quickBtn {
   padding: 10px 12px;
   border-radius: 14px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
+  color: var(--accent);
   background: #fff;
   cursor: pointer;
   width: 100%;
@@ -290,7 +288,7 @@
   padding: 10px 12px;
   border-radius: 14px;
   border: none;
-  background: #111827;
+  background: var(--accent);
   color: #fff;
   cursor: pointer;
   width: 100%;
@@ -319,7 +317,7 @@
 
 .itemsLabel {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--accent);
   margin-bottom: 6px;
 }
 
@@ -338,7 +336,7 @@
 
 .noteLabel {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--accent);
   margin-bottom: 6px;
 }
 
