@@ -29,20 +29,22 @@ export default function StaffList() {
     setLoading(true);
     try {
       const token = getAdminToken();
-      if (!token) throw new Error("Admin oturumu bulunamadı.");
+      if (!token)
+        throw new Error(t("admin.session_missing") || "Session missing");
 
       const res = await fetch(`${base}/api/staff`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       const data = await res.json().catch(() => []);
-      if (!res.ok) throw new Error(data?.message || "Liste alınamadı.");
+      if (!res.ok)
+        throw new Error(data?.message || t("staff.fetch_failed") || "Failed");
 
       setStaff(Array.isArray(data) ? data : []);
     } catch (e) {
       iziToast.error({
-        title: "Hata",
-        message: String(e?.message || e || "Hata"),
+        title: t("common.error_title") || "Error",
+        message: String(e?.message || e || t("common.error_title") || "Error"),
       });
       setStaff([]);
     } finally {
@@ -66,16 +68,22 @@ export default function StaffList() {
 
   const handleRefresh = () => {
     fetchStaff();
-    iziToast.info({ title: "OK", message: "Liste yenilendi" });
+    iziToast.info({
+      title: "OK",
+      message: t("staff.refreshed_toast") || "List refreshed",
+    });
   };
 
   const handleDelete = async (uid) => {
-    const ok = window.confirm("Bu personeli silmek istiyor musun?");
+    const ok = window.confirm(
+      t("staff.confirm_delete") || "Do you want to delete this staff member?",
+    );
     if (!ok) return;
 
     try {
       const token = getAdminToken();
-      if (!token) throw new Error("Admin oturumu bulunamadı.");
+      if (!token)
+        throw new Error(t("admin.session_missing") || "Session missing");
 
       const res = await fetch(`${base}/api/staff/${uid}`, {
         method: "DELETE",
@@ -83,14 +91,20 @@ export default function StaffList() {
       });
 
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.message || "Silme işlemi başarısız.");
+      if (!res.ok)
+        throw new Error(
+          data?.message || t("staff.delete_failed") || "Delete failed",
+        );
 
       setStaff((prev) => prev.filter((u) => u.uid !== uid));
-      iziToast.success({ title: "Silindi", message: "Personel silindi" });
+      iziToast.success({
+        title: t("staff.deleted_title") || "Deleted",
+        message: t("staff.deleted_toast") || "Staff deleted",
+      });
     } catch (e) {
       iziToast.error({
-        title: "Hata",
-        message: String(e?.message || e || "Hata"),
+        title: t("common.error_title") || "Error",
+        message: String(e?.message || e || t("common.error_title") || "Error"),
       });
     }
   };
@@ -99,11 +113,8 @@ export default function StaffList() {
     <main className={s.page}>
       <header className={s.header}>
         <div>
-          <h1 className={s.title}>{t("staff.list_title") || "Personeller"}</h1>
-          <p className={s.sub}>
-            {t("staff.list_sub") ||
-              "Oluşturulan personelleri görüntüle ve yönet."}
-          </p>
+          <h1 className={s.title}>{t("staff.list_title") || "Staff"}</h1>
+          <p className={s.sub}>{t("staff.list_sub") || "View staff."}</p>
         </div>
 
         <div className={s.headerActions}>
@@ -112,7 +123,7 @@ export default function StaffList() {
             type="button"
             onClick={() => navigate("/admin/staff/create")}
           >
-            {t("staff.create_btn") || "Personel Oluştur"}
+            {t("staff.create_btn") || "Create Staff"}
           </button>
 
           <button
@@ -120,7 +131,7 @@ export default function StaffList() {
             type="button"
             onClick={() => navigate("/admin/dashboard")}
           >
-            {t("staff.back_admin") || "Admin Paneline Dön"}
+            {t("staff.back_admin") || "Back to Admin Panel"}
           </button>
         </div>
       </header>
@@ -130,7 +141,7 @@ export default function StaffList() {
           className={s.search}
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder={t("staff.search") || "İsim / Email ara..."}
+          placeholder={t("staff.search") || "Search by name / email..."}
         />
 
         <button
@@ -139,26 +150,30 @@ export default function StaffList() {
           onClick={handleRefresh}
           disabled={loading}
         >
-          {loading ? "..." : t("staff.refresh") || "Yenile"}
+          {loading
+            ? t("common.loading_dots") || "..."
+            : t("staff.refresh") || "Refresh"}
         </button>
       </section>
 
       <section className={s.tableWrap}>
         {loading ? (
-          <p className={s.empty}>{t("loader.loading") || "Loading..."}</p>
+          <p className={s.empty}>
+            {t("common.loading") || t("loader.loading") || "Loading..."}
+          </p>
         ) : filtered.length === 0 ? (
           <p className={s.empty}>
             {staff.length === 0
-              ? t("staff.empty") || "Henüz personel yok. Personel oluştur."
-              : t("staff.no_match") || "Aramaya uygun personel bulunamadı."}
+              ? t("staff.empty") || "No staff yet."
+              : t("staff.no_match") || "No match."}
           </p>
         ) : (
           <table className={s.table}>
             <thead>
               <tr>
-                <th>{t("staff.col_name") || "Ad"}</th>
+                <th>{t("staff.col_name") || "Name"}</th>
                 <th>{t("staff.col_email") || "Email"}</th>
-                <th>{t("staff.col_actions") || "İşlemler"}</th>
+                <th>{t("staff.col_actions") || "Actions"}</th>
               </tr>
             </thead>
 
@@ -174,7 +189,7 @@ export default function StaffList() {
                         type="button"
                         onClick={() => handleDelete(u.uid)}
                       >
-                        {t("staff.delete") || "Sil"}
+                        {t("staff.delete") || "Delete"}
                       </button>
                     </div>
                   </td>

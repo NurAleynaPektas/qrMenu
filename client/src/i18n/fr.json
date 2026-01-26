@@ -10,6 +10,11 @@
     "kitchen_panel": "Panneau Cuisine",
     "admin_panel": "Panneau Admin"
   },
+  "common": {
+    "error_title": "Erreur",
+    "loading_dots": "...",
+    "loading": "Chargement..."
+  },
   "staff": {
     "login_btn": "Connexion du personnel",
     "login_title": "Connexion du personnel",
@@ -36,7 +41,14 @@
     "col_email": "E-mail",
     "col_actions": "Actions",
     "delete": "Supprimer",
-    "create_btn": "Créer un personnel"
+    "create_btn": "Créer un personnel",
+
+    "confirm_delete": "Voulez-vous supprimer ce membre du personnel ?",
+    "refreshed_toast": "Liste actualisée",
+    "deleted_title": "Supprimé",
+    "deleted_toast": "Le personnel a été supprimé",
+    "fetch_failed": "Impossible de charger la liste du personnel.",
+    "delete_failed": "La suppression du membre du personnel a échoué."
   },
   "home": {
     "hero_title": "Saveurs chaudes, instants cosy",
@@ -153,14 +165,12 @@
     "cat_soupes": "Soupes",
     "cat_salads": "Salades",
     "menu_category_placeholder": "Choisissez une catégorie",
-    "cat": {
-      "filters": "Filtres"
-    },
+    "cat": { "filters": "Filtres" },
     "staff_create_btn": "Créer un personnel",
     "staff": "Personnel",
     "staffPlace": "Personnel",
-    "staffSee": "Voir les personnels"
-
+    "staffSee": "Voir les personnels",
+    "session_missing": "Session administrateur introuvable. Veuillez vous reconnecter."
   },
   "auth": {
     "login": "Connexion du personnel",
@@ -204,7 +214,7 @@
     "login_success": "Connexion cuisine réussie",
     "invalid_toast": "E-mail ou mot de passe incorrect"
   },
-   "qr": {
+  "qr": {
     "title": "Code QR du Menu",
     "subtitle": "Scannez le QR code pour ouvrir le menu.",
     "copy": "Copier",
@@ -213,6 +223,5 @@
     "hint": "Essayez de scanner le QR code avec votre téléphone.",
     "download": "Télécharger (PNG)",
     "download_error": "Téléchargement échoué"
-
   }
 }

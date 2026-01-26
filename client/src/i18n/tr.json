@@ -10,6 +10,11 @@
     "kitchen_panel": "Mutfak Paneli",
     "admin_panel": "Admin Panel"
   },
+  "common": {
+    "error_title": "Hata",
+    "loading_dots": "...",
+    "loading": "Yükleniyor..."
+  },
   "staff": {
     "login_btn": "Personel Girişi",
     "login_title": "Personel Girişi",
@@ -36,7 +41,14 @@
     "col_email": "E-posta",
     "col_actions": "İşlemler",
     "delete": "Sil",
-    "create_btn": "Personel Oluştur"
+    "create_btn": "Personel Oluştur",
+    "confirm_delete": "Bu personeli silmek istiyor musun?",
+    "refreshed_toast": "Liste yenilendi",
+    "deleted_title": "Silindi",
+    "deleted_toast": "Personel silindi",
+
+    "fetch_failed": "Personel listesi alınamadı.",
+    "delete_failed": "Personel silme işlemi başarısız."
   },
   "home": {
     "hero_title": "Sıcak Lezzetler, Samimi Anlar",
@@ -153,14 +165,13 @@
     "cat_soupes": "Çorba",
     "cat_salads": "Salata",
     "menu_category_placeholder": "Kategori seçin",
-    "cat": {
-      "filters": "Filtreler"
-    },
+    "cat": { "filters": "Filtreler" },
     "staff_create_btn": "Personel Oluştur",
     "staff": "Personel",
     "staffPlace": "Personel",
-    "staffSee": "Personelleri Görüntüle"
+    "staffSee": "Personelleri Görüntüle",
 
+    "session_missing": "Admin oturumu bulunamadı. Lütfen tekrar giriş yapın."
   },
   "auth": {
     "login": "Personel Giriş",
@@ -198,21 +209,20 @@
     "completed": "Tamamlanan",
     "search": "Masa, not veya ürünlerde ara...",
     "empty": "Sipariş bulunamadı.",
-     "login_title": "Mutfak Girişi",
+    "login_title": "Mutfak Girişi",
     "login_sub": "Sadece yetkili mutfak personeli giriş yapabilir.",
     "login_btn": "Giriş Yap",
     "login_success": "Mutfak girişi başarılı",
     "invalid_toast": "E-posta veya şifre hatalı"
   },
-    "qr": {
+  "qr": {
     "title": "QR Menü Kodu",
     "subtitle": "QR okutulunca direkt menü açılır.",
     "copy": "Kopyala",
     "copied": "Kopyalandı!",
     "copy_error": "Kopyalanamadı",
     "hint": "Telefonla QR’ı okutmayı dene.",
-    "download": "Indir (PNG)",
-    "download_error": "Indirilemedi"
-
+    "download": "İndir (PNG)",
+    "download_error": "İndirilemedi"
   }
 }

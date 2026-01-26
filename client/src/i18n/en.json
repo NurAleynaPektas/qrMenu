@@ -10,6 +10,11 @@
     "kitchen_panel": "Kitchen Panel",
     "admin_panel": "Admin Panel"
   },
+  "common": {
+    "error_title": "Error",
+    "loading_dots": "...",
+    "loading": "Loading..."
+  },
   "staff": {
     "login_btn": "Staff Login",
     "login_title": "Staff Login",
@@ -36,7 +41,13 @@
     "col_email": "Email",
     "col_actions": "Actions",
     "delete": "Delete",
-    "create_btn": "Create Staff"
+    "create_btn": "Create Staff",
+    "confirm_delete": "Do you want to delete this staff member?",
+    "refreshed_toast": "List refreshed",
+    "deleted_title": "Deleted",
+    "deleted_toast": "Staff deleted",
+    "fetch_failed": "Failed to load staff list.",
+    "delete_failed": "Failed to delete staff member."
   },
   "home": {
     "hero_title": "Warm Flavors, Cozy Moments",
@@ -153,14 +164,12 @@
     "cat_soupes": "Soups",
     "cat_salads": "Salads",
     "menu_category_placeholder": "Select category",
-    "cat": {
-      "filters": "Filters"
-    },
+    "cat": { "filters": "Filters" },
     "staff_create_btn": "Create Staff",
     "staff": "Staff",
     "staffPlace": "Staff",
-    "staffSee": "See Staff"
-
+    "staffSee": "See Staff",
+    "session_missing": "Admin session not found. Please log in again."
   },
   "auth": {
     "login": "Staff Login",
@@ -213,8 +222,5 @@
     "hint": "Try scanning the QR code with your phone.",
     "download": "Download (PNG)",
     "download_error": "Download failed"
-
   }
-
-
 }
