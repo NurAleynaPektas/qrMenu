@@ -7,6 +7,7 @@ require("dotenv").config();
 const orderRoutes = require("./routes/orderRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const tableRoutes = require("./routes/tableRoutes");
+const staffRoutes = require("./routes/staffRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,7 +25,7 @@ app.get("/", (req, res) => {
 app.use("/api/orders", orderRoutes);
 app.use("/api/menu", menuRoutes);
 app.use("/api/tables", tableRoutes);
-
+app.use("/api/staff", staffRoutes);
 async function start() {
   try {
     if (!process.env.MONGO_URI) {

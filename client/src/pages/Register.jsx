@@ -5,7 +5,15 @@ import * as Yup from "yup";
 import s from "./Auth.module.css";
 import { toastSuccess, toastError } from "../utils/toast";
 
-const STAFF_KEY = "ff-staff-credentials";
+function getAdminToken() {
+  try {
+    const raw = window.localStorage.getItem("ff-auth");
+    const parsed = raw ? JSON.parse(raw) : null;
+    return parsed?.token || "";
+  } catch {
+    return "";
+  }
+}
 
 export default function Register() {
   const { t } = useTranslation();
@@ -15,7 +23,7 @@ export default function Register() {
     initialValues: { name: "", email: "", password: "" },
     validationSchema: Yup.object({
       name: Yup.string().required(
-        t("auth.fill_all") || "Please fill all fields."
+        t("auth.fill_all") || "Please fill all fields.",
       ),
       email: Yup.string()
         .email(t("staff.email_invalid") || "Geçerli bir e-posta girin.")
@@ -23,43 +31,54 @@ export default function Register() {
       password: Yup.string()
         .min(
           4,
-          t("auth.password_short") || "Password must be at least 4 chars."
+          t("auth.password_short") || "Password must be at least 4 chars.",
         )
         .required(t("auth.fill_all") || "Please fill all fields."),
     }),
-    onSubmit: (values, { resetForm }) => {
-      const name = values.name.trim();
-      const email = values.email.trim().toLowerCase();
-      const password = values.password.trim();
-
-      // 1) mevcut staff listesi
-      let staffList = [];
+    onSubmit: async (values, { resetForm, setSubmitting }) => {
       try {
-        const raw = window.localStorage.getItem(STAFF_KEY);
-        staffList = raw ? JSON.parse(raw) : [];
-        if (!Array.isArray(staffList)) staffList = [];
-      } catch {
-        staffList = [];
+        const name = values.name.trim();
+        const email = values.email.trim().toLowerCase();
+        const password = values.password.trim();
+
+        const token = getAdminToken();
+
+        if (!token) {
+          toastError(
+            "Admin oturumu bulunamadı. Lütfen tekrar admin giriş yap.",
+          );
+          return;
+        }
+
+        const base = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+        const res = await fetch(`${base}/api/staff/create`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ name, email, password }),
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          throw new Error(
+            data?.message ||
+              t("staff.create_failed") ||
+              "Personel oluşturulamadı.",
+          );
+        }
+
+        toastSuccess(t("staff.created") || "Personel hesabı oluşturuldu.");
+        resetForm();
+        navigate("/admin/dashboard", { replace: true });
+      } catch (err) {
+        toastError(String(err?.message || err || "Hata"));
+      } finally {
+        setSubmitting(false);
       }
-
-      // 2) aynı email var mı?
-      const exists = staffList.some(
-        (u) => String(u.email).toLowerCase() === email
-      );
-      if (exists) {
-        toastError(t("staff.already_exists") || "Bu e-posta zaten kayıtlı.");
-        return;
-      }
-
-      // 3) listeye ekle
-      staffList.push({ name, email, password });
-      window.localStorage.setItem(STAFF_KEY, JSON.stringify(staffList));
-
-      toastSuccess(t("staff.created") || "Personel hesabı oluşturuldu.");
-      resetForm();
-
-      //Admin panelde kalalım
-      navigate("/admin/dashboard", { replace: true });
     },
   });
 
@@ -131,8 +150,14 @@ export default function Register() {
         </div>
 
         <div className={s.actions}>
-          <button type="submit" className={s.submitBtn}>
-            {t("staff.register_btn") || "Personel Oluştur"}
+          <button
+            type="submit"
+            className={s.submitBtn}
+            disabled={formik.isSubmitting}
+          >
+            {formik.isSubmitting
+              ? t("loader.loading") || "Loading..."
+              : t("staff.register_btn") || "Personel Oluştur"}
           </button>
 
           <button
@@ -141,7 +166,7 @@ export default function Register() {
             onClick={() => navigate("/admin/dashboard")}
             style={{ marginTop: 10 }}
           >
-           {t("staff.back_admin") || "Admin Paneline Dön"}
+            {t("staff.back_admin") || "Admin Paneline Dön"}
           </button>
         </div>
       </form>

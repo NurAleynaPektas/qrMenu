@@ -13,6 +13,7 @@
     "@radix-ui/react-select": "^2.2.6",
     "@reduxjs/toolkit": "^2.10.1",
     "axios": "^1.13.2",
+    "firebase": "^12.8.0",
     "formik": "^2.4.9",
     "i18next": "^25.6.0",
     "izitoast": "^1.4.0",

@@ -1,2 +1,5 @@
 /client/node_modules
 /server/node_modules
+server/serviceAccountKey.json
+.env
+server/.env

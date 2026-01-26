@@ -5,20 +5,14 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import s from "./StaffList.module.css";
 
-const STAFF_KEY = "ff-staff-credentials";
-
-function safeReadStaff() {
+function getAdminToken() {
   try {
-    const raw = window.localStorage.getItem(STAFF_KEY);
-    const arr = raw ? JSON.parse(raw) : [];
-    return Array.isArray(arr) ? arr : [];
+    const raw = window.localStorage.getItem("ff-auth");
+    const parsed = raw ? JSON.parse(raw) : null;
+    return parsed?.token || "";
   } catch {
-    return [];
+    return "";
   }
-}
-
-function safeWriteStaff(list) {
-  window.localStorage.setItem(STAFF_KEY, JSON.stringify(list));
 }
 
 export default function StaffList() {
@@ -27,10 +21,37 @@ export default function StaffList() {
 
   const [staff, setStaff] = useState([]);
   const [q, setQ] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // ilk yüklemede localStorage'dan çek
+  const base = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+  const fetchStaff = async () => {
+    setLoading(true);
+    try {
+      const token = getAdminToken();
+      if (!token) throw new Error("Admin oturumu bulunamadı.");
+
+      const res = await fetch(`${base}/api/staff`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const data = await res.json().catch(() => []);
+      if (!res.ok) throw new Error(data?.message || "Liste alınamadı.");
+
+      setStaff(Array.isArray(data) ? data : []);
+    } catch (e) {
+      iziToast.error({
+        title: "Hata",
+        message: String(e?.message || e || "Hata"),
+      });
+      setStaff([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    setStaff(safeReadStaff());
+    fetchStaff();
   }, []);
 
   const filtered = useMemo(() => {
@@ -44,23 +65,34 @@ export default function StaffList() {
   }, [staff, q]);
 
   const handleRefresh = () => {
-    setStaff(safeReadStaff());
+    fetchStaff();
     iziToast.info({ title: "OK", message: "Liste yenilendi" });
   };
 
-  const handleDelete = (email) => {
+  const handleDelete = async (uid) => {
     const ok = window.confirm("Bu personeli silmek istiyor musun?");
     if (!ok) return;
 
-    const current = safeReadStaff();
-    const next = current.filter(
-      (u) => String(u.email).toLowerCase() !== String(email).toLowerCase()
-    );
+    try {
+      const token = getAdminToken();
+      if (!token) throw new Error("Admin oturumu bulunamadı.");
 
-    safeWriteStaff(next);
-    setStaff(next);
+      const res = await fetch(`${base}/api/staff/${uid}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-    iziToast.success({ title: "Silindi", message: "Personel silindi" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.message || "Silme işlemi başarısız.");
+
+      setStaff((prev) => prev.filter((u) => u.uid !== uid));
+      iziToast.success({ title: "Silindi", message: "Personel silindi" });
+    } catch (e) {
+      iziToast.error({
+        title: "Hata",
+        message: String(e?.message || e || "Hata"),
+      });
+    }
   };
 
   return (
@@ -105,13 +137,16 @@ export default function StaffList() {
           className={s.secondaryBtn}
           type="button"
           onClick={handleRefresh}
+          disabled={loading}
         >
-          {t("staff.refresh") || "Yenile"}
+          {loading ? "..." : t("staff.refresh") || "Yenile"}
         </button>
       </section>
 
       <section className={s.tableWrap}>
-        {filtered.length === 0 ? (
+        {loading ? (
+          <p className={s.empty}>{t("loader.loading") || "Loading..."}</p>
+        ) : filtered.length === 0 ? (
           <p className={s.empty}>
             {staff.length === 0
               ? t("staff.empty") || "Henüz personel yok. Personel oluştur."
@@ -129,7 +164,7 @@ export default function StaffList() {
 
             <tbody>
               {filtered.map((u) => (
-                <tr key={u.email}>
+                <tr key={u.uid}>
                   <td>{u.name || "—"}</td>
                   <td>{u.email || "—"}</td>
                   <td>
@@ -137,7 +172,7 @@ export default function StaffList() {
                       <button
                         className={s.dangerBtn}
                         type="button"
-                        onClick={() => handleDelete(u.email)}
+                        onClick={() => handleDelete(u.uid)}
                       >
                         {t("staff.delete") || "Sil"}
                       </button>
