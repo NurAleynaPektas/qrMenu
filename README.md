@@ -46,6 +46,7 @@ Bu sayfalar navbar’da görünmez:
 - React Router (Protected Routes)
 - Node.js & Express
 - MongoDB
+- Firebase
 - Multer (görsel upload)
 - Vercel (Frontend)
 - Render (Backend)
