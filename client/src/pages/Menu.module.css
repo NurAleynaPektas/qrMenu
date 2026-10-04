@@ -1,251 +1,815 @@
+/* =========================================================
+   MENU
+   Mobile First
+
+   Breakpoints:
+   768px
+   1020px
+========================================================= */
+
 .menuPage {
-  padding: 24px 16px 32px;
   min-height: calc(100dvh - 64px);
-  background: var(--bg);
+
+  padding: 50px 16px 80px;
+
   color: var(--text);
-  text-align: center;
+  background: var(--bg);
 }
 
-.title {
-  font-size: 26px;
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: 0.4px;
-  margin-bottom: 6px;
-}
+.menuContainer {
+  width: min(1180px, 100%);
 
-.subtitle {
-  font-size: 15px;
-  color: var(--accent);
-  margin: 0 auto 18px;
-  max-width: 520px;
-  opacity: 0.9;
-}
-
-.errorText {
-  font-size: 14px;
-  color: #b91c1c;
-  margin: 10px 0 14px;
-}
-
-/* Filters (chip/pill like) */
-.filters {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: flex-start;
-  margin: 12px auto 18px;
-  max-width: 1100px;
-  overflow-x: auto;
-  padding: 6px 2px;
-  scrollbar-width: thin;
-}
-
-.filterBtn {
-  flex: 0 0 auto;
-  border-radius: 12px;
-  padding: 9px 16px;
-  font-size: 14px;
-  font-weight: 7500;
-  background: #fff;
-  color: var(--accent);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.filterBtn:hover {
-  border-color: var(--accent);
-  background: var(--accent-light);
-  color: var(--accent);
-}
-
-.filterBtnActive {
-  border-color: var(--accent);
-  background: var(--accent-light);
-  color: var(--accent);
-  font-weight: 800;
-}
-
-/* Grid */
-.grid {
-  display: grid;
-  gap: 18px;
-  grid-template-columns: 1fr;
-  max-width: 1100px;
   margin: 0 auto;
 }
 
-/* Card like your v0 design */
-.card {
-  background: #fff;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  box-shadow: 0 6px 16px var(--shadow);
-  overflow: hidden;
-  text-align: left;
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.menuHeader {
+  margin-bottom: 45px;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(3, 31, 86, 0.25);
-  border-color: var(--accent);
-}
-
-/* Media */
-.media {
-  position: relative;
-  width: 100%;
-}
-
-.cardImg {
-  width: 100%;
-  height: 210px;
-  object-fit: cover;
-  display: block;
-}
-
-/* Popular badge */
-.badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 2;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 800;
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
-}
-
-/* Content */
-.content {
-  padding: 14px 14px 12px;
-}
-
-.cardTitle {
-  font-weight: 900;
-  color: var(--accent);
-  font-size: 18px;
-  margin: 0 0 6px;
-}
-
-.cardDesc {
-  margin: 0 0 12px;
-  color: #555;
-  font-size: 13.5px;
-  line-height: 1.35;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Bottom row: price + button */
-.bottomRow {
+.headerTop {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
   gap: 10px;
+
+  color: var(--accent);
+
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.eyebrowLine {
+  width: 24px;
+  height: 1px;
+
+  background: var(--gold);
+}
+
+.headerNumber {
+  color: var(--accent);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+
+  opacity: 0.5;
+}
+
+
+/* =========================================================
+   HEADER CONTENT
+========================================================= */
+
+.headerContent {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+
+  padding-top: 30px;
+}
+
+.title {
+  max-width: 700px;
+
+  margin: 0;
+
+  color: var(--text);
+
+  font-family: var(--font-heading);
+  font-size: clamp(52px, 14vw, 72px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+
+  text-wrap: balance;
+}
+
+.headerSide {
+  max-width: 440px;
+}
+
+.subtitle {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+.season {
+  display: inline-block;
+
+  margin-top: 18px;
+
+  color: var(--accent);
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.filtersWrap {
+  margin-bottom: 38px;
+
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.filtersLabel {
+  padding-top: 15px;
+
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  width: 100%;
+
+  padding: 17px 0 15px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.filters::-webkit-scrollbar {
+  display: none;
+}
+
+.filterBtn {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  padding: 0 0 8px;
+
+  border: 0;
+
+  color: var(--muted);
+  background: transparent;
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition: color 0.3s ease;
+}
+
+.filterBtn::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 100%;
+  bottom: 0;
+
+  height: 1px;
+
+  background: var(--accent);
+
+  transition: right 0.35s var(--ease);
+}
+
+.filterBtn:hover {
+  color: var(--accent);
+}
+
+.filterBtn:hover::after,
+.filterBtnActive::after {
+  right: 0;
+}
+
+.filterBtnActive {
+  color: var(--accent);
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 46px;
+
+  width: 100%;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.card {
+  min-width: 0;
+
+  background: transparent;
+}
+
+
+/* =========================================================
+   CARD IMAGE
+========================================================= */
+
+.media {
+  position: relative;
+
+  height: 330px;
+
+  overflow: hidden;
+
+  background: var(--accent-light);
+}
+
+.card:nth-child(3n + 1) .media {
+  border-radius: 50px 3px 3px 3px;
+}
+
+.card:nth-child(3n + 2) .media {
+  border-radius: 3px 3px 50px 3px;
+}
+
+.card:nth-child(3n + 3) .media {
+  border-radius: 3px 50px 3px 3px;
+}
+
+.cardImg {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  filter:
+    saturate(0.88)
+    contrast(1.02);
+
+  transition:
+    transform 0.8s var(--ease),
+    filter 0.5s ease;
+}
+
+.card:hover .cardImg {
+  transform: scale(1.04);
+
+  filter:
+    saturate(1)
+    contrast(1.03);
+}
+
+
+/* =========================================================
+   CARD INDEX
+========================================================= */
+
+.cardIndex {
+  position: absolute;
+
+  right: 15px;
+  bottom: 15px;
+
+  display: grid;
+  place-items: center;
+
+  width: 42px;
+  height: 42px;
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+
+  color: #fff;
+  background: rgba(23, 20, 18, 0.3);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   POPULAR BADGE
+========================================================= */
+
+.badge {
+  position: absolute;
+
+  top: 15px;
+  left: 15px;
+
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 8px 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.32);
+
+  color: #fff;
+  background: rgba(100, 28, 35, 0.78);
+
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.badge span {
+  color: var(--gold-light);
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.content {
+  padding: 19px 3px 0;
+}
+
+.cardHeading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.cardTitle {
+  margin: 0;
+
+  color: var(--text);
+
+  font-family: var(--font-heading);
+  font-size: 31px;
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
 }
 
 .cardPrice {
-  margin: 0;
-  font-weight: 900;
+  flex: 0 0 auto;
+
+  margin: 3px 0 0;
+
   color: var(--accent);
-  font-size: 18px;
+
+  font-family: var(--font-heading);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1;
 }
 
-/* Add button: mobile compact +, tablet/desktop text */
+.cardDesc {
+  display: -webkit-box;
+
+  max-width: 90%;
+
+  margin: 13px 0 0;
+
+  overflow: hidden;
+
+  color: var(--muted);
+
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.7;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-top: 18px;
+  padding-top: 14px;
+
+  border-top: 1px solid var(--border);
+}
+
+.category {
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
 .addBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 
-  border: 0;
-  background: var(--accent);
-  color: #fff;
-  font-weight: 900;
+  min-width: 36px;
+  height: 36px;
+
+  padding: 0 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  color: var(--accent);
+  background: transparent;
+
   cursor: pointer;
 
-  height: 42px;
-  min-width: 42px;
-  padding: 0 14px;
-  border-radius: 12px;
-
   transition:
-    transform 0.12s ease,
-    opacity 0.15s ease;
+    color 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s var(--ease);
 }
 
 .addBtn:hover {
-  transform: translateY(-1px);
-  opacity: 0.95;
+  transform: translateY(-2px);
+
+  border-color: var(--accent);
+
+  color: #fff;
+  background: var(--accent);
 }
 
 .plus {
-  font-size: 18px;
-  line-height: 1;
+  flex: 0 0 auto;
 }
 
 .addText {
   display: none;
-  font-size: 13px;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
   white-space: nowrap;
 }
 
-/* Tablet */
-@media (min-width: 760px) {
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.errorBox {
+  margin-bottom: 30px;
+  padding: 18px 20px;
+
+  border-left: 2px solid #b91c1c;
+
+  background: rgba(185, 28, 28, 0.05);
+}
+
+.errorLabel {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #b91c1c;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.errorText {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.emptyState {
+  padding: 70px 20px;
+
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+
+  text-align: center;
+}
+
+.emptyState span {
+  color: var(--accent);
+
+  font-family: var(--font-heading);
+  font-size: 40px;
+}
+
+.emptyState p {
+  max-width: 400px;
+
+  margin: 10px auto 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLET
+   768px+
+========================================================= */
+
+@media (min-width: 768px) {
   .menuPage {
-    padding: 32px 24px 40px;
+    padding: 70px 24px 100px;
   }
+
+
+  /* ---------- HEADER ---------- */
+
+  .menuHeader {
+    margin-bottom: 55px;
+  }
+
+  .headerTop {
+    padding-bottom: 17px;
+  }
+
+  .eyebrow {
+    gap: 12px;
+
+    font-size: 10px;
+  }
+
+  .eyebrowLine {
+    width: 32px;
+  }
+
+  .headerNumber {
+    font-size: 10px;
+  }
+
+  .headerContent {
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 50px;
+
+    align-items: end;
+
+    padding-top: 38px;
+  }
+
+  .title {
+    font-size: clamp(66px, 9vw, 88px);
+  }
+
+  .headerSide {
+    margin-left: auto;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+
+  /* ---------- FILTERS ---------- */
+
+  .filtersWrap {
+    margin-bottom: 48px;
+  }
+
+  .filtersLabel {
+    padding-top: 17px;
+
+    font-size: 9px;
+  }
+
+  .filters {
+    gap: 30px;
+
+    padding: 19px 0 17px;
+  }
+
+  .filterBtn {
+    font-size: 9px;
+  }
+
+
+  /* ---------- GRID ---------- */
 
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 55px 28px;
   }
 
-  .cardImg {
-    height: 230px;
+  .media {
+    height: 310px;
+  }
+
+  .cardTitle {
+    font-size: 32px;
+  }
+
+  .cardDesc {
+    font-size: 13px;
+  }
+
+
+  /* ---------- ADD ---------- */
+
+  .addBtn {
+    min-width: auto;
+
+    height: 36px;
+
+    padding: 0 12px;
+
+    border-radius: 0;
   }
 
   .addText {
     display: inline;
   }
+}
+
+
+/* =========================================================
+   DESKTOP
+   1020px+
+========================================================= */
+
+@media (min-width: 1020px) {
+  .menuPage {
+    padding: 90px 32px 130px;
+  }
+
+
+  /* ---------- HEADER ---------- */
+
+  .menuHeader {
+    margin-bottom: 65px;
+  }
+
+  .headerContent {
+    grid-template-columns: 1.45fr 0.55fr;
+    gap: 80px;
+
+    padding-top: 46px;
+  }
+
+  .title {
+    max-width: 780px;
+
+    font-size: clamp(78px, 7vw, 106px);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+
+  /* ---------- FILTERS ---------- */
+
+  .filtersWrap {
+    margin-bottom: 55px;
+  }
+
+  .filters {
+    gap: 36px;
+  }
+
+
+  /* ---------- GRID ---------- */
+
+  .grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 70px 32px;
+  }
+
+  .media {
+    height: 330px;
+  }
+
+  .card:nth-child(3n + 1) .media {
+    border-radius: 60px 3px 3px 3px;
+  }
+
+  .card:nth-child(3n + 2) .media {
+    border-radius: 3px 3px 60px 3px;
+  }
+
+  .card:nth-child(3n + 3) .media {
+    border-radius: 3px 60px 3px 3px;
+  }
+
+  .content {
+    padding-top: 21px;
+  }
+
+  .cardTitle {
+    font-size: 34px;
+  }
+
+  .cardPrice {
+    font-size: 22px;
+  }
+
+  .cardDesc {
+    font-size: 13px;
+  }
+
+  .cardFooter {
+    margin-top: 20px;
+    padding-top: 16px;
+  }
 
   .addBtn {
-    padding: 0 16px;
-  }
-  .plus {
-    display: none;
+    padding: 0 14px;
   }
 }
 
-/* Desktop */
-@media (min-width: 1020px) {
-  .menuPage {
-    padding: 40px 32px 48px;
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .filterBtn::after,
+  .cardImg,
+  .addBtn {
+    transition: none;
   }
 
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .cardImg {
-    height: 240px;
-  }
-  .plus {
-    display: none;
+  .card:hover .cardImg,
+  .addBtn:hover {
+    transform: none;
   }
 }

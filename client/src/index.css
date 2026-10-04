@@ -1,36 +1,245 @@
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap");
+
 :root {
-  --bg: #fdfdfc;
-  --text: #0c0c0c;
-  --accent: #810404;
-  --accent-dark: #d10404;
-  --accent-light: #f4f2f0;
-  --border: #5f0303;
-  --shadow: rgba(213, 66, 66, 0.499);
-  --font-body: "Inter", "Open Sans", sans-serif;
-  --font-heading: "Poppins", "Inter", sans-serif;
+  /* =========================
+     COLOR SYSTEM
+  ========================= */
+
+  /* warm ivory background */
+  --bg: #f6f2eb;
+
+  /* primary text */
+  --text: #171412;
+
+  /* deep wine */
+  --accent: #641c23;
+
+  /* darker wine */
+  --accent-dark: #3d0e13;
+
+  /* very soft wine / cream */
+  --accent-light: #eee5df;
+
+  /* champagne detail */
+  --gold: #b79a68;
+
+  /* soft gold */
+  --gold-light: #d7c6a5;
+
+  /* secondary text */
+  --muted: #746d66;
+
+  /* borders */
+  --border: rgba(23, 20, 18, 0.14);
+
+  /* shadows */
+  --shadow: rgba(32, 22, 18, 0.1);
+
+  --shadow-lg: rgba(32, 22, 18, 0.16);
+
+  /* surfaces */
+  --surface: #fffdf9;
+
+  --surface-dark: #171412;
+
+  /* =========================
+     TYPOGRAPHY
+  ========================= */
+
+  --font-body:
+    "Inter",
+    "Open Sans",
+    Arial,
+    sans-serif;
+
+  --font-heading:
+    "Cormorant Garamond",
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  /* =========================
+     LAYOUT
+  ========================= */
+
+  --container: 1240px;
+
+  --section-space: clamp(80px, 10vw, 150px);
+
+  /* =========================
+     MOTION
+  ========================= */
+
+  --ease:
+    cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+
+/* =========================
+   RESET
+========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.5;
-  color: var(--text);
   margin: 0;
+
+  min-width: 320px;
+
+  font-family: var(--font-body);
+
+  font-size: 16px;
+
+  line-height: 1.6;
+
+  color: var(--text);
+
   background: var(--bg);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+
+/* =========================
+   TYPOGRAPHY
+========================= */
 
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
+  margin-top: 0;
+
   font-family: var(--font-heading);
-  font-weight: 700;
+
+  font-weight: 600;
+
+  line-height: 1;
+
+  letter-spacing: -0.025em;
 }
+
+p {
+  margin-top: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+
+/* =========================
+   MEDIA
+========================= */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+
+  max-width: 100%;
+}
+
+
+/* =========================
+   SELECTION
+========================= */
+
+::selection {
+  background: var(--accent);
+
+  color: #fff;
+}
+
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 28, 35, 0.45);
+
+  border: 3px solid var(--bg);
+
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+
+/* =========================
+   APP
+========================= */
+
 .appShell {
   min-height: 100vh;
+
   display: flex;
   flex-direction: column;
+
+  overflow-x: hidden;
 }
 
 .appMain {
   flex: 1;
+}
+
+
+/* =========================
+   ACCESSIBILITY
+========================= */
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+
+    scroll-behavior: auto !important;
+  }
 }

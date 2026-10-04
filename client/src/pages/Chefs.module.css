@@ -1,0 +1,636 @@
+/* =========================================================
+   CHEFS
+   Mobile First
+
+   Viewport breakpoints:
+   768px
+   1020px
+========================================================= */
+
+.chefsPage {
+  min-height: calc(100dvh - 64px);
+  padding: 50px 16px 80px;
+
+  color: var(--text);
+  background: var(--bg);
+}
+
+.container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER TOP
+========================================================= */
+
+.sectionTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--accent);
+
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.eyebrowLine {
+  width: 24px;
+  height: 1px;
+
+  background: var(--gold);
+}
+
+.sectionNumber {
+  color: var(--accent);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+
+  opacity: 0.5;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+  margin-bottom: 50px;
+}
+
+.headerGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+
+  padding-top: 32px;
+}
+
+.kicker {
+  margin: 0 0 18px;
+
+  color: var(--gold);
+
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+
+  color: var(--text);
+
+  font-family: var(--font-heading);
+  font-size: clamp(58px, 15vw, 80px);
+  font-weight: 500;
+  line-height: 0.86;
+  letter-spacing: -0.055em;
+}
+
+.headerText {
+  max-width: 500px;
+}
+
+.lead {
+  margin: 0;
+
+  color: var(--text);
+
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.description {
+  margin: 20px 0 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   CHEFS GRID
+========================================================= */
+
+.chefsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 55px;
+
+  margin-bottom: 100px;
+}
+
+
+/* =========================================================
+   CHEF CARD
+========================================================= */
+
+.chefCard {
+  min-width: 0;
+}
+
+.imageWrap {
+  position: relative;
+
+  height: 480px;
+
+  overflow: hidden;
+
+  background: var(--accent-light);
+}
+
+.chefCard:nth-child(1) .imageWrap {
+  border-radius: 3px 55px 3px 3px;
+}
+
+.chefCard:nth-child(2) .imageWrap {
+  border-radius: 55px 3px 3px 3px;
+}
+
+.chefCard:nth-child(3) .imageWrap {
+  border-radius: 3px 3px 55px 3px;
+}
+
+.chefImage {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  filter:
+    saturate(0.82)
+    contrast(1.02);
+
+  transition:
+    transform 0.9s var(--ease),
+    filter 0.5s ease;
+}
+
+.chefCard:hover .chefImage {
+  transform: scale(1.025);
+
+  filter:
+    saturate(0.95)
+    contrast(1.02);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      0deg,
+      rgba(23, 20, 18, 0.4) 0%,
+      rgba(23, 20, 18, 0) 45%
+    );
+
+  pointer-events: none;
+}
+
+.imageNumber {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+
+  display: grid;
+  place-items: center;
+
+  width: 38px;
+  height: 38px;
+
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+
+  color: #fff;
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+
+  backdrop-filter: blur(6px);
+}
+
+
+/* =========================================================
+   CHEF INFO
+========================================================= */
+
+.chefInfo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 20px 2px 0;
+}
+
+.chefName {
+  margin: 0;
+
+  color: var(--text);
+
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.chefRole {
+  margin: 8px 0 0;
+
+  color: var(--muted);
+
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.chefMark {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  border: 1px solid var(--border);
+  border-radius: 50%;
+
+  color: var(--gold);
+
+  font-size: 11px;
+}
+
+
+/* =========================================================
+   PHILOSOPHY
+========================================================= */
+
+.philosophy {
+  position: relative;
+
+  min-height: 500px;
+
+  padding: 28px 24px 35px;
+
+  overflow: hidden;
+
+  color: #fff;
+  background: var(--surface-dark);
+
+  border-radius: 3px 60px 3px 3px;
+}
+
+.philosophyTop {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  justify-content: space-between;
+
+  padding-bottom: 16px;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.14);
+
+  color: var(--gold-light);
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.philosophyContent {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  min-height: 400px;
+
+  padding-top: 80px;
+}
+
+.philosophySmall {
+  margin: 0 0 16px;
+
+  color: var(--gold-light);
+
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.philosophyTitle {
+  margin: 0;
+
+  color: #fff;
+
+  font-family: var(--font-heading);
+  font-size: clamp(48px, 13vw, 72px);
+  font-weight: 500;
+  line-height: 0.87;
+  letter-spacing: -0.05em;
+}
+
+.philosophyText {
+  max-width: 500px;
+
+  margin: 28px 0 0;
+
+  color: rgba(255, 255, 255, 0.62);
+
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   DECORATION
+========================================================= */
+
+.decorativeMark {
+  position: absolute;
+  top: 80px;
+  right: -50px;
+
+  display: grid;
+  place-items: center;
+
+  width: 220px;
+  height: 220px;
+
+  border:
+    1px solid rgba(215, 198, 165, 0.13);
+  border-radius: 50%;
+
+  color: rgba(215, 198, 165, 0.13);
+
+  font-size: 42px;
+}
+
+.decorativeMark::before {
+  content: "";
+
+  position: absolute;
+  inset: 30px;
+
+  border:
+    1px solid rgba(215, 198, 165, 0.12);
+  border-radius: 50%;
+}
+
+
+/* =========================================================
+   TABLET
+   768px+
+========================================================= */
+
+@media (min-width: 768px) {
+  .chefsPage {
+    padding: 70px 24px 100px;
+  }
+
+  .header {
+    margin-bottom: 65px;
+  }
+
+  .sectionTop {
+    padding-bottom: 17px;
+  }
+
+  .eyebrow {
+    gap: 12px;
+
+    font-size: 10px;
+  }
+
+  .eyebrowLine {
+    width: 32px;
+  }
+
+  .headerGrid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 55px;
+
+    align-items: end;
+
+    padding-top: 42px;
+  }
+
+  .title {
+    font-size: clamp(72px, 10vw, 96px);
+  }
+
+  .headerText {
+    margin-left: auto;
+  }
+
+  .lead {
+    font-size: 27px;
+  }
+
+  .chefsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 55px 24px;
+
+    margin-bottom: 115px;
+  }
+
+  .chefCard:nth-child(3) {
+    grid-column: 1 / -1;
+
+    width: calc(50% - 12px);
+    margin: 0 auto;
+  }
+
+  .imageWrap {
+    height: 520px;
+  }
+
+  .chefName {
+    font-size: 34px;
+  }
+
+  .philosophy {
+    min-height: 560px;
+
+    padding: 38px 40px 45px;
+
+    border-radius: 3px 75px 3px 3px;
+  }
+
+  .philosophyContent {
+    min-height: 450px;
+  }
+
+  .philosophyTitle {
+    font-size: clamp(62px, 9vw, 88px);
+  }
+
+  .philosophyText {
+    font-size: 13px;
+  }
+
+  .decorativeMark {
+    top: 95px;
+    right: 40px;
+
+    width: 280px;
+    height: 280px;
+
+    font-size: 55px;
+  }
+}
+
+
+/* =========================================================
+   DESKTOP
+   1020px+
+========================================================= */
+
+@media (min-width: 1020px) {
+  .chefsPage {
+    padding: 90px 32px 130px;
+  }
+
+  .header {
+    margin-bottom: 75px;
+  }
+
+  .headerGrid {
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 90px;
+
+    padding-top: 50px;
+  }
+
+  .title {
+    font-size: clamp(86px, 7vw, 110px);
+  }
+
+  .lead {
+    font-size: 30px;
+  }
+
+  .chefsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+
+    margin-bottom: 135px;
+  }
+
+  .chefCard:nth-child(3) {
+    grid-column: auto;
+
+    width: auto;
+    margin: 0;
+  }
+
+  .imageWrap {
+    height: 570px;
+  }
+
+  .chefCard:nth-child(1) {
+    margin-top: 0;
+  }
+
+  .chefCard:nth-child(2) {
+    margin-top: 70px;
+  }
+
+  .chefCard:nth-child(3) {
+    margin-top: 140px;
+  }
+
+  .chefName {
+    font-size: 36px;
+  }
+
+  .philosophy {
+    min-height: 620px;
+
+    padding: 48px 55px 55px;
+
+    border-radius: 3px 90px 3px 3px;
+  }
+
+  .philosophyContent {
+    min-height: 500px;
+
+    max-width: 760px;
+  }
+
+  .philosophyTitle {
+    font-size: clamp(76px, 6.5vw, 100px);
+  }
+
+  .philosophyText {
+    max-width: 450px;
+
+    margin-top: 32px;
+  }
+
+  .decorativeMark {
+    top: 110px;
+    right: 70px;
+
+    width: 340px;
+    height: 340px;
+
+    font-size: 65px;
+  }
+
+  .decorativeMark::before {
+    inset: 45px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .chefImage {
+    transition: none;
+  }
+
+  .chefCard:hover .chefImage {
+    transform: none;
+  }
+}

@@ -1,14 +1,20 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import s from "./HeroDeck.module.css";
 
-function useInterval(cb, delay, running = true) {
-  const ref = useRef(cb);
+function useInterval(callback, delay, running = true) {
+  const savedCallback = useRef(callback);
+
   useEffect(() => {
-    ref.current = cb;
-  }, [cb]);
+    savedCallback.current = callback;
+  }, [callback]);
+
   useEffect(() => {
     if (!running || delay == null) return;
-    const id = setInterval(() => ref.current(), delay);
+
+    const id = setInterval(() => {
+      savedCallback.current();
+    }, delay);
+
     return () => clearInterval(id);
   }, [delay, running]);
 }
@@ -17,116 +23,163 @@ export default function HeroDeck({
   slides = [],
   title,
   subtitle,
-  ctaText = "See Menu",
+  ctaText = "Explore Menu",
   ctaHref = "/menu",
-  autoplayMs = 4000,
+  autoplayMs = 5000,
 }) {
   const [idx, setIdx] = useState(0);
   const [paused, setPaused] = useState(false);
+  const touchStartX = useRef(null);
 
-  const go = (i) => setIdx((i + slides.length) % slides.length);
-  const next = () => go(idx + 1);
-  const prev = () => go(idx - 1);
+  const slideCount = slides.length;
 
-  useInterval(next, autoplayMs, !paused);
+  const goTo = (index) => {
+    if (!slideCount) return;
+
+    setIdx((index + slideCount) % slideCount);
+  };
+
+  const next = () => {
+    goTo(idx + 1);
+  };
+
+  const prev = () => {
+    goTo(idx - 1);
+  };
+
+  useInterval(next, autoplayMs, !paused && slideCount > 1);
 
   useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
+    const handleKeyDown = (event) => {
+      if (event.key === "ArrowRight") {
+        next();
+      }
+
+      if (event.key === "ArrowLeft") {
+        prev();
+      }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [idx]);
 
-
-  const startX = useRef(null);
-  const onTouchStart = (e) => (startX.current = e.touches[0].clientX);
-  const onTouchEnd = (e) => {
-    if (startX.current == null) return;
-    const dx = e.changedTouches[0].clientX - startX.current;
-    if (Math.abs(dx) > 40) dx < 0 ? next() : prev();
-    startX.current = null;
+  const handleTouchStart = (event) => {
+    touchStartX.current = event.touches[0].clientX;
   };
 
-  const posClass = (i) => {
-    const n = slides.length || 1;
-    const diff = (i - idx + n) % n;
-    const map = (d) => (d > n / 2 ? d - n : d);
-    const d = map(diff);
-    if (d === 0) return s.isActive;
-    if (d === -1) return s.isPrev;
-    if (d === 1) return s.isNext;
-    if (d === -2) return s.isPrev2;
-    if (d === 2) return s.isNext2;
-    return s.isFar;
+  const handleTouchEnd = (event) => {
+    if (touchStartX.current === null) return;
+
+    const difference = event.changedTouches[0].clientX - touchStartX.current;
+
+    if (Math.abs(difference) > 50) {
+      difference < 0 ? next() : prev();
+    }
+
+    touchStartX.current = null;
   };
 
-  const enableHover = useMemo(() => {
-    if (typeof window === "undefined") return false;
-    return (
-      window.matchMedia?.("(hover: hover) and (pointer: fine)")?.matches ?? true
-    );
-  }, []);
+  const formatNumber = (number) => {
+    return String(number).padStart(2, "0");
+  };
+
+  if (!slideCount) return null;
 
   return (
     <section
       className={s.hero}
-      aria-label="Hero"
-      onMouseEnter={() => enableHover && setPaused(true)}
-      onMouseLeave={() => enableHover && setPaused(false)}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
+      aria-label="Featured restaurant experience"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
-      <div className={s.inner}>
-        <div className={s.deck} role="list">
-          {slides.map((sl, i) => (
-            <figure
-              key={(sl.src || "") + i}
-              role="listitem"
-              className={`${s.card} ${posClass(i)}`}
-              aria-hidden={i !== idx}
-            >
-              <img className={s.img} src={sl.src} alt={sl.alt || "slide"} />
-            </figure>
-          ))}
+      {/* IMAGES */}
+      <div className={s.slides}>
+        {slides.map((slide, index) => (
+          <div
+            key={`${slide.src}-${index}`}
+            className={`${s.slide} ${index === idx ? s.slideActive : ""}`}
+            aria-hidden={index !== idx}
+          >
+            <img
+              className={s.image}
+              src={slide.src}
+              alt={slide.alt || "Restaurant"}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* DARK OVERLAY */}
+      <div className={s.overlay} />
+
+      {/* CONTENT */}
+      <div className={s.content}>
+        <div className={s.eyebrow}>
+          <span className={s.eyebrowLine} />
+          <span>Modern Dining Experience</span>
         </div>
-        <div className={s.copy}>
-          {title && <h1 className={s.title}>{title}</h1>}
-          {subtitle && <p className={s.subtitle}>{subtitle}</p>}
-          {ctaText && (
-            <a className={s.btn} href={ctaHref}>
-              {ctaText}
-            </a>
-          )}
+
+        {title && <h1 className={s.title}>{title}</h1>}
+
+        {subtitle && <p className={s.subtitle}>{subtitle}</p>}
+
+        {ctaText && (
+          <a className={s.cta} href={ctaHref}>
+            <span>{ctaText}</span>
+            <span className={s.ctaArrow}>→</span>
+          </a>
+        )}
+      </div>
+
+      {/* BOTTOM CONTROLS */}
+      <div className={s.bottomBar}>
+        <div className={s.navigation}>
+          <button
+            type="button"
+            className={s.navButton}
+            onClick={prev}
+            aria-label="Previous slide"
+          >
+            ←
+          </button>
+
+          <button
+            type="button"
+            className={s.navButton}
+            onClick={next}
+            aria-label="Next slide"
+          >
+            →
+          </button>
         </div>
-        <button
-          type="button"
-          className={`${s.nav} ${s.left}`}
-          aria-label="Previous"
-          onClick={prev}
-        >
-          ‹
-        </button>
-        <button
-          type="button"
-          className={`${s.nav} ${s.right}`}
-          aria-label="Next"
-          onClick={next}
-        >
-          ›
-        </button>
-        <div className={s.dots} aria-label="Slide controls">
-          {slides.map((_, i) => (
+
+        <div className={s.progress}>
+          {slides.map((_, index) => (
             <button
-              key={i}
+              key={index}
               type="button"
-              className={`${s.dot} ${i === idx ? s.dotActive : ""}`}
-              aria-label={`Go to slide ${i + 1}`}
-              aria-current={i === idx ? "true" : "false"}
-              onClick={() => go(i)}
+              className={`${s.progressItem} ${
+                index === idx ? s.progressActive : ""
+              }`}
+              onClick={() => goTo(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              aria-current={index === idx ? "true" : undefined}
             />
           ))}
+        </div>
+
+        <div className={s.counter}>
+          <span className={s.current}>{formatNumber(idx + 1)}</span>
+
+          <span className={s.counterDivider}>/</span>
+
+          <span>{formatNumber(slideCount)}</span>
         </div>
       </div>
     </section>

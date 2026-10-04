@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import s from "./Navbar.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
+import { LogOut, Menu, X, Globe2 } from "lucide-react";
+
+import s from "./Navbar.module.css";
 import { logout } from "../redux/authSlice";
-import { LogOut } from "lucide-react";
 import { toastSuccess } from "../utils/toast";
 import Loader from "../components/Loader";
 
@@ -14,36 +15,55 @@ const Navbar = () => {
   const [loggingOut, setLoggingOut] = useState(false);
 
   const { t, i18n } = useTranslation();
+
   const langRef = useRef(null);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { user, role } = useSelector((state) => state.auth);
+
   const isAdmin = role === "admin";
   const isStaff = role === "staff";
   const isKitchen = role === "kitchen";
 
+  const current = (i18n.language || "en").toUpperCase().slice(0, 2);
+
+  const isActive = (path) => location.pathname === path;
+
+  const closeMenus = () => {
+    setOpen(false);
+    setLangOpen(false);
+  };
+
   const changeLang = (lng) => {
     i18n.changeLanguage(lng);
     localStorage.setItem("lng", lng);
-    setLangOpen(false);
-    setOpen(false);
+
+    closeMenus();
   };
 
   useEffect(() => {
-    const onClickOutside = (e) => {
-      if (langRef.current && !langRef.current.contains(e.target)) {
+    const onClickOutside = (event) => {
+      if (langRef.current && !langRef.current.contains(event.target)) {
         setLangOpen(false);
       }
     };
+
     document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", onClickOutside);
+    };
   }, []);
 
-  const current = (i18n.language || "en").toUpperCase().slice(0, 2);
+  useEffect(() => {
+    setOpen(false);
+    setLangOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
-    // ✅ Loader aç
     setLoggingOut(true);
 
     try {
@@ -55,14 +75,12 @@ const Navbar = () => {
       // ignore
     }
 
-    // ✅ Redux logout
     dispatch(logout());
 
-    // ✅ Toast + menüyü kapat
     toastSuccess(t("auth.logout") || "Logged out");
-    setOpen(false);
 
-    // ✅ küçük geçiş hissi (opsiyonel)
+    closeMenus();
+
     setTimeout(() => {
       navigate("/", { replace: true });
       setLoggingOut(false);
@@ -71,141 +89,244 @@ const Navbar = () => {
 
   return (
     <>
-      {/* ✅ Logout sırasında overlay Loader */}
       {loggingOut && <Loader />}
 
       <header className={s.navbar}>
-        <Link className={s.navbarLogo} to="/" onClick={() => setOpen(false)}>
-          {t("brand")}
+        {/* ===============================================
+            BRAND
+        =============================================== */}
+
+        <Link
+          className={s.navbarLogo}
+          to="/"
+          onClick={closeMenus}
+          aria-label={t("brand")}
+        >
+          <span className={s.logoMark} aria-hidden="true">
+            ✦
+          </span>
+
+          <span className={s.logoText}>{t("brand")}</span>
         </Link>
 
-        <nav className={`${s.navbarRight} ${open ? s.showMenu : ""}`}>
-          <Link to="/" onClick={() => setOpen(false)}>
-            {t("nav.home")}
-          </Link>
+        {/* ===============================================
+            NAVIGATION
+        =============================================== */}
 
-          <Link to="/menu" onClick={() => setOpen(false)}>
-            {t("nav.menu")}
-          </Link>
+        <nav
+          className={`${s.navbarRight} ${open ? s.showMenu : ""}`}
+          aria-label="Main navigation"
+        >
+          <div className={s.mainLinks}>
+            {/* HOME */}
 
-          {/* Cart sadece STAFF */}
-          {isStaff && (
-            <Link to="/cart" onClick={() => setOpen(false)}>
-              {t("nav.my_cart")}
-            </Link>
-          )}
-
-          {/* Kitchen link */}
-          {isKitchen && (
             <Link
-              to="/kitchen"
-              onClick={() => setOpen(false)}
-              className={s.adminLink}
+              to="/"
+              className={isActive("/") ? s.activeLink : ""}
+              onClick={closeMenus}
             >
-              {t("nav.kitchen_panel") || "Kitchen Panel"}
+              {t("nav.home")}
             </Link>
-          )}
 
-          {/* Admin link */}
-          {isAdmin && (
+            {/* ABOUT */}
+
             <Link
-              to="/admin/dashboard"
-              onClick={() => setOpen(false)}
-              className={s.adminLink}
+              to="/about"
+              className={isActive("/about") ? s.activeLink : ""}
+              onClick={closeMenus}
             >
-              {t("nav.admin_panel") || "Admin Panel"}
+              {t("nav.about") || "About"}
             </Link>
-          )}
 
-          {/* Auth alanı */}
-          <div className={s.authArea}>
-            {user ? (
-              <>
-                <span className={s.userName}>{user.name || user.email}</span>
+            {/* MENU */}
 
-                <button
-                  className={s.logoutIconBtn}
-                  onClick={handleLogout}
-                  aria-label={t("auth.logout") || "Logout"}
-                  title={t("auth.logout") || "Logout"}
-                  disabled={loggingOut}
-                >
-                  <LogOut size={20} strokeWidth={2.2} />
-                </button>
-              </>
-            ) : (
+            <Link
+              to="/menu"
+              className={isActive("/menu") ? s.activeLink : ""}
+              onClick={closeMenus}
+            >
+              {t("nav.menu")}
+            </Link>
+
+            {/* CHEFS */}
+
+            <Link
+              to="/chefs"
+              className={isActive("/chefs") ? s.activeLink : ""}
+              onClick={closeMenus}
+            >
+              {t("nav.chefs") || "Chefs"}
+            </Link>
+
+            {/* CART - STAFF ONLY */}
+
+            {isStaff && (
               <Link
-                to="/login"
-                className={s.authLinkAccent}
-                onClick={() => setOpen(false)}
+                to="/cart"
+                className={isActive("/cart") ? s.activeLink : ""}
+                onClick={closeMenus}
               >
-                {t("staff.login_btn") || "Personel Girişi"}
+                {t("nav.my_cart")}
+              </Link>
+            )}
+
+            {/* KITCHEN */}
+
+            {isKitchen && (
+              <Link to="/kitchen" onClick={closeMenus} className={s.adminLink}>
+                {t("nav.kitchen_panel") || "Kitchen Panel"}
+              </Link>
+            )}
+
+            {/* ADMIN */}
+
+            {isAdmin && (
+              <Link
+                to="/admin/dashboard"
+                onClick={closeMenus}
+                className={s.adminLink}
+              >
+                {t("nav.admin_panel") || "Admin Panel"}
               </Link>
             )}
           </div>
 
-          {/* Dil seçimi */}
-          <div className={s.langMenuWrap} ref={langRef}>
-            <button
-              className={s.langToggle}
-              onClick={() => setLangOpen((v) => !v)}
-              aria-haspopup="menu"
-              aria-expanded={langOpen}
-              aria-label="Select language"
-              title="Language"
-              disabled={loggingOut}
-            >
-              <span className={s.globe} aria-hidden>
-                🌐
-              </span>
-              <span className={s.langCode}>{current}</span>
-            </button>
+          {/* =============================================
+              RIGHT ACTIONS
+          ============================================= */}
 
-            <ul
-              className={`${s.langMenu} ${langOpen ? s.showLangMenu : ""}`}
-              role="menu"
-            >
-              <li role="menuitem">
-                <button
-                  className={s.langItem}
-                  onClick={() => changeLang("tr")}
-                  disabled={loggingOut}
+          <div className={s.navActions}>
+            {/* AUTH */}
+
+            <div className={s.authArea}>
+              {user ? (
+                <>
+                  <span className={s.userName}>{user.name || user.email}</span>
+
+                  <button
+                    type="button"
+                    className={s.logoutIconBtn}
+                    onClick={handleLogout}
+                    aria-label={t("auth.logout") || "Logout"}
+                    title={t("auth.logout") || "Logout"}
+                    disabled={loggingOut}
+                  >
+                    <LogOut size={17} strokeWidth={1.8} />
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className={s.authLinkAccent}
+                  onClick={closeMenus}
                 >
-                  {t("nav.lang_tr")}
-                </button>
-              </li>
-              <li role="menuitem">
-                <button
-                  className={s.langItem}
-                  onClick={() => changeLang("en")}
-                  disabled={loggingOut}
+                  {t("staff.login_btn") || "Personel Girişi"}
+                </Link>
+              )}
+            </div>
+
+            {/* =============================================
+                LANGUAGE
+            ============================================= */}
+
+            <div className={s.langMenuWrap} ref={langRef}>
+              <button
+                type="button"
+                className={s.langToggle}
+                onClick={() => setLangOpen((value) => !value)}
+                aria-haspopup="menu"
+                aria-expanded={langOpen}
+                aria-label="Select language"
+                title="Language"
+                disabled={loggingOut}
+              >
+                <Globe2 className={s.globe} size={16} strokeWidth={1.6} />
+
+                <span className={s.langCode}>{current}</span>
+
+                <span
+                  className={`${s.langArrow} ${
+                    langOpen ? s.langArrowOpen : ""
+                  }`}
+                  aria-hidden="true"
                 >
-                  {t("nav.lang_en")}
-                </button>
-              </li>
-              <li role="menuitem">
-                <button
-                  className={s.langItem}
-                  onClick={() => changeLang("fr")}
-                  disabled={loggingOut}
-                >
-                  {t("nav.lang_fr")}
-                </button>
-              </li>
-            </ul>
+                  ↓
+                </span>
+              </button>
+
+              <ul
+                className={`${s.langMenu} ${langOpen ? s.showLangMenu : ""}`}
+                role="menu"
+              >
+                {/* TURKISH */}
+
+                <li role="none">
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className={s.langItem}
+                    onClick={() => changeLang("tr")}
+                    disabled={loggingOut}
+                  >
+                    <span>TR</span>
+
+                    <span>{t("nav.lang_tr")}</span>
+                  </button>
+                </li>
+
+                {/* ENGLISH */}
+
+                <li role="none">
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className={s.langItem}
+                    onClick={() => changeLang("en")}
+                    disabled={loggingOut}
+                  >
+                    <span>EN</span>
+
+                    <span>{t("nav.lang_en")}</span>
+                  </button>
+                </li>
+
+                {/* FRENCH */}
+
+                <li role="none">
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className={s.langItem}
+                    onClick={() => changeLang("fr")}
+                    disabled={loggingOut}
+                  >
+                    <span>FR</span>
+
+                    <span>{t("nav.lang_fr")}</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </nav>
 
+        {/* ===============================================
+            MOBILE MENU BUTTON
+        =============================================== */}
+
         <button
+          type="button"
           className={s.burger}
-          onClick={() => setOpen(!open)}
-          aria-label="menu"
+          onClick={() => setOpen((value) => !value)}
+          aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           disabled={loggingOut}
         >
-          <span />
-          <span />
-          <span />
+          {open ? (
+            <X size={22} strokeWidth={1.7} />
+          ) : (
+            <Menu size={23} strokeWidth={1.7} />
+          )}
         </button>
       </header>
     </>

@@ -1,57 +1,105 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Loader from "./components/Loader";
 import StaffList from "./pages/StaffList";
 
-// Lazy-loaded pages
+// =========================================================
+// LAZY-LOADED PUBLIC PAGES
+// =========================================================
+
 const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
 const Menu = lazy(() => import("./pages/Menu"));
+const Chefs = lazy(() => import("./pages/Chefs"));
+
 const Cart = lazy(() => import("./pages/Cart"));
 const Checkout = lazy(() => import("./pages/Checkout"));
+
+// =========================================================
+// ADMIN
+// =========================================================
 
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
+// =========================================================
+// KITCHEN
+// =========================================================
+
 const KitchenLogin = lazy(() => import("./pages/KitchenLogin"));
+
 const Kitchen = lazy(() => import("./pages/Kitchen"));
+
+// =========================================================
+// AUTH
+// =========================================================
 
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
-const NotFound = lazy(() => import("./pages/NotFound"));
 
+// =========================================================
+// OTHER
+// =========================================================
+
+const NotFound = lazy(() => import("./pages/NotFound"));
 const QrGenerator = lazy(() => import("./pages/QrGenerator"));
+
+// =========================================================
+// SCROLL TO TOP
+// =========================================================
 
 function ScrollToTop() {
   const { pathname } = useLocation();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
   return null;
 }
+
+// =========================================================
+// APP
+// =========================================================
 
 export default function App() {
   return (
     <div className="appShell">
       <Navbar />
+
       <ScrollToTop />
 
       <div className="appMain">
         <Suspense fallback={<Loader />}>
           <Routes>
-            {/* Public */}
+            {/* =============================================
+                PUBLIC
+            ============================================= */}
+
             <Route path="/" element={<Home />} />
+
+            <Route path="/about" element={<About />} />
+
             <Route path="/menu" element={<Menu />} />
 
-            {/* QR redirect */}
+            <Route path="/chefs" element={<Chefs />} />
+
+            {/* =============================================
+                QR
+            ============================================= */}
+
             <Route path="/qr" element={<Navigate to="/menu" replace />} />
 
-            {/* QR generator page (temporary public) */}
             <Route path="/qr-code" element={<QrGenerator />} />
 
-            {/* Staff only */}
+            {/* =============================================
+                STAFF
+            ============================================= */}
+
             <Route
               path="/cart"
               element={
@@ -60,6 +108,7 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/checkout"
               element={
@@ -69,8 +118,12 @@ export default function App() {
               }
             />
 
-            {/* Admin */}
+            {/* =============================================
+                ADMIN
+            ============================================= */}
+
             <Route path="/admin/login" element={<AdminLogin />} />
+
             <Route
               path="/admin/dashboard"
               element={
@@ -83,7 +136,6 @@ export default function App() {
               }
             />
 
-            {/* Admin Staff List */}
             <Route
               path="/admin/staff"
               element={
@@ -96,7 +148,6 @@ export default function App() {
               }
             />
 
-            {/* Admin Staff Create */}
             <Route
               path="/admin/staff/create"
               element={
@@ -109,8 +160,12 @@ export default function App() {
               }
             />
 
-            {/* Kitchen */}
+            {/* =============================================
+                KITCHEN
+            ============================================= */}
+
             <Route path="/kitchen/login" element={<KitchenLogin />} />
+
             <Route
               path="/kitchen"
               element={
@@ -123,10 +178,16 @@ export default function App() {
               }
             />
 
-            {/* Staff Login */}
+            {/* =============================================
+                STAFF LOGIN
+            ============================================= */}
+
             <Route path="/login" element={<Login />} />
 
-            {/* 404 */}
+            {/* =============================================
+                404
+            ============================================= */}
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
