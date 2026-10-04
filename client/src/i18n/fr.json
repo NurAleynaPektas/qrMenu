@@ -324,5 +324,13 @@
 "chef2_role": "Sous-Chef",
 "chef3_name": "Osman Atik",
 "chef3_role": "Chef Pâtissier"
+},
+"footer": {
+  "restaurant": "Cuisine Moderne",
+  "tagline": "Une expérience gastronomique mémorable, façonnée par les saveurs, l'atmosphère et une cuisine pensée avec soin.",
+  "made_by": "Réalisé par",
+  "back_to_top": "Retour en haut",
+  "social_links": "Liens vers les réseaux sociaux",
+  "email": "E-mail"
 }
 }

@@ -325,5 +325,13 @@
 "chef2_role": "Sous Chef",
 "chef3_name": "Osman Atik",
 "chef3_role": "Pastane Şefi"
+},
+"footer": {
+  "restaurant": "Modern Gastronomi",
+  "tagline": "Lezzet, atmosfer ve özenle hazırlanan unutulmaz bir yemek deneyimi.",
+  "made_by": "Geliştiren",
+  "back_to_top": "Yukarı dön",
+  "social_links": "Sosyal medya bağlantıları",
+  "email": "E-posta"
 }
 }

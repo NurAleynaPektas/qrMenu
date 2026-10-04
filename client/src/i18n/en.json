@@ -323,5 +323,13 @@
 "chef2_role": "Sous Chef",
 "chef3_name": "Osman Atik",
 "chef3_role": "Pastry Chef"
+},
+"footer": {
+  "restaurant": "Modern Dining",
+  "tagline": "A memorable dining experience shaped by flavour, atmosphere and thoughtful cuisine.",
+  "made_by": "Made by",
+  "back_to_top": "Back to top",
+  "social_links": "Social media links",
+  "email": "Email"
 }
 }
