@@ -49,22 +49,22 @@ export default function Menu() {
   const categoryLabel = (cat) => {
     switch (cat) {
       case "MAIN":
-        return t("admin.cat_main") || "Ana Yemek";
+        return t("admin.cat_main");
 
       case "DRINK":
-        return t("admin.cat_drink") || "İçecek";
+        return t("admin.cat_drink");
 
       case "APPETIZER":
-        return t("admin.cat_appetizer") || "Aperatif";
+        return t("admin.cat_appetizer");
 
       case "DESSERT":
-        return t("admin.cat_dessert") || "Tatlı";
+        return t("admin.cat_dessert");
 
       case "SOUPE":
-        return t("admin.cat_soupes") || "Çorba";
+        return t("admin.cat_soupes");
 
       case "SALAD":
-        return t("admin.cat_salads") || "Salata";
+        return t("admin.cat_salads");
 
       default:
         return cat;
@@ -104,10 +104,8 @@ export default function Menu() {
   const handleAddToCart = (item) => {
     if (!user || role !== "staff") {
       iziToast.show({
-        title: t("staff.login_title") || "Personel Girişi",
-        message:
-          t("staff.login_to_order") ||
-          "Sipariş oluşturmak için personel girişi yapın.",
+        title: t("staff.login_title"),
+        message: t("staff.login_to_order"),
         backgroundColor: "#641c23",
         titleColor: "#ffffff",
         messageColor: "#fef2f2",
@@ -138,8 +136,8 @@ export default function Menu() {
     );
 
     iziToast.show({
-      title: t("home.added_title") || "Success",
-      message: `${label} ${t("home.added_msg")}` || `${label} added to cart.`,
+      title: t("home.added_title"),
+      message: `${label} ${t("home.added_msg")}`,
       backgroundColor: "#641c23",
       titleColor: "#ffffff",
       messageColor: "#fff8f5",
@@ -163,7 +161,7 @@ export default function Menu() {
           <div className={s.headerTop}>
             <div className={s.eyebrow}>
               <span className={s.eyebrowLine} />
-              <span>Our Menu</span>
+              <span>{t("menu.eyebrow")}</span>
             </div>
 
             <span className={s.headerNumber}>01</span>
@@ -175,7 +173,7 @@ export default function Menu() {
             <div className={s.headerSide}>
               <p className={s.subtitle}>{t("home.about_p2")}</p>
 
-              <span className={s.season}>Seasonal · Fresh · Crafted</span>
+              <span className={s.season}>{t("menu.season")}</span>
             </div>
           </div>
         </header>
@@ -185,11 +183,9 @@ export default function Menu() {
         ================================================= */}
         {error && (
           <div className={s.errorBox}>
-            <span className={s.errorLabel}>Error</span>
+            <span className={s.errorLabel}>{t("common.error_title")}</span>
 
-            <p className={s.errorText}>
-              {error || "Failed to load menu. Please try again."}
-            </p>
+            <p className={s.errorText}>{error || t("menu.load_error")}</p>
           </div>
         )}
 
@@ -198,7 +194,7 @@ export default function Menu() {
         ================================================= */}
         {!error && categories.length > 0 && (
           <div className={s.filtersWrap}>
-            <div className={s.filtersLabel}>Categories</div>
+            <div className={s.filtersLabel}>{t("menu.categories")}</div>
 
             <div className={s.filters}>
               <button
@@ -208,7 +204,7 @@ export default function Menu() {
                 }`}
                 onClick={() => setActiveCategory("all")}
               >
-                <span>{t("admin.filter_all") || "Tümü"}</span>
+                <span>{t("admin.filter_all")}</span>
               </button>
 
               {categories.map((cat) => (
@@ -231,7 +227,7 @@ export default function Menu() {
             MENU GRID
         ================================================= */}
         {!error && (
-          <section className={s.grid} aria-label="Menu items">
+          <section className={s.grid} aria-label={t("menu.items_aria")}>
             {filteredItems.map((item, index) => {
               const label = item.nameKey ? t(item.nameKey) : item.name;
 
@@ -263,8 +259,7 @@ export default function Menu() {
                     {isPopular && (
                       <span className={s.badge}>
                         <span>★</span>
-
-                        {t("home.popular") || "Popüler"}
+                        {t("menu.popular")}
                       </span>
                     )}
                   </div>
@@ -288,13 +283,11 @@ export default function Menu() {
                         type="button"
                         className={s.addBtn}
                         onClick={() => handleAddToCart(item)}
-                        aria-label={`${t("home.add") || "Sepete Ekle"}: ${label}`}
+                        aria-label={`${t("menu.add")}: ${label}`}
                       >
                         <Plus className={s.plus} size={16} strokeWidth={1.7} />
 
-                        <span className={s.addText}>
-                          {t("home.add") || "Sepete Ekle"}
-                        </span>
+                        <span className={s.addText}>{t("menu.add")}</span>
                       </button>
                     </div>
                   </div>
@@ -306,9 +299,9 @@ export default function Menu() {
 
         {!error && filteredItems.length === 0 && (
           <div className={s.emptyState}>
-            <span>Menu</span>
+            <span>{t("menu.empty_label")}</span>
 
-            <p>No dishes are currently available in this category.</p>
+            <p>{t("menu.empty_text")}</p>
           </div>
         )}
       </div>

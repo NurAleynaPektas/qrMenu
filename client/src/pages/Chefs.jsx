@@ -11,20 +11,20 @@ export default function Chefs() {
   const chefs = [
     {
       id: "01",
-      name: t("home.chef1_name") || "Executive Chef",
-      role: t("home.chef1_role") || "Executive Chef",
+      name: t("chefs.chef1_name"),
+      role: t("chefs.chef1_role"),
       image: chef1,
     },
     {
       id: "02",
-      name: t("home.chef2_name") || "Sous Chef",
-      role: t("home.chef2_role") || "Sous Chef",
+      name: t("chefs.chef2_name"),
+      role: t("chefs.chef2_role"),
       image: chef2,
     },
     {
       id: "03",
-      name: t("home.chef3_name") || "Pastry Chef",
-      role: t("home.chef3_role") || "Pastry Chef",
+      name: t("chefs.chef3_name"),
+      role: t("chefs.chef3_role"),
       image: chef3,
     },
   ];
@@ -32,12 +32,15 @@ export default function Chefs() {
   return (
     <main className={s.chefsPage}>
       <div className={s.container}>
-        {/* HEADER */}
+        {/* ================================================
+            HEADER
+        ================================================ */}
+
         <header className={s.header}>
           <div className={s.sectionTop}>
             <div className={s.eyebrow}>
               <span className={s.eyebrowLine} />
-              <span>Meet the team</span>
+              <span>{t("chefs.eyebrow")}</span>
             </div>
 
             <span className={s.sectionNumber}>01</span>
@@ -45,30 +48,24 @@ export default function Chefs() {
 
           <div className={s.headerGrid}>
             <div>
-              <p className={s.kicker}>Passion · Precision · Craft</p>
+              <p className={s.kicker}>{t("chefs.kicker")}</p>
 
-              <h1 className={s.title}>
-                {t("home.chefs_title") || "Our Chefs"}
-              </h1>
+              <h1 className={s.title}>{t("home.chefs_title")}</h1>
             </div>
 
             <div className={s.headerText}>
-              <p className={s.lead}>
-                Behind every plate is a team driven by curiosity, technique and
-                respect for every ingredient.
-              </p>
+              <p className={s.lead}>{t("chefs.lead")}</p>
 
-              <p className={s.description}>
-                Our kitchen brings together craftsmanship and a modern approach
-                to create a dining experience built around flavour, detail and
-                simplicity.
-              </p>
+              <p className={s.description}>{t("chefs.description")}</p>
             </div>
           </div>
         </header>
 
-        {/* CHEFS */}
-        <section className={s.chefsGrid} aria-label="Our chefs">
+        {/* ================================================
+            CHEFS
+        ================================================ */}
+
+        <section className={s.chefsGrid} aria-label={t("chefs.aria_label")}>
           {chefs.map((chef) => (
             <article className={s.chefCard} key={chef.id}>
               <div className={s.imageWrap}>
@@ -94,27 +91,26 @@ export default function Chefs() {
           ))}
         </section>
 
-        {/* PHILOSOPHY */}
+        {/* ================================================
+            PHILOSOPHY
+        ================================================ */}
+
         <section className={s.philosophy}>
           <div className={s.philosophyTop}>
-            <span>Kitchen philosophy</span>
+            <span>{t("chefs.philosophy_label")}</span>
             <span>02</span>
           </div>
 
           <div className={s.philosophyContent}>
-            <p className={s.philosophySmall}>Our approach</p>
+            <p className={s.philosophySmall}>{t("chefs.approach")}</p>
 
             <h2 className={s.philosophyTitle}>
-              Great food begins
+              {t("chefs.philosophy_title_1")}
               <br />
-              with respect.
+              {t("chefs.philosophy_title_2")}
             </h2>
 
-            <p className={s.philosophyText}>
-              Respect for the ingredient, the season, the technique and the
-              people gathered around the table. Our chefs focus on thoughtful
-              cooking rather than unnecessary complexity.
-            </p>
+            <p className={s.philosophyText}>{t("chefs.philosophy_text")}</p>
           </div>
 
           <div className={s.decorativeMark} aria-hidden="true">

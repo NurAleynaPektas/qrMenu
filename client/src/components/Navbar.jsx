@@ -77,7 +77,7 @@ const Navbar = () => {
 
     dispatch(logout());
 
-    toastSuccess(t("auth.logout") || "Logged out");
+    toastSuccess(t("auth.logout"));
 
     closeMenus();
 
@@ -115,7 +115,7 @@ const Navbar = () => {
 
         <nav
           className={`${s.navbarRight} ${open ? s.showMenu : ""}`}
-          aria-label="Main navigation"
+          aria-label={t("nav.main_navigation")}
         >
           <div className={s.mainLinks}>
             {/* HOME */}
@@ -135,7 +135,7 @@ const Navbar = () => {
               className={isActive("/about") ? s.activeLink : ""}
               onClick={closeMenus}
             >
-              {t("nav.about") || "About"}
+              {t("nav.about")}
             </Link>
 
             {/* MENU */}
@@ -155,7 +155,7 @@ const Navbar = () => {
               className={isActive("/chefs") ? s.activeLink : ""}
               onClick={closeMenus}
             >
-              {t("nav.chefs") || "Chefs"}
+              {t("nav.chefs")}
             </Link>
 
             {/* CART - STAFF ONLY */}
@@ -174,7 +174,7 @@ const Navbar = () => {
 
             {isKitchen && (
               <Link to="/kitchen" onClick={closeMenus} className={s.adminLink}>
-                {t("nav.kitchen_panel") || "Kitchen Panel"}
+                {t("nav.kitchen_panel")}
               </Link>
             )}
 
@@ -186,7 +186,7 @@ const Navbar = () => {
                 onClick={closeMenus}
                 className={s.adminLink}
               >
-                {t("nav.admin_panel") || "Admin Panel"}
+                {t("nav.admin_panel")}
               </Link>
             )}
           </div>
@@ -207,8 +207,8 @@ const Navbar = () => {
                     type="button"
                     className={s.logoutIconBtn}
                     onClick={handleLogout}
-                    aria-label={t("auth.logout") || "Logout"}
-                    title={t("auth.logout") || "Logout"}
+                    aria-label={t("auth.logout")}
+                    title={t("auth.logout")}
                     disabled={loggingOut}
                   >
                     <LogOut size={17} strokeWidth={1.8} />
@@ -220,7 +220,7 @@ const Navbar = () => {
                   className={s.authLinkAccent}
                   onClick={closeMenus}
                 >
-                  {t("staff.login_btn") || "Personel Girişi"}
+                  {t("staff.login_btn")}
                 </Link>
               )}
             </div>
@@ -236,8 +236,8 @@ const Navbar = () => {
                 onClick={() => setLangOpen((value) => !value)}
                 aria-haspopup="menu"
                 aria-expanded={langOpen}
-                aria-label="Select language"
-                title="Language"
+                aria-label={t("nav.select_language")}
+                title={t("nav.language")}
                 disabled={loggingOut}
               >
                 <Globe2 className={s.globe} size={16} strokeWidth={1.6} />
@@ -269,7 +269,6 @@ const Navbar = () => {
                     disabled={loggingOut}
                   >
                     <span>TR</span>
-
                     <span>{t("nav.lang_tr")}</span>
                   </button>
                 </li>
@@ -285,7 +284,6 @@ const Navbar = () => {
                     disabled={loggingOut}
                   >
                     <span>EN</span>
-
                     <span>{t("nav.lang_en")}</span>
                   </button>
                 </li>
@@ -301,7 +299,6 @@ const Navbar = () => {
                     disabled={loggingOut}
                   >
                     <span>FR</span>
-
                     <span>{t("nav.lang_fr")}</span>
                   </button>
                 </li>
@@ -318,7 +315,7 @@ const Navbar = () => {
           type="button"
           className={s.burger}
           onClick={() => setOpen((value) => !value)}
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={open ? t("nav.close_menu") : t("nav.open_menu")}
           aria-expanded={open}
           disabled={loggingOut}
         >

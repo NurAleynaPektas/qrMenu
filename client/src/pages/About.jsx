@@ -18,7 +18,7 @@ export default function About() {
           <div className={s.sectionTop}>
             <div className={s.eyebrow}>
               <span className={s.eyebrowLine} />
-              <span>Our Story</span>
+              <span>{t("about.story")}</span>
             </div>
 
             <span className={s.sectionNumber}>01</span>
@@ -26,7 +26,7 @@ export default function About() {
 
           <div className={s.introGrid}>
             <div className={s.introHeading}>
-              <p className={s.kicker}>Taste · Craft · Experience</p>
+              <p className={s.kicker}>{t("about.kicker")}</p>
 
               <h1 className={s.title}>{t("home.about_title")}</h1>
             </div>
@@ -46,25 +46,22 @@ export default function About() {
           <div className={s.imageWrap}>
             <img
               src={diningImg}
-              alt="Restaurant dining atmosphere"
+              alt={t("about.image_alt")}
               className={s.image}
             />
 
             <div className={s.imageOverlay} />
 
             <div className={s.established}>
-              <span>Established</span>
+              <span>{t("about.established")}</span>
               <strong>2026</strong>
             </div>
           </div>
 
           <div className={s.storyBottom}>
-            <span className={s.storyLabel}>Modern dining</span>
+            <span className={s.storyLabel}>{t("about.modern_dining")}</span>
 
-            <p className={s.storyQuote}>
-              More than a meal — an experience shaped by detail, atmosphere and
-              thoughtful cuisine.
-            </p>
+            <p className={s.storyQuote}>{t("about.story_quote")}</p>
           </div>
         </section>
 
@@ -75,7 +72,7 @@ export default function About() {
           <div className={s.sectionTop}>
             <div className={s.eyebrow}>
               <span className={s.eyebrowLine} />
-              <span>Our Philosophy</span>
+              <span>{t("about.philosophy")}</span>
             </div>
 
             <span className={s.sectionNumber}>02</span>
@@ -84,9 +81,9 @@ export default function About() {
           <div className={s.philosophyGrid}>
             <div className={s.philosophyIntro}>
               <h2 className={s.philosophyTitle}>
-                Simple ingredients.
+                {t("about.philosophy_title_1")}
                 <br />
-                Memorable moments.
+                {t("about.philosophy_title_2")}
               </h2>
             </div>
 
@@ -95,8 +92,8 @@ export default function About() {
                 <span className={s.valueNumber}>01</span>
 
                 <div>
-                  <h3>Seasonal</h3>
-                  <p>Ingredients selected with the season in mind.</p>
+                  <h3>{t("about.seasonal_title")}</h3>
+                  <p>{t("about.seasonal_text")}</p>
                 </div>
               </article>
 
@@ -104,8 +101,8 @@ export default function About() {
                 <span className={s.valueNumber}>02</span>
 
                 <div>
-                  <h3>Craft</h3>
-                  <p>Every plate is prepared with precision and care.</p>
+                  <h3>{t("about.craft_title")}</h3>
+                  <p>{t("about.craft_text")}</p>
                 </div>
               </article>
 
@@ -113,8 +110,8 @@ export default function About() {
                 <span className={s.valueNumber}>03</span>
 
                 <div>
-                  <h3>Atmosphere</h3>
-                  <p>A warm setting designed around the dining experience.</p>
+                  <h3>{t("about.atmosphere_title")}</h3>
+                  <p>{t("about.atmosphere_text")}</p>
                 </div>
               </article>
             </div>
@@ -126,16 +123,16 @@ export default function About() {
         ================================================ */}
         <section className={s.cta}>
           <div className={s.ctaContent}>
-            <span className={s.ctaEyebrow}>Discover our kitchen</span>
+            <span className={s.ctaEyebrow}>{t("about.cta_eyebrow")}</span>
 
             <h2 className={s.ctaTitle}>
-              Ready to taste
+              {t("about.cta_title_1")}
               <br />
-              our story?
+              {t("about.cta_title_2")}
             </h2>
 
             <Link to="/menu" className={s.ctaLink}>
-              <span>Explore the menu</span>
+              <span>{t("about.cta_link")}</span>
 
               <ArrowUpRight size={18} strokeWidth={1.6} />
             </Link>

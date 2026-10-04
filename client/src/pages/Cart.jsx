@@ -37,7 +37,7 @@ export default function Cart() {
           <div className={s.headerTop}>
             <div className={s.eyebrow}>
               <span className={s.eyebrowLine} />
-              <span>Your Order</span>
+              <span>{t("cart.eyebrow")}</span>
             </div>
 
             <span className={s.headerNumber}>01</span>
@@ -45,7 +45,7 @@ export default function Cart() {
 
           <div className={s.headerContent}>
             <div>
-              <p className={s.kicker}>Selected · Fresh · Ready</p>
+              <p className={s.kicker}>{t("cart.kicker")}</p>
 
               <h1 className={s.cartTitle}>{t("cart.title")}</h1>
             </div>
@@ -56,7 +56,9 @@ export default function Cart() {
                   {String(totalQuantity).padStart(2, "0")}
                 </span>
 
-                <span className={s.orderCountLabel}>Items in your order</span>
+                <span className={s.orderCountLabel}>
+                  {t("cart.items_in_order")}
+                </span>
               </div>
             )}
           </div>
@@ -72,9 +74,9 @@ export default function Cart() {
               ✦
             </div>
 
-            <span className={s.emptyLabel}>Your selection</span>
+            <span className={s.emptyLabel}>{t("cart.empty_label")}</span>
 
-            <h2 className={s.emptyTitle}>Your cart is empty.</h2>
+            <h2 className={s.emptyTitle}>{t("cart.empty_title")}</h2>
 
             <p className={s.emptyText}>{t("cart.empty")}</p>
 
@@ -96,12 +98,16 @@ export default function Cart() {
                 ITEMS
             ========================================= */}
 
-            <section className={s.cartItems} aria-label="Cart items">
+            <section
+              className={s.cartItems}
+              aria-label={t("cart.cart_items_aria")}
+            >
               <div className={s.listHeader}>
-                <span>Selection</span>
+                <span>{t("cart.selection")}</span>
 
                 <span>
-                  {totalQuantity} {totalQuantity === 1 ? "item" : "items"}
+                  {totalQuantity}{" "}
+                  {totalQuantity === 1 ? t("cart.item") : t("cart.items")}
                 </span>
               </div>
 
@@ -131,7 +137,9 @@ export default function Cart() {
                     <div className={s.cartItemInfo}>
                       <div className={s.itemTop}>
                         <div>
-                          <span className={s.itemCategory}>Menu selection</span>
+                          <span className={s.itemCategory}>
+                            {t("cart.menu_selection")}
+                          </span>
 
                           <h2 className={s.cartItemName}>{label}</h2>
                         </div>
@@ -140,8 +148,8 @@ export default function Cart() {
                           type="button"
                           className={s.iconRemove}
                           onClick={() => dispatch(removeFromCart(item.id))}
-                          aria-label={`Remove ${label}`}
-                          title="Remove"
+                          aria-label={`${t("cart.remove")}: ${label}`}
+                          title={t("cart.remove")}
                         >
                           <Trash2 size={16} strokeWidth={1.6} />
                         </button>
@@ -151,13 +159,13 @@ export default function Cart() {
                         <div
                           className={s.stepper}
                           role="group"
-                          aria-label={`Quantity for ${label}`}
+                          aria-label={`${t("cart.quantity")}: ${label}`}
                         >
                           <button
                             type="button"
                             className={s.stepBtn}
                             onClick={() => dispatch(decreaseQty(item.id))}
-                            aria-label="Decrease quantity"
+                            aria-label={t("cart.decrease_quantity")}
                           >
                             <Minus size={14} strokeWidth={1.7} />
                           </button>
@@ -168,7 +176,7 @@ export default function Cart() {
                             type="button"
                             className={s.stepBtn}
                             onClick={() => dispatch(increaseQty(item.id))}
-                            aria-label="Increase quantity"
+                            aria-label={t("cart.increase_quantity")}
                           >
                             <Plus size={14} strokeWidth={1.7} />
                           </button>
@@ -191,7 +199,7 @@ export default function Cart() {
 
               <Link to="/menu" className={s.continueShopping}>
                 <span aria-hidden="true">←</span>
-                <span>Continue exploring menu</span>
+                <span>{t("cart.continue_menu")}</span>
               </Link>
             </section>
 
@@ -201,19 +209,23 @@ export default function Cart() {
 
             <aside className={s.cartSummary}>
               <div className={s.summaryTop}>
-                <span className={s.summaryEyebrow}>Order summary</span>
+                <span className={s.summaryEyebrow}>
+                  {t("cart.order_summary")}
+                </span>
 
-                <span className={s.summaryMark}>✦</span>
+                <span className={s.summaryMark} aria-hidden="true">
+                  ✦
+                </span>
               </div>
 
               <div className={s.summaryContent}>
                 <div className={s.summaryRow}>
-                  <span>Items</span>
+                  <span>{t("cart.items")}</span>
                   <span>{totalQuantity}</span>
                 </div>
 
                 <div className={s.summaryRow}>
-                  <span>Subtotal</span>
+                  <span>{t("cart.subtotal")}</span>
                   <span>₺{total}</span>
                 </div>
               </div>
@@ -234,9 +246,7 @@ export default function Cart() {
                 <ArrowRight size={18} strokeWidth={1.6} />
               </button>
 
-              <p className={s.summaryNote}>
-                Your order will be confirmed before being sent to the kitchen.
-              </p>
+              <p className={s.summaryNote}>{t("cart.summary_note")}</p>
             </aside>
           </div>
         )}

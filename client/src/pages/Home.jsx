@@ -8,12 +8,12 @@ export default function Home() {
 
   return (
     <main className={s.homePage}>
-      <section className={s.hero} aria-label="Restaurant introduction">
+      <section className={s.hero} aria-label={t("home.hero_aria")}>
         {/* BACKGROUND */}
         <div className={s.heroMedia}>
           <img
             src={heroImg}
-            alt="Elegant restaurant dining experience"
+            alt={t("home.hero_image_alt")}
             className={s.heroImage}
           />
 
@@ -24,15 +24,15 @@ export default function Home() {
         <div className={s.heroTop}>
           <div className={s.heroEyebrow}>
             <span className={s.heroLine} />
-            <span>Modern Dining</span>
+            <span>{t("home.hero_eyebrow")}</span>
           </div>
 
-          <span className={s.heroLocation}>Istanbul · 2026</span>
+          <span className={s.heroLocation}>{t("home.hero_location")}</span>
         </div>
 
         {/* MAIN CONTENT */}
         <div className={s.heroContent}>
-          <p className={s.heroKicker}>Taste · Atmosphere · Experience</p>
+          <p className={s.heroKicker}>{t("home.hero_kicker")}</p>
 
           <h1 className={s.heroTitle}>{t("home.hero_title")}</h1>
 
@@ -41,12 +41,11 @@ export default function Home() {
           <div className={s.heroActions}>
             <a className={s.heroPrimary} href="/menu">
               <span>{t("home.hero_cta")}</span>
+
               <span className={s.heroActionArrow} aria-hidden="true">
                 ↗
               </span>
             </a>
-
-  
           </div>
         </div>
 
@@ -55,23 +54,27 @@ export default function Home() {
           <div className={s.heroDetail}>
             <span className={s.heroDetailNumber}>01</span>
 
-            <span className={s.heroDetailText}>Seasonal ingredients</span>
+            <span className={s.heroDetailText}>
+              {t("home.detail_seasonal")}
+            </span>
           </div>
 
           <div className={s.heroDetail}>
             <span className={s.heroDetailNumber}>02</span>
 
-            <span className={s.heroDetailText}>Crafted with care</span>
+            <span className={s.heroDetailText}>{t("home.detail_crafted")}</span>
           </div>
 
           <div className={s.heroDetail}>
             <span className={s.heroDetailNumber}>03</span>
 
-            <span className={s.heroDetailText}>Memorable evenings</span>
+            <span className={s.heroDetailText}>
+              {t("home.detail_memorable")}
+            </span>
           </div>
 
           <div className={s.heroSignature}>
-            <span>EST.</span>
+            <span>{t("home.established")}</span>
             <strong>2026</strong>
           </div>
         </div>
